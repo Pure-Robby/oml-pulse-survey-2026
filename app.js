@@ -2662,8 +2662,8 @@ function setupQuickDemo() {
             // Generate and display the report
             generateReport();
             
-            // Scroll to top of reports section
-            document.getElementById('reports').scrollIntoView({ behavior: 'smooth' });
+            // Scroll to reports section when present (e.g. reports.html)
+            document.getElementById('reports')?.scrollIntoView({ behavior: 'smooth' });
         });
     }
 }

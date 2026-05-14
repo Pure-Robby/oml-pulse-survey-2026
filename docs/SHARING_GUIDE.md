@@ -7,15 +7,15 @@ This guide explains how to share direct links to specific sections of the Pulse 
 You can now share direct links to any of these dashboard sections:
 
 ### 1. Overview Dashboard
-**URL:** `index.html#overview`  
+**URL:** `index.html`  
 **Description:** Main dashboard showing key metrics, culture dimensions, and sentiment analysis
 
 ### 2. Reports Section  
-**URL:** `index.html#reports`  
+**URL:** `reports.html`  
 **Description:** Report generation interface with filters and customization options
 
 ### 3. Progress Tracker
-**URL:** `index.html#progress`  
+**URL:** `progress.html`  
 **Description:** Survey completion monitoring across organizational hierarchy
 
 ### 4. Survey Interface
@@ -34,9 +34,9 @@ You can now share direct links to any of these dashboard sections:
 3. Share this URL with stakeholders
 
 ### Option 2: Construct URLs Manually
-- For Overview: `https://yourdomain.com/index.html#overview`
-- For Reports: `https://yourdomain.com/index.html#reports`  
-- For Progress: `https://yourdomain.com/index.html#progress`
+- For Overview: `https://yourdomain.com/index.html` (overview is the default main dashboard)
+- For Reports: `https://yourdomain.com/reports.html`  
+- For Progress: `https://yourdomain.com/progress.html`
 - For Survey: `https://yourdomain.com/survey/index.html`
 - For Comments Analysis: `https://yourdomain.com/comments-analysis.html`
 
@@ -51,13 +51,13 @@ You can now share direct links to any of these dashboard sections:
 
 ```
 # Share the main dashboard overview
-https://oml-pulse-culture-survey.netlify.app/index.html#overview
+https://oml-pulse-culture-survey.netlify.app/index.html
 
 # Share the reports generation page
-https://oml-pulse-culture-survey.netlify.app/index.html#reports
+https://oml-pulse-culture-survey.netlify.app/reports.html
 
 # Share the progress tracking view
-https://oml-pulse-culture-survey.netlify.app/index.html#progress
+https://oml-pulse-culture-survey.netlify.app/progress.html
 
 # Share the survey for respondents
 https://oml-pulse-culture-survey.netlify.app/survey/index.html
