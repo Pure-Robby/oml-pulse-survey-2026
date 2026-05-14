@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pulse Survey Report @DateTime.Now.Year</title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/report.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Dynamic CSS Custom Properties for Colors -->
+    <style>
+        :root {
+            --dimension-color: @config.Color;
+            --dimension-color-secondary: @config.ColorSecondary;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-page cover"">
+        <div class="title-container">
+            <div class="title-text">
+                <h2>Pulse Culture Survey</h2>
+                <h1>Overall Report</h1><!--Dynamic Report Name-->
+            </div>
+        </div>
+    </div>
+    <div class="page-break"></div>
+
+    <div class="report-page filters">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>Report Filters</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content" style="margin-top: -10px;">
+            <!-- <h3>Selected Report Filters</h3> -->
+            <h4>Primary Filters</h4>
+            <table class="filters-table">
+                <tr>
+                    <td>Worker Group:</td>
+                    <td>@Model.WorkerGroupFilter</td>
+                </tr>
+    
+                <tr>
+                    <td>Segments:</td>
+                    <td>@Model.SegmentFilter</td>
+                </tr>
+                <tr>
+                    <td>Divisions: <br /></td>
+                    <td>
+                        <div class="cell-content">@Model.DivisionFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Deprtments:</td>
+                    <td>
+                        <div class="cell-content">@Model.DepartmentFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Teams:</td>
+                    <td>
+                        <div class="cell-content">@Model.TeamFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                    <td>
+                        <div class="cell-content">@Model.CountryFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Region:</td>
+                    <td>
+                        <div class="cell-content">@Model.RegionFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Company:</td>
+                    <td>
+                        <div class="cell-content">@Model.CompanyFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Supervisory Org:</td>
+                    <td>
+                        <div class="cell-content">@Model.SupervisoryOrganizationFilter</div>
+                    </td>
+                </tr>
+            </table>
+            <h4>Demographics</h4>
+            <table class="filters-table">
+                <tr>
+                    <td>Job Family:</td>
+                    <td>
+                        <div class="cell-content">@Model.JobFamilyFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Workers Manager:</td>
+                    <td>
+                        <div class="cell-content">@Model.WorksManagerFilter</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Age Band:</td>
+                    <td>@Model.AgeFilter</td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td>@Model.GenderFilter</td>
+                </tr>
+                <tr>
+                    <td>Race:</td>
+                    <td>@Model.RaceFilter</td>
+                </tr>
+                <tr>
+                    <td>Management Level:</td>
+                    <td>@Model.ManagementLevelFilter</td>
+                </tr>
+                <tr>
+                    <td>Generate Date:</td>
+                    <td>@DateTime.Now.ToString("dd MMM, yyyy")</td>
+                </tr>
+                <tr>
+                    <td>Sample Size:</td>
+                    <td>@Model.ResponsesCount of @Model.EmployeeHeadcount responses</td>
+                </tr>
+            </table>
+        </div>
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>2</p><!--Dynamic Page Number-->
+    </div>    
+    </div>
+    <div class="page-break"></div>
+
+    <div class="report-page section green">
+        <div class="title-container">
+            <div class="title-text">
+                <h2>2025 PULSE CULTURE SURVEY</h2>
+                <h1 class="w-50" style="word-break: break-all;"></h1>
+            </div>
+        </div>
+    </div>
+    <div class="page-break"></div>
+
+
+    <div class="report-page pattern-right scale">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>@Model.ReportPages[Model.CurrentItem].Heading.Replace("{config.Name}", Model.Config.Name).Replace("{config.ScaleType}", Model.Config.ScaleType.Replace(" - ", " - Point "))</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content">
+            <div class="slide-content">
+            @if (Model.Config.ScaleType == "5-point")
+            {
+                <div class="scoring-scale five-point">
+                    <!-- Bullet text -->
+                    <ul class="scoring-scale__bullets">
+                        <li>
+                            In the survey, we have used a five-point scale where people have
+                            indicated their agreement with the statements. What is of utmost
+                            importance in interpreting the results of the survey is the anchoring
+                            of the scale.
+                        </li>
+                        <li>
+                            A score of 3 or 3.5 may sound good, but if you plot it on the scale,
+                            and read the anchor of the scale it will read "Neutral". If
+                            people agree slightly that they are engaged, it actually means that
+                            they are not fully engaged and that there is work to be done about it.
+                        </li>
+                        <li>
+                            As an organisation we should be aiming for scores of 4 - 5.
+                        </li>
+                    </ul>
+    
+                    <!-- 5-Point Scoring Table -->
+                    <table class="scoring-scale__table">
+                        <thead>
+                            <tr>
+                                <th class="header-red" colspan="2">RED</th>
+                                <th class="header-amber" colspan="1">AMBER</th>
+                                <th class="header-green" colspan="2">GREEN</th>
+                            </tr>
+                            <tr class="numeric-row">
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Strongly Disagree</td>
+                                <td>Disagree</td>
+                                <td>Neutral</td>
+                                <td>Agree</td>
+                                <td>Strongly Agree</td>
+                            </tr>
+                            <tr class="legend-row">
+                                <td class="cell-red" colspan="2">Requires immediate attention and management</td>
+                                <td class="cell-amber" colspan="1">Work required</td>
+                                <td class="cell-green" colspan="2">A positive and strong result</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+            @if (Model.Config.ScaleType == "6-point")
+            {
+                <div class="scoring-scale six-point">
+                    <!-- Bullet text -->
+                    <ul class="scoring-scale__bullets">
+                        <li>
+                            In the survey, we have used a six-point scale where people have
+                            indicated their agreement with the statements. What is of utmost
+                            importance in interpreting the results of the survey is the anchoring
+                            of the scale.
+                        </li>
+                        <li>
+                            A score of 4 or 4.5 may sound good, but if you plot it on the scale,
+                            and read the anchor of the scale it will read “Slightly Agree”. If
+                            people agree slightly that they are engaged, it actually means that
+                            they are not fully engaged and that there is work to be done about it.
+                        </li>
+                        <li>
+                            As an organisation we should be aiming for scores of 5 - 6.
+                        </li>
+                    </ul>
+    
+                    <!-- 6-Point Scoring Table -->
+                    <table class="scoring-scale__table">
+                        <thead>
+                            <tr>
+                                <th class="header-red" colspan="2">RED</th>
+                                <th class="header-amber" colspan="2">AMBER</th>
+                                <th class="header-green" colspan="2">GREEN</th>
+                            </tr>
+                            <tr class="numeric-row">
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Strongly Disagree</td>
+                                <td>Disagree</td>
+                                <td>Slightly Disagree</td>
+                                <td>Slightly Agree</td>
+                                <td>Agree</td>
+                                <td>Strongly Agree</td>
+                            </tr>
+                            <tr class="legend-row">
+                                <td class="cell-red" colspan="2">Requires immediate attention and management</td>
+                                <td class="cell-amber" colspan="2">Work required</td>
+                                <td class="cell-green" colspan="2">A positive and strong result</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                }
+            </div>
+        </div>
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>@Model.CurrentPage</p><!--Dynamic Page Number-->
+    </div>    
+    </div>
+    <div class="page-break"></div>
+
+
+    <div class="report-page summary">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>@Model.ReportPages[Model.CurrentItem].Heading.Replace("{config.Name}", Model.Config.Name).Replace("{config.ScaleType}", Model.Config.ScaleType.Replace(" - ", " - Point "))</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content">
+            <div class="slide-content">
+                <div class="slide-grid">
+                    <!-- Left metrics panel -->
+                    <aside class="metrics-panel">
+                        <div class="metric-item">
+                            <div class="metric-value">@Model.EmployeeHeadcount</div>
+                            <div class="metric-label">Employee Headcount</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">@Model.ResponsesCount</div>
+                            <div class="metric-label">Responses</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">@Model.ResponsesRate.ToString().Replace(",", ".")%</div>
+                            <div class="metric-label">Response Rate</div>
+                        </div>
+                    </aside>
+    
+                    <!-- Right cards panel -->
+                    <section class="cards-panel">
+                        <div class="cards-container d-flex gap-3">
+                            <!-- Dynamic dimension card -->
+                            @if (Model.Config != null)
+                            {
+                                <div class="card @Model.Config.CssClass-card">
+                                    <h2 class="card-title">@Model.Config.Name</h2>
+                                    <p class="card-sub">@Model.Config.QuestionCount Questions<br />Rating Scale: 1-@(Model.Config.ScaleType == "6-point" ? "6" : "5")</p>
+                                </div>
+    
+                                <!-- Average score card -->
+                                <div class="card average-card">
+                                    <p class="card-heading">Overall @Model.Config.Name Average Score</p>
+                                    <div class="card-score">
+                                        <span class="score-number">@Model.OverallAverageScore.ToString().Replace(",", ".")</span><sup>/@(Model.Config.ScaleType == "6-point" ? "6" : "5")</sup>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card engagement-card">
+                                    <h2 class="card-title">Employee Engagement</h2>
+                                    <p class="card-sub">6 Questions<br />Rating Scale: 1-6</p>
+                                </div>
+    
+                                <!-- Average score card -->
+                                <div class="card average-card">
+                                    <p class="card-heading">Overall Employee Engagement Average Score</p>
+                                    <div class="card-score">
+                                        <span class="score-number">@Model.OverallAverageScore.ToString().Replace(",", ".")</span><sup>/6</sup>
+                                    </div>
+                                </div>
+                            }
+    
+                            <!-- Top scoring statement -->
+                            <div class="card top-statement-card">
+                                <p class="card-heading">Top Scoring Statement:</p>
+                                <p class="statement-text">
+                                    @Html.Raw(Model.TopScoringStatementText)
+                                </p>
+                                <div class="card-score">
+                                    <span class="score-number">@Model.TopScoringStatementScore.ToString().Replace(",", ".")</span><sup>/6</sup>
+                                </div>
+                            </div>
+    
+                            <!-- Bottom scoring statement -->
+                            <div class="card bottom-statement-card">
+                                <p class="card-heading">Bottom Scoring Statement:</p>
+                                <p class="statement-text">
+                                     @Html.Raw(Model.BottomScoringStatementText)
+                                </p>
+                                <div class="card-score">
+                                    <span class="score-number">@Model.BottomScoringStatementScore.ToString().Replace(",", ".")</span><sup>/6</sup>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>@Model.CurrentPage</p><!--Dynamic Page Number-->
+    </div>    
+    </div>
+    <div class="page-break"></div>
+
+
+    <div class="report-page score-trends">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>@Model.ReportPages[Model.CurrentItem].Heading.Replace("{config.Name}", Model.Config.Name).Replace("{config.ScaleType}", Model.Config.ScaleType.Replace(" - ", " - Point "))</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content">
+            <div class="score-trends">
+                <div class="score-trends__slide-content">
+                    <div class="score-trends__grid">
+    
+                        <!-- 1) METRICS PANEL -->
+                        <aside class="score-trends__metrics-panel">
+                            <div class="score-trends__panel-header">OML Response Rate</div>
+    
+                            <div class="score-trends__metric">
+                                <div class="score-trends__metric-value">@Model.EmployeeHeadcount</div>
+                                <div class="score-trends__metric-label">Employee Headcount</div>
+                            </div>
+                            <div class="score-trends__metric">
+                                <div class="score-trends__metric-value">@Model.ResponsesCount</div>
+                                <div class="score-trends__metric-label">Responses</div>
+                            </div>
+                            <div class="score-trends__metric">
+                                <div class="score-trends__metric-value">@Model.ResponsesRate%</div>
+                                <div class="score-trends__metric-label">Response Rate</div>
+                            </div>
+                        </aside>
+    
+                        <!-- 2) CHARTS PANEL -->
+                        <section class="score-trends__charts-panel">
+    
+                            <!-- A) Overall Dimension -->
+                            <div class="score-trends__chart-block">
+                                <div class="score-trends__chart-title">@(Model.Config.Name ?? "Employee Engagement")</div>
+                                <div class="score-trends__chart-container">
+                                    <canvas id="scoreTrendsOverallChart"></canvas>
+                                </div>
+                            </div>
+    
+                            <!-- B) By Question Over Time -->
+                            <div class="score-trends__chart-block">
+                                <div class="score-trends__chart-title">Average Score by Question</div>
+                                <div class="score-trends__chart-container">
+                                    <canvas id="scoreTrendsByQuestionChart"></canvas>
+                                </div>
+                            </div>
+    
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>@Model.CurrentPage</p><!--Dynamic Page Number-->
+    </div>    
+    </div>
+
+    
+    <script>
+       //Add the chart data here
+       
+    </script>
+    
+    <div class="page-break"></div>
+
+
+    <div class="report-page trend">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>@Model.ReportPages[Model.CurrentItem].Heading.Replace("{config.Name}", Model.Config.Name).Replace("{config.ScaleType}", Model.Config.ScaleType.Replace(" - ", " - Point "))</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content">
+            <div class="slide-content">
+                <div class="segment-scores">
+                    <!-- 1) Data table -->
+                    <table class="segment-scores__table">
+                        <thead>
+                            <tr>
+                                <th class="segment-scores__th segment fw-bold">Segment</th>
+                                <th class="segment-scores__th index fw-bold">@(config?.Name ?? "Employee Engagement") Index</th>
+                                <th class="segment-scores__th">
+                                    In this team nearly everyone feels energised by the work that they do
+                                </th>
+                                <th class="segment-scores__th">
+                                    In this team nearly everyone feels excited about the work that they do
+                                </th>
+                                <th class="segment-scores__th">
+                                    In this team nearly everyone feels energetic while at work
+                                </th>
+                                <th class="segment-scores__th">
+                                    In this team nearly everyone feels enthusiastic about their work.
+                                </th>
+                                <th class="segment-scores__th">
+                                    In this team nearly everyone feels happy and in good spirits while at work.
+                                </th>
+                                <th class="segment-scores__th">
+                                    In this team nearly everyone is inspired by their work.
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="segment-scores__td">Corporate</td>
+                                <td class="segment-scores__td index">4.82</td>
+                                
+                                <td class="segment-scores__td">
+                                    <div class="segment-scores__score-badge">4.98</div>
+                                </td>
+                                <td class="segment-scores__td">
+                                    <div class="segment-scores__score-badge">2.98</div>
+                                </td>
+                                <td class="segment-scores__td">
+                                    <div class="segment-scores__score-badge">4.98</div>
+                                </td>
+                                <td class="segment-scores__td">
+                                    <div class="segment-scores__score-badge">4.98</div>
+                                </td>
+                                <td class="segment-scores__td">
+                                    <div class="segment-scores__score-badge">4.98</div>
+                                </td>
+                                <td class="segment-scores__td">
+                                    <div class="segment-scores__score-badge">4.98</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="segment-scores__td">Group Finance</td>
+                                <td class="segment-scores__td index">4.61</td>
+                                <td class="segment-scores__td score-mid">4.78</td>
+                                <td class="segment-scores__td score-mid">4.78</td>
+                                <td class="segment-scores__td score-mid">4.78</td>
+                                <td class="segment-scores__td score-mid">4.78</td>
+                                <td class="segment-scores__td score-mid">4.78</td>
+                                <td class="segment-scores__td score-mid">4.78</td>
+                            </tr>
+                            <!-- …repeat one <tr> per segment… -->
+                            <tr class="total-row">
+                                <td class="segment-scores__td"><strong>OML TOTAL</strong></td>
+                                <td class="segment-scores__td index"><strong>3.90</strong></td>
+                                <td class="segment-scores__td score-high"><strong>5.19</strong></td>
+                                <td class="segment-scores__td score-high"><strong>5.19</strong></td>
+                                <td class="segment-scores__td score-high"><strong>5.19</strong></td>
+                                <td class="segment-scores__td score-high"><strong>3.98</strong></td>
+                                <td class="segment-scores__td score-high"><strong>5.19</strong></td>
+                                <td class="segment-scores__td score-high"><strong>5.19</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                    <!-- 2) Legend -->
+                    <div class="segment-scores__legend">
+                        <div class="segment-scores__legend-item low">
+                            <span class="box"></span>Score below 3.99
+                        </div>
+                        <div class="segment-scores__legend-item mid">
+                            <span class="box"></span>Score between 4.00 – 4.49
+                        </div>
+                        <div class="segment-scores__legend-item high">
+                            <span class="box"></span>Score between 4.50 – 4.99
+                        </div>
+                        <div class="segment-scores__legend-item top">
+                            <span class="box"></span>Score above 5.00
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>@Model.CurrentPage</p><!--Dynamic Page Number-->
+    </div>    
+    </div>
+    <script>
+        function applySegmentScoreBadges() {
+          document
+            .querySelectorAll('.segment-scores__table td:not(.index)')
+            .forEach(td => {
+              const raw = td.textContent.trim();
+              const v   = parseFloat(raw);
+              if (isNaN(v)) return;
+    
+              // decide which class
+              let cls;
+              if (v < 4.00)      cls = 'score-low';
+              else if (v < 4.50) cls = 'score-mid';
+              else if (v < 5.00) cls = 'score-high';
+              else               cls = 'score-top';
+    
+              // build badge
+              const badge = document.createElement('div');
+              badge.className = `segment-scores__score-badge ${cls}`;
+              badge.textContent = v.toFixed(2);
+    
+              td.textContent = '';     // clear out the raw text
+              td.appendChild(badge);   // insert our coloured badge
+            });
+        }
+    
+        document.addEventListener('DOMContentLoaded', applySegmentScoreBadges);
+    </script>
+    <div class="page-break"></div>
+
+
+    <div class="report-page segment-scores">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>@Model.ReportPages[Model.CurrentItem].Heading.Replace("{config.Name}", Model.Config.Name).Replace("{config.ScaleType}", Model.Config.ScaleType.Replace(" - ", " - Point "))</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content">
+            <div class="trend-scores">
+                <table class="trend-scores__table">
+                    <thead>
+                        <tr>
+                            <th class="trend-scores__th segment">Segment</th>
+                            <th class="trend-scores__th">2019 Q4</th>
+                            <th class="trend-scores__th">2020 Q4</th>
+                            <th class="trend-scores__th">2021 Q3</th>
+                            <th class="trend-scores__th">2022 Q2</th>
+                            <th class="trend-scores__th">2023 Q2</th>
+                            <th class="trend-scores__th">2024 Q2</th>
+                            <th class="trend-scores__th variance">Variance 2023/2024</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="trend-scores__td">Corporate</td>
+                            <td class="trend-scores__td">4.59</td>
+                            <td class="trend-scores__td">4.85</td>
+                            <td class="trend-scores__td">5.85</td>
+                            <td class="trend-scores__td">4.72</td>
+                            <td class="trend-scores__td">4.64</td>
+                            <td class="trend-scores__td">4.00</td>
+                            <td class="trend-scores__td variance"></td>
+                        </tr>
+                        <tr>
+                            <td class="trend-scores__td">Group Finance</td>
+                            <td class="trend-scores__td">4.18</td>
+                            <td class="trend-scores__td">4.68</td>
+                            <td class="trend-scores__td">4.61</td>
+                            <td class="trend-scores__td">4.49</td>
+                            <td class="trend-scores__td">4.57</td>
+                            <td class="trend-scores__td">4.02</td>
+                            <td class="trend-scores__td variance"></td>
+                        </tr>
+                        <!-- …repeat one <tr> per segment… -->
+                        <tr class="trend-scores__total-row">
+                            <td class="trend-scores__td"><strong>OML @(config?.Name ?? "Employee Engagement")</strong></td>
+                            <td class="trend-scores__td"></td>
+                            <td class="trend-scores__td"></td>
+                            <td class="trend-scores__td"></td>
+                            <td class="trend-scores__td"></td>
+                            <td class="trend-scores__td"></td>
+                            <td class="trend-scores__td"></td>
+                            <td class="trend-scores__td"></td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <!-- Legend -->
+                <div class="trend-scores__legend">
+                    <div class="trend-scores__legend-item low">
+                        <span class="box"></span>Score below 3.99
+                    </div>
+                    <div class="trend-scores__legend-item mid">
+                        <span class="box"></span>Score between 4.00 – 4.49
+                    </div>
+                    <div class="trend-scores__legend-item high">
+                        <span class="box"></span>Score between 4.50 – 4.99
+                    </div>
+                    <div class="trend-scores__legend-item top">
+                        <span class="box"></span>Score above 5.00
+                    </div>
+                    <div class="trend-scores__legend-item variance-info">
+                        <span class="trend-scores__arrow-up">↑</span>
+                        <span class="trend-scores__arrow-down">↓</span>
+                        Shift in score › 0.2
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>@Model.CurrentPage</p><!--Dynamic Page Number-->
+    </div>    
+    </div>
+
+    <script>
+        /**
+         * 1) Calculate the average per‑column and fill the total row
+         */
+        function calculateTrendTotals() {
+          const table = document.querySelector('.trend-scores__table');
+          const dataRows = Array.from(
+            table.querySelectorAll('tbody tr:not(.trend-scores__total-row)')
+          );
+          const totalRow = table.querySelector('tbody tr.trend-scores__total-row');
+          if (!totalRow || dataRows.length === 0) return;
+    
+          const totalCells = totalRow.querySelectorAll('td');
+          const cols = totalCells.length;    // segment + N years + variance
+    
+          // For each year column index 1..(cols-2)
+          for (let c = 1; c < cols - 1; c++) {
+            let sum = 0, count = 0;
+            dataRows.forEach(row => {
+              const txt = row.querySelectorAll('td')[c].textContent.trim();
+              const v = parseFloat(txt);
+              if (!isNaN(v)) { sum += v; count++; }
+            });
+            const avg = count ? sum / count : 0;
+            totalCells[c].textContent = avg.toFixed(2);
+          }
+        }
+    
+        /**
+         * 2) Colour all score cells and compute variance/arrows for every row
+         */
+        function styleTrendScores() {
+          const rows = document.querySelectorAll('.trend-scores__table tbody tr');
+          rows.forEach(row => {
+            const cells = Array.from(row.querySelectorAll('td'));
+            if (cells.length < 3) return;
+    
+            // Colour the year cells (1..length-2)
+            const scoreCells = cells.slice(1, -1);
+            scoreCells.forEach(cell => {
+              const v = parseFloat(cell.textContent);
+              cell.classList.remove('score-low','score-mid','score-high','score-top');
+              if (isNaN(v)) return;
+              if (v < 4.00)      cell.classList.add('score-low');
+              else if (v < 4.50) cell.classList.add('score-mid');
+              else if (v < 5.00) cell.classList.add('score-high');
+              else               cell.classList.add('score-top');
+            });
+    
+            // Compute variance between the last two year columns
+            const prevIdx = cells.length - 3;
+            const lastIdx = cells.length - 2;
+            const prev = parseFloat(cells[prevIdx].textContent) || 0;
+            const last = parseFloat(cells[lastIdx].textContent) || 0;
+            const delta = last - prev;
+    
+            // Fill & style the variance cell
+            const varCell = cells[cells.length - 1];
+            varCell.textContent = delta.toFixed(2);
+            varCell.classList.remove('variance-positive','variance-negative');
+            // remove any old arrow
+            varCell.querySelectorAll('.trend-scores__arrow-up, .trend-scores__arrow-down')
+              .forEach(el => el.remove());
+    
+            if (delta > 0.2) {
+              varCell.classList.add('variance-positive');
+              const up = document.createElement('span');
+              up.className = 'trend-scores__arrow-up';
+              up.textContent = ' ↑';
+              varCell.appendChild(up);
+            } else if (delta < -0.2) {
+              varCell.classList.add('variance-negative');
+              const down = document.createElement('span');
+              down.className = 'trend-scores__arrow-down';
+              down.textContent = ' ↓';
+              varCell.appendChild(down);
+            }
+          });
+        }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+          calculateTrendTotals();
+          styleTrendScores();
+        });
+    </script>
+    <div class="page-break"></div>
+
+
+
+    <div class="report-page demographics">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>@Model.ReportPages[Model.CurrentItem].Heading.Replace("{config.Name}", Model.Config.Name).Replace("{config.ScaleType}", Model.Config.ScaleType.Replace(" - ", " - Point "))</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content py-0">
+            <div class="demographics">
+                <div class="demographics__cols">
+    
+                    <!-- COLUMN 1: Age group chart (200px) + demographics table -->
+                    <div class="demographics__col demographics__col-left">
+    
+                        <!-- Age Group chart -->
+                        <div class="demographics__chart-block demographics__age-block">
+                            <div class="demographics__chart-title">Average Score by Age Group</div>
+                            <div class="demographics__chart-container demographics__chart-container--age">
+                                <canvas id="ageGroupChart"></canvas>
+                            </div>
+                        </div>
+    
+                        <!-- Demographics table -->
+                        <div class="demographics__table-block">
+                            <div class="demographics__chart-title">Average Score by Demographics</div>
+                            <table class="demographics__table">
+                                <thead>
+                                    <tr>
+                                        <th>Gender / Race</th>
+                                        <th>2022 Q2</th>
+                                        <th>2023 Q2</th>
+                                        <th>2024 Q2</th>
+                                        <th>2023/2024 Variance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Male</strong></td>
+                                        <td>5.26</td>
+                                        <td>4.44</td>
+                                        <td>4.96</td>
+                                        <td>0.52 <span class="demographics__arrow-up">↑</span></td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>White</td>
+                                        <td>5.30</td>
+                                        <td>5.03</td>
+                                        <td>5.33</td>
+                                        <td>0.30 <span class="demographics__arrow-up">↑</span></td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>Indian</td>
+                                        <td>5.03</td>
+                                        <td>5.03</td>
+                                        <td>5.03</td>
+                                        <td>0.00</td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>Coloured</td>
+                                        <td>5.30</td>
+                                        <td>5.03</td>
+                                        <td>5.33</td>
+                                        <td>0.30 <span class="demographics__arrow-up">↑</span></td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>African</td>
+                                        <td>5.03</td>
+                                        <td>5.03</td>
+                                        <td>5.03</td>
+                                        <td>0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Female</strong></td>
+                                        <td>4.55</td>
+                                        <td>4.24</td>
+                                        <td>3.97</td>
+                                        <td>-0.27 <span class="demographics__arrow-down">↓</span></td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>White</td>
+                                        <td>4.28</td>
+                                        <td>4.13</td>
+                                        <td>4.73</td>
+                                        <td>0.60 <span class="demographics__arrow-up">↑</span></td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>Indian</td>
+                                        <td>4.45</td>
+                                        <td>4.43</td>
+                                        <td>3.19</td>
+                                        <td>-1.24 <span class="demographics__arrow-down">↓</span></td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>Coloured</td>
+                                        <td>4.59</td>
+                                        <td>4.55</td>
+                                        <td>4.34</td>
+                                        <td>-0.21 <span class="demographics__arrow-down">↓</span></td>
+                                    </tr>
+                                    <tr class="demographics__sub">
+                                        <td>African</td>
+                                        <td>4.47</td>
+                                        <td>3.93</td>
+                                        <td>4.01</td>
+                                        <td>0.08 <span class="demographics__arrow-up">↑</span></td>
+                                    </tr>
+                                    <tr class="demographics__total">
+                                        <td><strong>Total</strong></td>
+                                        <td>4.71</td>
+                                        <td>4.28</td>
+                                        <td>4.18</td>
+                                        <td>-0.10 <span class="demographics__arrow-down">↓</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+    
+                    </div>
+    
+                    <!-- COLUMN 2: Two horizontal bar charts, equal height -->
+                    <div class="demographics__col demographics__col-right">
+    
+                        <!-- Race chart -->
+                        <div class="demographics__chart-block demographics__race-block">
+                            <div class="demographics__chart-title">Average Score by Race</div>
+                            <div class="demographics__chart-container demographics__chart-container--side">
+                                <canvas id="raceChart"></canvas>
+                            </div>
+                        </div>
+    
+                        <!-- Management Level chart -->
+                        <div class="demographics__chart-block demographics__level-block">
+                            <div class="demographics__chart-title">Average Score by Management Level</div>
+                            <div class="demographics__chart-container demographics__chart-container--side">
+                                <canvas id="levelChart"></canvas>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>@Model.CurrentPage</p><!--Dynamic Page Number-->
+    </div>
+    </div>
+
+    <script>
+        // Hard‑coded demo data
+        const demographicsYears = ["2022 Q2", "2023 Q2", "2024 Q2"];
+    
+        // 1) Age Group (vertical)
+        const ageLabels    = ["18-35", "36-50", "50+"];
+        const age2022      = [4.55, 4.88, 4.18];
+        const age2023      = [4.18, 4.40, 4.18];
+        const age2024      = [4.36, 3.87, 4.54];
+        const ageCtx       = document.getElementById("ageGroupChart").getContext("2d");
+        new Chart(ageCtx, {
+          type: 'bar',
+          data: {
+            labels: ageLabels,
+            datasets: [
+              { label: demographicsYears[0], data: age2022, backgroundColor: '#007a53', borderRadius: 4 },
+              { label: demographicsYears[1], data: age2023, backgroundColor: '#66bf71', borderRadius: 4 },
+              { label: demographicsYears[2], data: age2024, backgroundColor: '#b6e52f', borderRadius: 4 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { beginAtZero: true, max: 6, ticks: { stepSize: 1 } },
+              x: { grid: { display: false } }
+            },
+            plugins: { legend: { position: 'top' } }
+          }
+        });
+    
+        // 2) Race (horizontal, axis 0–4)
+        const raceLabels   = ["African", "Coloured", "Indian", "White"];
+        const race2022     = [4.55, 4.69, 4.17, 4.28];
+        const race2023     = [3.97, 4.58, 3.26, 4.13];
+        const race2024     = [4.19, 4.88, 4.66, 4.73];
+        const raceCtx      = document.getElementById("raceChart").getContext("2d");
+        new Chart(raceCtx, {
+          type: 'bar',
+          data: {
+            labels: raceLabels,
+            datasets: [
+              { label: demographicsYears[0], data: race2022, backgroundColor: '#007a53', borderRadius: 4 },
+              { label: demographicsYears[1], data: race2023, backgroundColor: '#66bf71', borderRadius: 4 },
+              { label: demographicsYears[2], data: race2024, backgroundColor: '#b6e52f', borderRadius: 4 }
+            ]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { beginAtZero: true, max: 6, ticks: { stepSize: 1 }, grid: { color: '#e0e0e0' } },
+              y: { grid: { display: false } }
+            },
+            plugins: { legend: { position: 'top' } }
+          }
+        });
+    
+        // 3) Management Level (horizontal, axis 0–5)
+        const levelLabels  = ["Senior", "Middle", "Junior"];
+        const level2022    = [4.98, 4.56, 4.44];
+        const level2023    = [4.48, 4.05, 4.69];
+        const level2024    = [4.16, 3.95, 4.54];
+        const lvlCtx       = document.getElementById("levelChart").getContext("2d");
+        new Chart(lvlCtx, {
+          type: 'bar',
+          data: {
+            labels: levelLabels,
+            datasets: [
+              { label: demographicsYears[0], data: level2022, backgroundColor: '#007a53', borderRadius: 4 },
+              { label: demographicsYears[1], data: level2023, backgroundColor: '#66bf71', borderRadius: 4 },
+              { label: demographicsYears[2], data: level2024, backgroundColor: '#b6e52f', borderRadius: 4 }
+            ]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { beginAtZero: true, max: 6, ticks: { stepSize: 1 }, grid: { color: '#e0e0e0' } },
+              y: { grid: { display: false } }
+            },
+            plugins: { legend: { position: 'top' } }
+          }
+        });
+    </script>
+    <div class="page-break"></div>
+
+
+
+    <div class="report-page top-and-bottom">
+        <header>
+    <div>
+        <img src="../img/om-anchor.png" />
+        <h1>@Model.ReportPages[Model.CurrentItem].Heading.Replace("{config.Name}", Model.Config.Name).Replace("{config.ScaleType}", Model.Config.ScaleType.Replace(" - ", " - Point "))</h1><!--Dynamic Heading-->
+    </div>
+    <img class="logo" src="../img/pulse-culture-survey.png" width="90" />
+</header>
+        <div class="page-content">
+            <div class="question-scores">
+    
+                <!-- Top 3 scoring questions -->
+                <table class="question-scores__table">
+                    <thead>
+                        <tr>
+                            <th class="question-scores__th number">#</th>
+                            <th class="question-scores__th question">Top 3 scoring questions</th>
+                            <th class="question-scores__th dimension">Dimension</th>
+                            <th class="question-scores__th score">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int topcount = 0;
+                        }
+                        @foreach (var top in Model.Scores.Where(x => x.scoreType == ScoreType.Statement).OrderByDescending(p => p.Score).Distinct().ToList().Take(3))
+                        {
+                            topcount++;
+    
+                            <tr>
+                                <td class="question-scores__td number">@topcount</td>
+                                <td class="question-scores__td question">
+                                    @Html.Raw(top.Description)
+                                </td>
+                                <td class="question-scores__td dimension">@(Model.Config.Name)</td>
+                                <td class="question-scores__td score">@top.Score.ToString().Replace(",",".") <span class="question-scores__out-of">out of @(Model.Config.ScaleType == "6-point" ? "6" : "5")</span></td>
+                            </tr>
+                        }             
+                    </tbody>
+                </table>
+    
+                <!-- Bottom 3 scoring questions -->
+                <table class="question-scores__table">
+                    <thead>
+                        <tr>
+                            <th class="question-scores__th number">#</th>
+                            <th class="question-scores__th question">Bottom 3 scoring questions</th>
+                            <th class="question-scores__th dimension">Dimension</th>
+                            <th class="question-scores__th score">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                        @{
+                            int bottomcount = 0;
+                        }
+                        @foreach (var bottom in Model.Scores.Where(x => x.scoreType == ScoreType.Statement).OrderBy(p => p.Score).Distinct().ToList().Take(3))
+                        {
+                            bottomcount++;
+    
+                            <tr>
+                                <td class="question-scores__td number">@bottomcount</td>
+                                <td class="question-scores__td question">
+                                    @Html.Raw(bottom.Description)
+                                </td>
+                                <td class="question-scores__td dimension">@(Model.Config.Name)</td>
+                                <td class="question-scores__td score">@bottom.Score.ToString().Replace(",", ".") <span class="question-scores__out-of">out of @(Model.Config.ScaleType == "6-point" ? "6" : "5")</span></td>
+                            </tr>
+                        }
+                       
+                    </tbody>
+                </table>
+    
+            </div>
+        </div>
+    
+        <footer>
+    <div>
+        <p>Powered By Pure Survey (Pty) Ltd &copy; Copyright @DateTime.Now.Year. Rights Reserved</p>
+        <p>@Model.CurrentPage</p><!--Dynamic Page Number-->
+    </div>
+    </div>
+    <div class="page-break"></div>
+
+
+
+
+    <script src="../js/report.js"></script>
+</body>
+</html>

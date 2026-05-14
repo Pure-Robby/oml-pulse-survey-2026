@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config Dynamic Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .statement { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        .dimension-title { font-weight: bold; color: #333; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Config Dynamic Statement Generation Test</h1>
+    
+    <div class="test-section">
+        <h2>Generated Statements from Config</h2>
+        <div id="generatedStatements"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Config Information</h2>
+        <div id="configInfo"></div>
+    </div>
+    
+    <button onclick="testRegeneration()">Regenerate Statements</button>
+    
+    <script src="config.js"></script>
+    <script src="data.js"></script>
+    <script>
+        function displayStatements() {
+            const container = document.getElementById('generatedStatements');
+            const configInfo = document.getElementById('configInfo');
+            
+            // Display config info
+            configInfo.innerHTML = `
+                <p><strong>Active Dimensions:</strong> ${DIMENSION_CONFIG.getActiveDimensions().length}</p>
+                <p><strong>Total Statements:</strong> ${dashboardData.allStatements.length}</p>
+            `;
+            
+            // Group statements by dimension
+            const statementsByDimension = {};
+            dashboardData.allStatements.forEach(statement => {
+                if (!statementsByDimension[statement.dimension]) {
+                    statementsByDimension[statement.dimension] = [];
+                }
+                statementsByDimension[statement.dimension].push(statement);
+            });
+            
+            // Display statements
+            let html = '';
+            Object.entries(statementsByDimension).forEach(([dimension, statements]) => {
+                html += `<div class="dimension-title">${dimension}</div>`;
+                statements.forEach(statement => {
+                    html += `
+                        <div class="statement">
+                            <strong>${statement.text}</strong><br>
+                            Score: ${statement.score} | Previous: ${statement.previousScore} | Trend: ${statement.trend}
+                        </div>
+                    `;
+                });
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function testRegeneration() {
+            regenerateStatements();
+            displayStatements();
+            alert('Statements regenerated!');
+        }
+        
+        // Display on page load
+        displayStatements();
+    </script>
+</body>
+</html> 

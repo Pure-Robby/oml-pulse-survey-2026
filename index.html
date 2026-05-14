@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Survey Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body data-current-page="overview">
+    <!-- Off-canvas Filter Menu -->
+    <div id="filterMenu" class="filter-menu">
+        <div class="filter-header">
+            <h2>Filters</h2>
+            <button id="closeFilters" class="close-filters">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="filter-content">
+            <!-- Primary Filters -->
+            <div class="filter-section">
+                <h3>Primary Filters</h3>
+                
+                <!-- Worker Group -->
+                <div class="filter-group">
+                    <h4>Worker Group</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="workerGroupDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="workerGroupDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="workerGroup" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="workerGroup" value="old-mutual-limited" checked> Old Mutual Limited</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cluster (renamed from Segments) -->
+                <div class="filter-group">
+                    <h4>Cluster</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="clusterDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="clusterDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="cluster" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="cluster" value="operations" checked> Operations</label>
+                            <label><input type="checkbox" name="cluster" value="sales" checked> Sales</label>
+                            <label><input type="checkbox" name="cluster" value="marketing" checked> Marketing</label>
+                            <label><input type="checkbox" name="cluster" value="technology" checked> Technology</label>
+                            <label><input type="checkbox" name="cluster" value="finance" checked> Finance</label>
+                            <label><input type="checkbox" name="cluster" value="hr" checked> Human Resources</label>
+                            <label><input type="checkbox" name="cluster" value="legal" checked> Legal</label>
+                            <label><input type="checkbox" name="cluster" value="compliance" checked> Compliance</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Unit (new) -->
+                <div class="filter-group">
+                    <h4>Business Unit</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="businessUnitDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="businessUnitDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="businessUnit" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="businessUnit" value="operations" checked> Operations</label>
+                            <label><input type="checkbox" name="businessUnit" value="sales" checked> Sales</label>
+                            <label><input type="checkbox" name="businessUnit" value="marketing" checked> Marketing</label>
+                            <label><input type="checkbox" name="businessUnit" value="technology" checked> Technology</label>
+                            <label><input type="checkbox" name="businessUnit" value="finance" checked> Finance</label>
+                            <label><input type="checkbox" name="businessUnit" value="hr" checked> Human Resources</label>
+                            <label><input type="checkbox" name="businessUnit" value="legal" checked> Legal</label>
+                            <label><input type="checkbox" name="businessUnit" value="compliance" checked> Compliance</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Division -->
+                <div class="filter-group">
+                    <h4>Division</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="divisionsDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="divisionsDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="divisions" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="divisions" value="life-insurance" checked> Life Insurance</label>
+                            <label><input type="checkbox" name="divisions" value="property-casualty" checked> Property & Casualty</label>
+                            <label><input type="checkbox" name="divisions" value="asset-management" checked> Asset Management</label>
+                            <label><input type="checkbox" name="divisions" value="banking" checked> Banking</label>
+                            <label><input type="checkbox" name="divisions" value="corporate" checked> Corporate Services</label>
+                            <label><input type="checkbox" name="divisions" value="retail" checked> Retail</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Department -->
+                <div class="filter-group">
+                    <h4>Department</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="departmentDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="departmentDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="department" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="department" value="dept1" checked> Department 1</label>
+                            <label><input type="checkbox" name="department" value="dept2" checked> Department 2</label>
+                            <label><input type="checkbox" name="department" value="dept3" checked> Department 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team -->
+                <div class="filter-group">
+                    <h4>Team</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="teamDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="teamDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="team" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="team" value="team1" checked> Team 1</label>
+                            <label><input type="checkbox" name="team" value="team2" checked> Team 2</label>
+                            <label><input type="checkbox" name="team" value="team3" checked> Team 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Country -->
+                <div class="filter-group">
+                    <h4>Country</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="countryDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="countryDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="country" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="country" value="south-africa" checked> South Africa</label>
+                            <label><input type="checkbox" name="country" value="namibia" checked> Namibia</label>
+                            <label><input type="checkbox" name="country" value="botswana" checked> Botswana</label>
+                            <label><input type="checkbox" name="country" value="zimbabwe" checked> Zimbabwe</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Region -->
+                <div class="filter-group">
+                    <h4>Region</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="regionDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="regionDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="region" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="region" value="gauteng" checked> Gauteng</label>
+                            <label><input type="checkbox" name="region" value="western-cape" checked> Western Cape</label>
+                            <label><input type="checkbox" name="region" value="eastern-cape" checked> Eastern Cape</label>
+                            <label><input type="checkbox" name="region" value="kwazulu-natal" checked> KwaZulu-Natal</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Company -->
+                <div class="filter-group">
+                    <h4>Company</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="companyDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="companyDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="company" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="company" value="old-mutual-life" checked> Old Mutual Life Assurance</label>
+                            <label><input type="checkbox" name="company" value="old-mutual-insure" checked> Old Mutual Insure</label>
+                            <label><input type="checkbox" name="company" value="old-mutual-investment" checked> Old Mutual Investment Group</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Secondary Filters -->
+            <div class="filter-section">
+                <h3>Secondary Filters</h3>
+                
+                <!-- Supervisory Organization -->
+                <div class="filter-group">
+                    <h4>Supervisory Organization</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="supervisoryOrgDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="supervisoryOrgDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="supervisoryOrg" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="supervisoryOrg" value="org1" checked> Organization 1</label>
+                            <label><input type="checkbox" name="supervisoryOrg" value="org2" checked> Organization 2</label>
+                            <label><input type="checkbox" name="supervisoryOrg" value="org3" checked> Organization 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Family -->
+                <div class="filter-group">
+                    <h4>Job Family</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="jobFamilyDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="jobFamilyDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="jobFamily" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="jobFamily" value="finance" checked> Finance</label>
+                            <label><input type="checkbox" name="jobFamily" value="it" checked> IT</label>
+                            <label><input type="checkbox" name="jobFamily" value="hr" checked> Human Resources</label>
+                            <label><input type="checkbox" name="jobFamily" value="sales" checked> Sales</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Worker's Manager -->
+                <div class="filter-group">
+                    <h4>Worker's Manager</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="workersManagerDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="workersManagerDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="workersManager" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="workersManager" value="manager1" checked> Manager 1</label>
+                            <label><input type="checkbox" name="workersManager" value="manager2" checked> Manager 2</label>
+                            <label><input type="checkbox" name="workersManager" value="manager3" checked> Manager 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Age -->
+                <div class="filter-group">
+                    <h4>Age</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="ageDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="ageDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="age" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="age" value="18-24" checked> 18-24</label>
+                            <label><input type="checkbox" name="age" value="25-34" checked> 25-34</label>
+                            <label><input type="checkbox" name="age" value="35-44" checked> 35-44</label>
+                            <label><input type="checkbox" name="age" value="45-54" checked> 45-54</label>
+                            <label><input type="checkbox" name="age" value="55+" checked> 55+</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gender -->
+                <div class="filter-group">
+                    <h4>Gender</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="genderDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="genderDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="gender" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="gender" value="male" checked> Male</label>
+                            <label><input type="checkbox" name="gender" value="female" checked> Female</label>
+                            <label><input type="checkbox" name="gender" value="other" checked> Other</label>
+                            <label><input type="checkbox" name="gender" value="prefer-not-to-say" checked> Prefer not to say</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Race -->
+                <div class="filter-group">
+                    <h4>Race</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="raceDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="raceDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="race" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="race" value="african" checked> African</label>
+                            <label><input type="checkbox" name="race" value="coloured" checked> Coloured</label>
+                            <label><input type="checkbox" name="race" value="indian" checked> Indian</label>
+                            <label><input type="checkbox" name="race" value="white" checked> White</label>
+                            <label><input type="checkbox" name="race" value="other" checked> Other</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Management Level -->
+                <div class="filter-group">
+                    <h4>Management Level</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="managementLevelDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="managementLevelDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="managementLevel" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="managementLevel" value="executive" checked> Executive</label>
+                            <label><input type="checkbox" name="managementLevel" value="senior" checked> Senior Management</label>
+                            <label><input type="checkbox" name="managementLevel" value="middle" checked> Middle Management</label>
+                            <label><input type="checkbox" name="managementLevel" value="junior" checked> Junior Management</label>
+                            <label><input type="checkbox" name="managementLevel" value="non-management" checked> Non-Management</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button id="clearFilters" class="button-secondary w-100">Clear All</button>
+            <button id="applyFilters" class="button-primary w-100">Apply Filters</button>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <div class="loading-text">Updating dashboard...</div>
+        </div>
+    </div>
+    
+    <!-- Survey Access Modal -->
+    <div id="surveyAccessModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Access Survey</h2>
+                <button class="modal-close" id="closeSurveyModal">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Select your preferred method to access the Pulse Culture Survey:</p>
+                
+                <div class="access-options">
+                    <div class="access-option" id="genericLinkOption">
+                        <div class="option-icon">
+                            <span class="material-icons">lock</span>
+                        </div>
+                        <div class="option-content">
+                            <h3>Staff Code Authentication</h3>
+                            <p>Access the survey using your staff code and date of birth for secure, authenticated access.</p>
+                            <ul class="option-features">
+                                <li>Secure staff code and DOB verification</li>
+                                <li>Standard employee authentication</li>
+                                <li>Tracked and validated responses</li>
+                                <li>Recommended for regular employees</li>
+                            </ul>
+                        </div>
+                        <button class="option-button" onclick="accessGenericLink()">
+                            <span class="material-icons">login</span>
+                            Access with Login
+                        </button>
+                    </div>
+                    
+                    <div class="access-option" id="guidLinkOption">
+                        <div class="option-icon">
+                            <span class="material-icons">vpn_key</span>
+                        </div>
+                        <div class="option-content">
+                            <h3>Personalized Link Access</h3>
+                            <p>Access the survey using your unique personalized link with GUID-based authentication.</p>
+                            <ul class="option-features">
+                                <li>Unique personalized link (GUID)</li>
+                                <li>Secure direct access</li>
+                                <li>No staff code required</li>
+                                <li>Personalized user experience</li>
+                            </ul>
+                        </div>
+                        <button class="option-button" onclick="accessGuidLink()">
+                            <span class="material-icons">link</span>
+                            Access via Personal Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <!-- Logo, Navigation, and Header Actions will be created by navigation.js -->
+        </header>
+
+        <!-- Content Sections -->
+        <main>
+            <!-- Overview Section (Default) -->
+            <section id="overview" class="content-section active">
+                <div class="section-header mb-2">
+                    <button id="filterToggle" class="filter-toggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Filters
+                    </button>
+                    <div class="page-title">
+                        <div class="title-with-filters">
+                            <h1>Overview</h1>
+                            <div id="activeFilters" class="active-filters"></div>
+                        </div>
+                    </div>
+                    <button id="exportPdf" class="export-button ms-auto">
+                        <i class="material-icons">download</i>
+                        Export PDF
+                    </button>
+                </div>
+                
+                <!-- Data Timestamp Indicator -->
+                <div class="data-timestamp">
+                    <span class="timestamp-label">Data correct as of:</span>
+                    <span class="timestamp-date" id="dataTimestamp">Today's date</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <!-- Response Rate -->
+                    <div class="metric-card pb-0">
+                        <h3>Current Response Rate</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="responseRateProgress" class="circular-progress"></div>
+                                    <div class="details" id="responseRateDetails">
+                                        <!-- Will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="responseRateTrend" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pulse Score -->
+                    <div class="metric-card hidden">
+                        <h3>Overall Pulse Score (1-6 Scale)</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="pulseScoreProgress" class="circular-progress"></div>
+                                    <div class="score-scale-info">
+                                        <span class="scale-label">Scale: 1-6</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="pulseScoreTrend" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flight Risk -->
+                    <div class="metric-card hidden">
+                        <h3>Flight Risk Indicator</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="flightRiskProgress" class="circular-progress"></div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="flightRiskTrend" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Response Target Progress -->
+                    <div class="metric-card hidden">
+                        <div class="metric-header">
+                            <h3>Response Target Progress</h3>
+                            <div class="reliability-tooltip">
+                                <i class="material-icons">info</i>
+                                <div class="tooltip-content">
+                                    Response target progress is calculated based on response rate.<br>
+                                    • Excellent: ≥75% response rate<br>
+                                    • Good: 60-74% response rate<br>
+                                    • Fair: 45-59% response rate<br>
+                                    • Needs Attention: <45% response rate
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="reliability-indicator">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="metric-footer" id="reliabilityFooter">
+                                <!-- Will be populated by JavaScript -->dimensionsGrid
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dimensions-section">
+                        <h3>Survey Dimensions</h3>
+                        <p class="section-description">Performance across the two key dimensions of organisational culture</p>
+                        <div class="dimensions-grid" id="dimensionsGrid">
+                            <!-- Dimensions will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="dimensions-section">
+                    <h3>Survey Dimensions</h3>
+                    <p class="section-description">Performance across the two key dimensions of organisational culture</p>
+                    <div class="dimensions-grid" id="dimensionsGrid">
+                        <!-- Dimensions will be populated by JavaScript -->
+                    <!--</div>
+                </div> -->
+
+                <div class="statements-section">
+                    <div class="statements-header">
+                        <h3>Survey Statement Performance by Dimension</h3>
+                        <p class="section-description">Performance breakdown by survey dimensions with different rating scales</p>
+                    </div>
+                    
+                    <!-- Tabbed Interface -->
+                    <div class="content-tabs-container">
+                        <div class="content-tabs">
+                            <button class="content-tab active" data-tab="engagement">
+                                <!-- <span class="dimension-color-indicator" style="background: #F37021;"></span> -->
+                                Employee Engagement
+                            </button>
+                            <button class="content-tab" data-tab="changeReadiness">
+                                <!-- <span class="dimension-color-indicator" style="background: #E91E63;"></span> -->
+                                Change Resilience
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="content-tab-content">
+                            <!-- Employee Engagement Tab -->
+                            <div class="content-tab-pane active" id="engagement-tab">
+                                <div class="dimension-statements-section">
+                                    <div class="dimension-header align-items-center">
+                                        <span class="dimension-color-indicator large" style="background: #F37021; margin-right: 8px;"></span>
+                                        <h4 class="mb-0">Employee Engagement</h4>
+                                        <p class="dimension-description mb-3 w-100">Measures commitment, involvement, and enthusiasm toward work and organisation</p>
+                                    </div>
+                                    <div class="statements-legend">
+                                        <div class="legend-title">Performance Indicators:</div>
+                                        <div class="legend-items">
+                                            <div class="legend-item">
+                                                <div class="legend-color red" title="Requires immediate attention and management"></div>
+                                                <span>1-2: Strongly Disagree / Disagree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color amber" title="Work required"></div>
+                                                <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color green" title="A positive and strong result"></div>
+                                                <span>5-6: Agree / Strongly Agree</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="statements-grid">
+                                        <div class="statements-columns">
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Top 3 Engagement Statements</h4>
+                                                <div id="topEngagementStatements"></div>
+                                            </div>
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Bottom 3 Engagement Statements</h4>
+                                                <div id="bottomEngagementStatements"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Employee Engagement Comments & Sentiment -->
+                                <div class="sentiment-section">
+                                    <div class="comment-sentiment">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="mb-0 me-4">Employee Engagement Comments & Sentiment</h3>
+                                            <a href="comments-analysis-v3.html" class="btn btn-primary">Analyse Comments</a>
+                                        </div>
+                                        
+                                        <div id="engagementSentimentChart" class="sentiment-chart"></div>
+                                    </div>
+                                    <div class="sentiment-analysis">
+                                        <h3>Employee Engagement Sentiment Themes</h3>
+                                        <div id="engagementSentimentAnalysis"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Change Readiness Tab -->
+                            <div class="content-tab-pane" id="changeReadiness-tab">
+                                <div class="dimension-statements-section">
+                                    <div class="dimension-header align-items-center">
+                                        <span class="dimension-color-indicator large" style="background: #E91E63; margin-right: 8px;"></span>
+                                        <h4 class="mb-0">Change Resilience</h4>
+                                        <p class="dimension-description w-100 mb-3">Measures organisational adaptability and resilience to change initiatives</p>
+                                    </div>
+                                    <div class="statements-legend">
+                                        <div class="legend-title">Performance Indicators:</div>
+                                        <div class="legend-items">
+                                            <div class="legend-item">
+                                                <div class="legend-color red" title="Requires immediate attention and management"></div>
+                                                <span>1-2: Strongly Disagree / Disagree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color amber" title="Work required"></div>
+                                                <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color green" title="A positive and strong result"></div>
+                                                <span>5-6: Agree / Strongly Agree</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="statements-grid">
+                                        <div class="statements-columns">
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Top 3 Change Resilience Statements</h4>
+                                                <div id="topChangeResilienceStatements"></div>
+                                            </div>
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Bottom 3 Change Resilience Statements</h4>
+                                                <div id="bottomChangeResilienceStatements"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Change Resilience Comments & Sentiment -->
+                                <div class="sentiment-section">
+                                    <div class="comment-sentiment">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="mb-0 me-4">Change Resilience Comments & Sentiment</h3>
+                                            <a href="comments-analysis-v3.html" class="btn btn-primary">Analyse Comments</a>
+                                        </div>
+                                        
+                                        <div id="changeResilienceSentimentChart" class="sentiment-chart"></div>
+                                    </div>
+                                    <div class="sentiment-analysis">
+                                        <h3>Change Resilience Sentiment Themes</h3>
+                                        <div id="changeResilienceSentimentAnalysis"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section>
+
+            <!-- Overview (EE only) Section -->
+            <section id="overview-ee" class="content-section">
+                <div class="section-header mb-2">
+                    <button id="filterToggleEE" class="filter-toggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Filters
+                    </button>
+                    <div class="page-title">
+                        <div class="title-with-filters">
+                            <h1>Overview (EE only)</h1>
+                            <div id="activeFiltersEE" class="active-filters">
+                                <div class="filter-tag">
+                                    Segments: Mass and Foundation Cluster
+                                    <span class="remove-filter" data-type="segments" data-value="mass-foundation-cluster">×</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="exportPdfEE" class="export-button ms-auto">
+                        <i class="material-icons">download</i>
+                        Export PDF
+                    </button>
+                </div>
+                
+                <!-- Data Timestamp Indicator -->
+                <div class="data-timestamp">
+                    <span class="timestamp-label">Data correct as of:</span>
+                    <span class="timestamp-date" id="dataTimestampEE">Today's date</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <!-- Response Rate -->
+                    <div class="metric-card">
+                        <h3>Current Response Rate</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="responseRateProgressEE" class="circular-progress"></div>
+                                    <div class="details" id="responseRateDetailsEE">
+                                        <!-- Will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="responseRateTrendEE" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pulse Score -->
+                    <div class="metric-card hidden">
+                        <h3>Overall Pulse Score (1-6 Scale)</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="pulseScoreProgressEE" class="circular-progress"></div>
+                                    <div class="score-scale-info">
+                                        <span class="scale-label">Scale: 1-6</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="pulseScoreTrendEE" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flight Risk -->
+                    <div class="metric-card hidden">
+                        <h3>Flight Risk Indicator</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="flightRiskProgressEE" class="circular-progress"></div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="flightRiskTrendEE" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Response Target Progress -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Response Target Progress</h3>
+                            <div class="reliability-tooltip">
+                                <i class="material-icons">info</i>
+                                <div class="tooltip-content">
+                                    Response target progress is calculated based on response rate.<br>
+                                    • Excellent: ≥75% response rate<br>
+                                    • Good: 60-74% response rate<br>
+                                    • Fair: 45-59% response rate<br>
+                                    • Needs Attention: <45% response rate
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="reliability-indicator" id="reliabilityIndicatorEE">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="metric-footer" id="reliabilityFooterEE">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dimensions-section">
+                    <h3>Survey Dimension</h3>
+                    <p class="section-description">Performance across Employee Engagement</p>
+                    <div class="dimensions-grid" id="dimensionsGridEE">
+                        <!-- Dimensions will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="statements-section">
+                    <div class="statements-header">
+                        <h3>Survey Statement Performance by Dimension</h3>
+                        <p class="section-description">Performance breakdown by survey dimensions with different rating scales</p>
+                    </div>
+                    
+                    <!-- Employee Engagement Content -->
+                    <div class="dimension-statements-section">
+                        <div class="dimension-header align-items-center">
+                            <span class="dimension-color-indicator large" style="background: #F37021; margin-right: 8px;"></span>
+                            <h4 class="mb-0">Employee Engagement (6-point scale)</h4>
+                            <p class="dimension-description mb-3 w-100">Measures commitment, involvement, and enthusiasm toward work and organisation</p>
+                        </div>
+                        <div class="statements-legend robby">
+                            <div class="legend-title">Performance Indicators (6-point scale):</div>
+                            <div class="legend-items">
+                                <div class="legend-item">
+                                    <div class="legend-color red" title="Requires immediate attention and management"></div>
+                                    <span>1-2: Strongly Disagree / Disagree</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color amber" title="Work required"></div>
+                                    <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color green" title="A positive and strong result"></div>
+                                    <span>5-6: Agree / Strongly Agree</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="statements-grid">
+                            <div class="statements-columns">
+                                <div class="statements-column">
+                                    <h4 class="statements-column-title">Top 3 Engagement Statements</h4>
+                                    <div id="topEngagementStatementsEE"></div>
+                                </div>
+                                <div class="statements-column">
+                                    <h4 class="statements-column-title">Bottom 3 Engagement Statements</h4>
+                                    <div id="bottomEngagementStatementsEE"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Employee Engagement Comments & Sentiment -->
+                    <div class="sentiment-section">
+                        <div class="comment-sentiment">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="mb-0 me-4">Employee Engagement Comments & Sentiment</h3>
+                                <a href="comments-analysis-v3.html" class="btn btn-primary">Analyse Comments</a>
+                            </div>
+                            
+                            <div id="engagementSentimentChartEE" class="sentiment-chart"></div>
+                        </div>
+                        <div class="sentiment-analysis">
+                            <h3>Employee Engagement Sentiment Themes</h3>
+                            <div id="engagementSentimentAnalysisEE"></div>
+                        </div>
+                </div>
+            </section>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="content-section">
+                <div class="section-header">
+                    <div class="page-title">
+                        <h1>Reports</h1>
+                        <p class="section-description">Generate customized reports with organisation and demographic filters</p>
+                    </div>
+                </div>
+
+                <form class="modern-report-form">
+                    <!-- Primary Filters -->
+                    <div class="report-filters-card">
+                        <h3>Primary Filters</h3>
+                        <div class="filters-grid">
+                            <div class="filter-row">
+                                <label>Segments</label>
+                                <button type="button" class="filter-modal-btn" id="openSegmentsModal">Select Segments</button>
+                                <span class="selected-summary" id="segmentsSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Divisions</label>
+                                <button type="button" class="filter-modal-btn" id="openDivisionsModal">Select Divisions</button>
+                                <span class="selected-summary" id="divisionsSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Departments</label>
+                                <button type="button" class="filter-modal-btn" id="openDepartmentsModal">Select Departments</button>
+                                <span class="selected-summary" id="departmentsSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Teams</label>
+                                <button type="button" class="filter-modal-btn" id="openTeamsModal">Select Teams</button>
+                                <span class="selected-summary" id="teamsSelectedSummary">All</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Filters -->
+                    <div class="report-filters-card">
+                        <h3>Secondary Filters</h3>
+                        <div class="filters-grid">
+                            <div class="filter-row">
+                                <label>Job Family</label>
+                                <button type="button" class="filter-modal-btn" id="openJobFamilyModal">Select Job Family</button>
+                                <span class="selected-summary" id="jobFamilySelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Worker's Manager</label>
+                                <button type="button" class="filter-modal-btn" id="openWorkersManagerModal">Select Worker's Manager</button>
+                                <span class="selected-summary" id="workersManagerSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Gender</label>
+                                <button type="button" class="filter-modal-btn" id="openGenderModal">Select Gender</button>
+                                <span class="selected-summary" id="genderSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Race</label>
+                                <button type="button" class="filter-modal-btn" id="openRaceModal">Select Race</button>
+                                <span class="selected-summary" id="raceSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Age Band</label>
+                                <button type="button" class="filter-modal-btn" id="openAgeBandModal">Select Age Band</button>
+                                <span class="selected-summary" id="ageBandSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Management Level</label>
+                                <button type="button" class="filter-modal-btn" id="openManagementLevelModal">Select Management Level</button>
+                                <span class="selected-summary" id="managementLevelSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Company</label>
+                                <button type="button" class="filter-modal-btn" id="openCompanyModal">Select Company</button>
+                                <span class="selected-summary" id="companySelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Country</label>
+                                <button type="button" class="filter-modal-btn" id="openCountryModal">Select Country</button>
+                                <span class="selected-summary" id="countrySelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Supervisory Organisation</label>
+                                <button type="button" class="filter-modal-btn" id="openSupervisoryOrgModal">Select Supervisory Organisation</button>
+                                <span class="selected-summary" id="supervisoryOrgSelectedSummary">All</span>
+                            </div>
+                            <div class="filter-row">
+                                <label>Region</label>
+                                <button type="button" class="filter-modal-btn" id="openRegionModal">Select Region</button>
+                                <span class="selected-summary" id="regionSelectedSummary">All</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Composition -->
+                    <div class="report-filters-card">
+                        <h3>Report Composition</h3>
+                        
+                        <!-- Content Options Row -->
+                        <div class="composition-section content-options-section">
+                            <h4>Content Options</h4>
+                            <div class="composition-options-horizontal">
+                                <label class="composition-option-horizontal">
+                                    <input type="checkbox" name="includeComments" checked>
+                                    <div class="option-content-horizontal">
+                                        <div class="option-text">
+                                            <span class="option-title d-flex align-items-center">Include Comments </span>
+                                            <span class="option-description">Add qualitative feedback and open-ended responses</span>
+                                        </div>
+                                    </div>
+                                </label>
+                                
+                                <div class="composition-option-horizontal historical-data-option">
+                                    <div class="option-content-horizontal">
+                                        
+                                        <div class="option-text">
+                                            <span class="option-title">Include Historical Data </span>
+                                            <span class="option-description">Compare with previous survey periods </span>
+                                            <div class="historical-period-options">
+                                                <label class="radio-option">
+                                                    <input type="radio" name="historicalPeriod" value="2years" checked>
+                                                    <span>2 Years</span>
+                                                </label>
+                                                <label class="radio-option">
+                                                    <input type="radio" name="historicalPeriod" value="4years">
+                                                    <span>4 Years</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Report Details Row -->
+                        <div class="composition-section report-details-section">
+                            <h4>Report Details</h4>
+                            <div class="report-details-horizontal">
+                                <div class="report-name-group">
+                                    <label for="reportName">Report Name <span class="required">*</span></label>
+                                    <input type="text" id="reportName" name="reportName" placeholder="e.g., Q1 2025 Pulse Survey Results" value="Q1 2025 Pulse Survey Results" required>
+                                    <small class="input-help">Give your report a descriptive name for easy identification</small>
+                                </div>
+                                
+                                <div class="results-preview">
+                                    <div class="results-count-card">
+                                        <div class="count-header">
+                                            <i class="material-icons">analytics</i>
+                                            <span>Sample Size</span>
+                                        </div>
+                                        <div class="count-display">
+                                            <span id="resultsCount" class="count-number">1,257</span>
+                                            <span class="count-total">of 1,257 responses</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Types -->
+                    <!-- <div class="report-filters-card">
+                        <h3>Report Type</h3>
+                        <div class="report-type-grid">
+                            <div class="report-type-card" data-report-type="comprehensive">
+                                <i class="material-icons">dashboard</i>
+                                <h4>Comprehensive</h4>
+                                <p>Detailed report</p>
+                            </div>
+                            <div class="report-type-card" data-report-type="segment">
+                                <i class="material-icons">table_chart</i>
+                                <h4>Segment</h4>
+                                <p>Scores by segment</p>
+                            </div>
+                            <div class="report-type-card" data-report-type="division">
+                                <i class="material-icons">analytics</i>
+                                <h4>Division</h4>
+                                <p>Scores by division</p>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- Action Buttons -->
+                    <!-- Employee Engagement Reports -->
+                    <div class="dimension-section">
+                        <h3 class="dimension-label">Employee Engagement Reports</h3>
+                        <div class="report-actions modern-actions">
+                            <button type="button" class="button-secondary">Draw Online Report</button>
+                            <button type="button" class="button-primary" id="drawPPTEE">Draw PPT Report</button>
+                            <button type="button" class="button-primary" id="drawInfographEE">Draw Infograph</button>
+                            <button type="button" class="button-secondary">Draw Excel</button>
+                            <button type="button" class="button-secondary">Draw PDF Report</button>
+                        </div>
+                    </div>
+
+                    <!-- Change Readiness Reports -->
+                    <div class="dimension-section">
+                        <h3 class="dimension-label">Change Readiness Reports</h3>
+                        <div class="report-actions modern-actions">
+                            <button type="button" class="button-secondary">Draw Online Report</button>
+                            <button type="button" class="button-primary" id="drawPPTCR">Draw PPT Report</button>
+                            <button type="button" class="button-primary" id="drawInfographCR">Draw Infograph</button>
+                            <button type="button" class="button-secondary">Draw Excel</button>
+                            <button type="button" class="button-secondary">Draw PDF Report</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Progress Tracker Section -->
+            <section id="progress" class="content-section">
+                <div class="section-header">
+                    <div class="page-title">
+                        <h1>Progress Tracker</h1>
+                        <p class="section-description">Monitor survey completion progress across organisational hierarchy</p>
+                    </div>
+                    <div class="export-buttons">
+                        <button id="exportProgressPDF" class="export-button">
+                            <i class="material-icons">picture_as_pdf</i>
+                            Export to PDF
+                        </button>
+                        <!-- <button id="exportProgressExcel" class="export-button">
+                            <i class="material-icons">file_download</i>
+                            Export to Excel
+                        </button> -->
+                    </div>
+                </div>
+
+                <div class="progress-tracker-container">
+                    <!-- Summary Cards -->
+                    <div class="progress-summary-cards">
+                        <div class="summary-card">
+                            <div class="card-icon">
+                                <i class="material-icons">groups</i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-value" id="totalPopulation">27,518</div>
+                                <div class="card-label">Total Population</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon">
+                                <i class="material-icons">check_circle</i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-value" id="totalCompleted">24,420</div>
+                                <div class="card-label">Completed</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon">
+                                <i class="material-icons">schedule</i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-value" id="totalInProgress">1,847</div>
+                                <div class="card-label">In Progress</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon">
+                                <i class="material-icons">radio_button_unchecked</i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-value" id="totalNotStarted">1,251</div>
+                                <div class="card-label">Not Started</div>
+                            </div>
+                        </div>
+                        <div class="summary-card completion-card">
+                            <div class="card-icon">
+                                <i class="material-icons">analytics</i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-value card-completion-rate" id="overallCompletionRate">89%</div>
+                                <div class="card-label">Completion Rate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Table with Integrated Breadcrumb -->
+                    <div class="progress-table-container">
+                        <div class="table-header">
+                            <!-- Breadcrumb Navigation -->
+                            <div class="progress-breadcrumb">
+                                <div class="breadcrumb-path">
+                                    <span class="breadcrumb-item active" data-level="company">OML - Old Mutual Limited</span>
+                                </div>
+                            </div>
+                            <div class="table-header-left">
+                                <h3 id="tableTitle">Company Overview</h3>
+                                <button id="backToParent" class="back-button" style="display: none;">
+                                    <i class="material-icons">arrow_back</i>
+                                    Back to Parent
+                                </button>
+                            </div>
+                            <div class="table-controls">                                
+                                <div class="table-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color excellent"></div>
+                                        <span>≥75% Excellent</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color good"></div>
+                                        <span>60-74% Good</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color fair"></div>
+                                        <span>45-59% Fair</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color attention"></div>
+                                        <span>&lt;45% Needs Attention</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-table-wrapper">
+                            <table class="progress-table" id="progressTable">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable" data-sort="name">
+                                            Unit Name 
+                                            <i class="material-icons sort-icon">sort</i>
+                                        </th>
+                                        <th class="sortable" data-sort="population">
+                                            Population 
+                                            <i class="material-icons sort-icon">sort</i>
+                                        </th>
+                                        <th class="sortable" data-sort="completed">
+                                            Completed 
+                                            <i class="material-icons sort-icon">sort</i>
+                                        </th>
+                                        <th class="sortable" data-sort="inprogress">
+                                            In Progress 
+                                            <i class="material-icons sort-icon">sort</i>
+                                        </th>
+                                        <th class="sortable" data-sort="notstarted">
+                                            Not Started 
+                                            <i class="material-icons sort-icon">sort</i>
+                                        </th>
+                                        <th class="sortable" data-sort="completion">
+                                            Completion Rate 
+                                            <i class="material-icons sort-icon">sort</i>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="progressTableBody">
+                                    <!-- Table content will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="content-section">
+                <div class="section-header">
+                    <h1>Settings</h1>
+                </div>
+                <div class="placeholder-content">
+                    <i class="material-icons">settings</i>
+                    <h2>Settings Section</h2>
+                    <p>Configuration and preferences will be available here.</p>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users" class="content-section">
+                <div class="section-header">
+                    <h1>Users</h1>
+                </div>
+                <div class="placeholder-content">
+                    <i class="material-icons">people</i>
+                    <h2>Users Section</h2>
+                    <p>User management and permissions will be available here.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+
+    
+    <!-- Filter Modal (Reusable) -->
+    <div id="filterModal" class="filter-modal">
+        <div class="filter-modal-overlay"></div>
+        <div class="filter-modal-content">
+            <div class="filter-modal-header">
+                <h3 id="filterModalTitle">Select Options</h3>
+            </div>
+            <div class="filter-modal-body" id="filterModalBody">
+                <!-- Checkbox list will be injected here -->
+            </div>
+            <div class="filter-modal-footer">
+                <button type="button" id="applyFilterModal" class="button-primary">Apply Selected</button>
+                <button type="button" id="cancelFilterModal" class="button-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-copyright">
+                    © 2025 Pulse Survey Dashboard. All rights reserved.
+                </div>
+                <!-- <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div> -->
+            </div>
+        </div>
+    </footer>
+    
+    <script src="navigation.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+        
+        
+        
+        // Page-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set the current page for navigation
+            const currentPage = document.body.dataset.currentPage;
+            if (window.pulseNavigation && currentPage) {
+                window.pulseNavigation.updateCurrentPage(currentPage);
+            }
+            
+            // Set current date in timestamp
+            const timestampElement = document.getElementById('dataTimestamp');
+            if (timestampElement) {
+                const now = new Date();
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const day = now.getDate();
+                const month = months[now.getMonth()];
+                const year = now.getFullYear();
+                timestampElement.textContent = `${day} ${month}, ${year}`;
+            }
+            
+            const filterToggle = document.getElementById('filterToggle');
+            const filterMenu = document.getElementById('filterMenu');
+            const closeFilters = document.getElementById('closeFilters');
+            const container = document.querySelector('.container');
+            const navTabs = document.querySelectorAll('.nav-tab');
+            
+            console.log('Filter elements:', { filterToggle, filterMenu, closeFilters, container });
+            
+            // Function to close filter menu
+            function closeFilterMenu() {
+                if (filterMenu && container) {
+                    filterMenu.classList.remove('active');
+                    container.classList.remove('filter-active');
+                }
+            }
+            
+            // Function to check if current section is overview
+            function isOverviewSection() {
+                const overviewSection = document.getElementById('overview');
+                return overviewSection && overviewSection.classList.contains('active');
+            }
+            
+            // Initialize filter dropdowns
+            setupFilterDropdowns();
+            
+            // Filter dropdown functionality
+            function setupFilterDropdowns() {
+                const dropdownBtns = document.querySelectorAll('.filter-dropdown-btn');
+                
+                dropdownBtns.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('data-target');
+                        const dropdownContent = document.getElementById(targetId);
+                        const isActive = this.classList.contains('active');
+                        
+                        // Close all other dropdowns
+                        dropdownBtns.forEach(otherBtn => {
+                            if (otherBtn !== this) {
+                                otherBtn.classList.remove('active');
+                                const otherTarget = otherBtn.getAttribute('data-target');
+                                const otherDropdown = document.getElementById(otherTarget);
+                                if (otherDropdown) {
+                                    otherDropdown.classList.remove('active');
+                                }
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        if (isActive) {
+                            this.classList.remove('active');
+                            dropdownContent.classList.remove('active');
+                        } else {
+                            this.classList.add('active');
+                            dropdownContent.classList.add('active');
+                        }
+                    });
+                });
+                
+                // Handle checkbox changes and update dropdown text
+                document.querySelectorAll('.filter-dropdown-content input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const dropdown = this.closest('.filter-dropdown-content');
+                        const dropdownBtn = dropdown.previousElementSibling;
+                        const dropdownText = dropdownBtn.querySelector('.dropdown-text');
+                        
+                        // Handle select all functionality
+                        if (this.classList.contains('select-all')) {
+                            const targetName = this.getAttribute('data-target');
+                            const relatedCheckboxes = dropdown.querySelectorAll(`input[name="${targetName}"]`);
+                            relatedCheckboxes.forEach(cb => {
+                                cb.checked = this.checked;
+                            });
+                        } else {
+                            // Check if select all should be updated
+                            const name = this.name;
+                            const selectAllCheckbox = dropdown.querySelector(`.select-all[data-target="${name}"]`);
+                            const allCheckboxes = dropdown.querySelectorAll(`input[name="${name}"]`);
+                            const checkedCheckboxes = dropdown.querySelectorAll(`input[name="${name}"]:checked`);
+                            
+                            if (selectAllCheckbox) {
+                                selectAllCheckbox.checked = allCheckboxes.length === checkedCheckboxes.length;
+                            }
+                        }
+                        
+                        // Update button text
+                        updateDropdownButtonText(dropdown, dropdownText);
+                    });
+                });
+                
+                // Close dropdowns when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.filter-dropdown')) {
+                        dropdownBtns.forEach(btn => {
+                            btn.classList.remove('active');
+                            const targetId = btn.getAttribute('data-target');
+                            const dropdown = document.getElementById(targetId);
+                            if (dropdown) {
+                                dropdown.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }
+            
+            function updateDropdownButtonText(dropdown, textElement) {
+                const allCheckboxes = dropdown.querySelectorAll('input[type="checkbox"]:not(.select-all)');
+                const checkedCheckboxes = dropdown.querySelectorAll('input[type="checkbox"]:not(.select-all):checked');
+                const count = checkedCheckboxes.length;
+                
+                if (count === 0) {
+                    textElement.textContent = 'None';
+                } else if (count === allCheckboxes.length) {
+                    textElement.textContent = 'All';
+                } else if (count === 1) {
+                    textElement.textContent = checkedCheckboxes[0].parentElement.textContent.trim();
+                } else {
+                    textElement.textContent = `${count} selected`;
+                }
+            }
+            
+            // Update Apply Filters functionality for new dropdown structure
+            function setupFilterActions() {
+                const applyFiltersBtn = document.getElementById('applyFilters');
+                const clearFiltersBtn = document.getElementById('clearFilters');
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                const activeFiltersContainer = document.getElementById('activeFilters');
+                
+                if (applyFiltersBtn) {
+                    applyFiltersBtn.addEventListener('click', async function() {
+                        console.log('Apply filters clicked');
+                        
+                        // Show loading overlay
+                        if (loadingOverlay) {
+                            loadingOverlay.classList.add('active');
+                        }
+                        
+                        // Close filter menu
+                        closeFilterMenu();
+                        
+                        try {
+                            // Simulate API call delay
+                            await new Promise(resolve => setTimeout(resolve, 1500));
+                            
+                            // Collect selected filters
+                            const selectedFilters = collectSelectedFilters();
+                            
+                            // Update active filters display
+                            updateActiveFiltersDisplay(selectedFilters);
+                            
+                            // Simulate data changes (you can replace this with actual data filtering)
+                            console.log('Selected filters:', selectedFilters);
+                            
+                        } finally {
+                            // Hide loading overlay
+                            if (loadingOverlay) {
+                                loadingOverlay.classList.remove('active');
+                            }
+                        }
+                    });
+                }
+                
+                if (clearFiltersBtn) {
+                    clearFiltersBtn.addEventListener('click', async function() {
+                        console.log('Clear filters clicked');
+                        
+                        // Show loading overlay
+                        if (loadingOverlay) {
+                            loadingOverlay.classList.add('active');
+                        }
+                        
+                        try {
+                            // Simulate API call delay
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            
+                            // Clear all checkboxes
+                            document.querySelectorAll('.filter-dropdown-content input[type="checkbox"]').forEach(checkbox => {
+                                checkbox.checked = false;
+                            });
+                            
+                            // Update all dropdown button texts
+                            document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+                                const btn = dropdown.querySelector('.filter-dropdown-btn');
+                                const textElement = btn.querySelector('.dropdown-text');
+                                textElement.textContent = 'All';
+                            });
+                            
+                            // Clear active filters display
+                            if (activeFiltersContainer) {
+                                activeFiltersContainer.innerHTML = '';
+                            }
+                            
+                        } finally {
+                            // Hide loading overlay
+                            if (loadingOverlay) {
+                                loadingOverlay.classList.remove('active');
+                            }
+                        }
+                    });
+                }
+            }
+            
+            function collectSelectedFilters() {
+                const filters = {
+                    primary: {
+                        segments: [],
+                        divisions: []
+                    },
+                    secondary: {
+                        race: [],
+                        gender: [],
+                        ageBand: [],
+                        tenure: []
+                    }
+                };
+                
+                // Helper function to collect filters only if not all are selected
+                function collectFilterCategory(name, targetArray) {
+                    const allCheckboxes = document.querySelectorAll(`input[name="${name}"]`);
+                    const checkedCheckboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+                    
+                    // Only collect if not all are selected (partial selection)
+                    if (checkedCheckboxes.length > 0 && checkedCheckboxes.length < allCheckboxes.length) {
+                        checkedCheckboxes.forEach(cb => {
+                            targetArray.push(cb.value);
+                        });
+                    }
+                    // If all are selected or none are selected, don't add to active filters
+                }
+                
+                // Collect primary filters (only if partially selected)
+                collectFilterCategory('segments', filters.primary.segments);
+                collectFilterCategory('divisions', filters.primary.divisions);
+                
+                // Collect secondary filters (only if partially selected)
+                collectFilterCategory('race', filters.secondary.race);
+                collectFilterCategory('gender', filters.secondary.gender);
+                collectFilterCategory('ageBand', filters.secondary.ageBand);
+                collectFilterCategory('tenure', filters.secondary.tenure);
+                
+                return filters;
+            }
+            
+            function updateActiveFiltersDisplay(filters) {
+                const activeFiltersContainer = document.getElementById('activeFilters');
+                if (!activeFiltersContainer) return;
+                
+                activeFiltersContainer.innerHTML = '';
+                let hasFilters = false;
+                
+                // Add primary filter tags
+                Object.entries(filters.primary).forEach(([type, values]) => {
+                    values.forEach(value => {
+                        addFilterTag(`${type}: ${value}`, type, value);
+                        hasFilters = true;
+                    });
+                });
+                
+                // Add secondary filter tags
+                Object.entries(filters.secondary).forEach(([type, values]) => {
+                    values.forEach(value => {
+                        const displayType = type === 'ageBand' ? 'Age Band' : type.charAt(0).toUpperCase() + type.slice(1);
+                        addFilterTag(`${displayType}: ${value}`, type, value);
+                        hasFilters = true;
+                    });
+                });
+                
+                if (!hasFilters) {
+                    console.log('No filters applied');
+                }
+            }
+            
+            function addFilterTag(text, filterType, filterValue) {
+                const activeFiltersContainer = document.getElementById('activeFilters');
+                if (!activeFiltersContainer) return;
+                
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+                    ${text}
+                    <span class="remove-filter" data-type="${filterType}" data-value="${filterValue}">×</span>
+                `;
+                
+                // Add click handler to remove filter
+                tag.querySelector('.remove-filter').addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const value = this.getAttribute('data-value');
+                    
+                    // Uncheck the corresponding checkbox
+                    const checkbox = document.querySelector(`input[name="${type}"][value="${value}"]`);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                        
+                        // Update the dropdown button text
+                        const dropdown = checkbox.closest('.filter-dropdown-content');
+                        if (dropdown) {
+                            const btn = dropdown.previousElementSibling;
+                            const textElement = btn.querySelector('.dropdown-text');
+                            updateDropdownButtonText(dropdown, textElement);
+                            
+                            // Update select all checkbox
+                            const selectAllCheckbox = dropdown.querySelector(`.select-all[data-target="${type}"]`);
+                            if (selectAllCheckbox) {
+                                const allCheckboxes = dropdown.querySelectorAll(`input[name="${type}"]`);
+                                const checkedCheckboxes = dropdown.querySelectorAll(`input[name="${type}"]:checked`);
+                                selectAllCheckbox.checked = allCheckboxes.length === checkedCheckboxes.length;
+                            }
+                        }
+                    }
+                    
+                    // Remove the tag
+                    tag.remove();
+                    
+                    // If no more filter tags, you might want to refresh the data
+                    if (activeFiltersContainer.children.length === 0) {
+                        console.log('All filters removed');
+                    }
+                });
+                
+                activeFiltersContainer.appendChild(tag);
+            }
+            
+            // Initialize filter actions
+            setupFilterActions();
+            
+            // Initialize file download functionality
+            setupFileDownloads();
+        });
+        
+        // File Download Functionality
+        function setupFileDownloads() {
+            // Simple download function
+            function downloadFile(filePath, fileName) {
+                const link = document.createElement('a');
+                link.href = filePath;
+                link.download = fileName;
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Employee Engagement Reports
+            const drawPPTEE = document.getElementById('drawPPTEE');
+            const drawInfographEE = document.getElementById('drawInfographEE');
+            
+            if (drawPPTEE) {
+                drawPPTEE.addEventListener('click', function() {
+                    downloadFile('reports/OMCultureSurveyReportDemo-v4-EE.pptx', 'OM-Culture-Survey-Report-Demo-v4-EE.pptx');
+                });
+            }
+            
+            if (drawInfographEE) {
+                drawInfographEE.addEventListener('click', function() {
+                    downloadFile('reports/Culture Survey Infographic demo-v4-EE.pdf', 'Culture-Survey-Infographic-demo-v4-EE.pdf');
+                });
+            }
+            
+            // Change Readiness Reports
+            const drawPPTCR = document.getElementById('drawPPTCR');
+            const drawInfographCR = document.getElementById('drawInfographCR');
+            
+            if (drawPPTCR) {
+                drawPPTCR.addEventListener('click', function() {
+                    downloadFile('reports/OMCultureSurveyReportDemo-v4-CR.pptx', 'OM-Culture-Survey-Report-Demo-v4-CR.pptx');
+                });
+            }
+            
+            if (drawInfographCR) {
+                drawInfographCR.addEventListener('click', function() {
+                    downloadFile('reports/Culture Survey Infographic demo-v4-CR.pdf', 'Culture-Survey-Infographic-demo-v4-CR.pdf');
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

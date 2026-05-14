@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psulse Survey Admin Dashboard - Overview</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body data-current-page="overview">
+    <!-- Off-canvas Filter Menu -->
+    <div id="filterMenu" class="filter-menu">
+        <div class="filter-header">
+            <h2>Filters</h2>
+            <button id="closeFilters" class="close-filters">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="filter-content">
+            <!-- Primary Filters -->
+            <div class="filter-section">
+                <h3>Primary Filters</h3>
+                
+                <!-- Worker Group -->
+                <div class="filter-group">
+                    <h4>Worker Group</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="workerGroupDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="workerGroupDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="workerGroup" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="workerGroup" value="old-mutual-limited" checked> Old Mutual Limited</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cluster (renamed from Segments) -->
+                <div class="filter-group">
+                    <h4>Cluster</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="clusterDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="clusterDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="cluster" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="cluster" value="operations" checked> Operations</label>
+                            <label><input type="checkbox" name="cluster" value="sales" checked> Sales</label>
+                            <label><input type="checkbox" name="cluster" value="marketing" checked> Marketing</label>
+                            <label><input type="checkbox" name="cluster" value="technology" checked> Technology</label>
+                            <label><input type="checkbox" name="cluster" value="finance" checked> Finance</label>
+                            <label><input type="checkbox" name="cluster" value="hr" checked> Human Resources</label>
+                            <label><input type="checkbox" name="cluster" value="legal" checked> Legal</label>
+                            <label><input type="checkbox" name="cluster" value="compliance" checked> Compliance</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Unit (new) -->
+                <div class="filter-group">
+                    <h4>Business Unit</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="businessUnitDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="businessUnitDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="businessUnit" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="businessUnit" value="operations" checked> Operations</label>
+                            <label><input type="checkbox" name="businessUnit" value="sales" checked> Sales</label>
+                            <label><input type="checkbox" name="businessUnit" value="marketing" checked> Marketing</label>
+                            <label><input type="checkbox" name="businessUnit" value="technology" checked> Technology</label>
+                            <label><input type="checkbox" name="businessUnit" value="finance" checked> Finance</label>
+                            <label><input type="checkbox" name="businessUnit" value="hr" checked> Human Resources</label>
+                            <label><input type="checkbox" name="businessUnit" value="legal" checked> Legal</label>
+                            <label><input type="checkbox" name="businessUnit" value="compliance" checked> Compliance</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Division -->
+                <div class="filter-group">
+                    <h4>Division</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="divisionsDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="divisionsDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="divisions" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="divisions" value="life-insurance" checked> Life Insurance</label>
+                            <label><input type="checkbox" name="divisions" value="property-casualty" checked> Property & Casualty</label>
+                            <label><input type="checkbox" name="divisions" value="asset-management" checked> Asset Management</label>
+                            <label><input type="checkbox" name="divisions" value="banking" checked> Banking</label>
+                            <label><input type="checkbox" name="divisions" value="corporate" checked> Corporate Services</label>
+                            <label><input type="checkbox" name="divisions" value="retail" checked> Retail</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Department -->
+                <div class="filter-group">
+                    <h4>Department</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="departmentDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="departmentDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="department" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="department" value="dept1" checked> Department 1</label>
+                            <label><input type="checkbox" name="department" value="dept2" checked> Department 2</label>
+                            <label><input type="checkbox" name="department" value="dept3" checked> Department 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team -->
+                <div class="filter-group">
+                    <h4>Team</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="teamDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="teamDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="team" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="team" value="team1" checked> Team 1</label>
+                            <label><input type="checkbox" name="team" value="team2" checked> Team 2</label>
+                            <label><input type="checkbox" name="team" value="team3" checked> Team 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Country -->
+                <div class="filter-group">
+                    <h4>Country</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="countryDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="countryDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="country" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="country" value="south-africa" checked> South Africa</label>
+                            <label><input type="checkbox" name="country" value="namibia" checked> Namibia</label>
+                            <label><input type="checkbox" name="country" value="botswana" checked> Botswana</label>
+                            <label><input type="checkbox" name="country" value="zimbabwe" checked> Zimbabwe</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Region -->
+                <div class="filter-group">
+                    <h4>Region</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="regionDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="regionDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="region" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="region" value="gauteng" checked> Gauteng</label>
+                            <label><input type="checkbox" name="region" value="western-cape" checked> Western Cape</label>
+                            <label><input type="checkbox" name="region" value="eastern-cape" checked> Eastern Cape</label>
+                            <label><input type="checkbox" name="region" value="kwazulu-natal" checked> KwaZulu-Natal</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Company -->
+                <div class="filter-group">
+                    <h4>Company</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="companyDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="companyDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="company" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="company" value="old-mutual-life" checked> Old Mutual Life Assurance</label>
+                            <label><input type="checkbox" name="company" value="old-mutual-insure" checked> Old Mutual Insure</label>
+                            <label><input type="checkbox" name="company" value="old-mutual-investment" checked> Old Mutual Investment Group</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Secondary Filters -->
+            <div class="filter-section">
+                <h3>Secondary Filters</h3>
+                
+                <!-- Supervisory Organization -->
+                <div class="filter-group">
+                    <h4>Supervisory Organization</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="supervisoryOrgDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="supervisoryOrgDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="supervisoryOrg" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="supervisoryOrg" value="org1" checked> Organization 1</label>
+                            <label><input type="checkbox" name="supervisoryOrg" value="org2" checked> Organization 2</label>
+                            <label><input type="checkbox" name="supervisoryOrg" value="org3" checked> Organization 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Family -->
+                <div class="filter-group">
+                    <h4>Job Family</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="jobFamilyDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="jobFamilyDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="jobFamily" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="jobFamily" value="finance" checked> Finance</label>
+                            <label><input type="checkbox" name="jobFamily" value="it" checked> IT</label>
+                            <label><input type="checkbox" name="jobFamily" value="hr" checked> Human Resources</label>
+                            <label><input type="checkbox" name="jobFamily" value="sales" checked> Sales</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Worker's Manager -->
+                <div class="filter-group">
+                    <h4>Worker's Manager</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="workersManagerDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="workersManagerDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="workersManager" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="workersManager" value="manager1" checked> Manager 1</label>
+                            <label><input type="checkbox" name="workersManager" value="manager2" checked> Manager 2</label>
+                            <label><input type="checkbox" name="workersManager" value="manager3" checked> Manager 3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Age -->
+                <div class="filter-group">
+                    <h4>Age</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="ageDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="ageDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="age" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="age" value="18-24" checked> 18-24</label>
+                            <label><input type="checkbox" name="age" value="25-34" checked> 25-34</label>
+                            <label><input type="checkbox" name="age" value="35-44" checked> 35-44</label>
+                            <label><input type="checkbox" name="age" value="45-54" checked> 45-54</label>
+                            <label><input type="checkbox" name="age" value="55+" checked> 55+</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gender -->
+                <div class="filter-group">
+                    <h4>Gender</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="genderDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="genderDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="gender" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="gender" value="male" checked> Male</label>
+                            <label><input type="checkbox" name="gender" value="female" checked> Female</label>
+                            <label><input type="checkbox" name="gender" value="other" checked> Other</label>
+                            <label><input type="checkbox" name="gender" value="prefer-not-to-say" checked> Prefer not to say</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Race -->
+                <div class="filter-group">
+                    <h4>Race</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="raceDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="raceDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="race" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="race" value="african" checked> African</label>
+                            <label><input type="checkbox" name="race" value="coloured" checked> Coloured</label>
+                            <label><input type="checkbox" name="race" value="indian" checked> Indian</label>
+                            <label><input type="checkbox" name="race" value="white" checked> White</label>
+                            <label><input type="checkbox" name="race" value="other" checked> Other</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Management Level -->
+                <div class="filter-group">
+                    <h4>Management Level</h4>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-dropdown-btn" data-target="managementLevelDropdown">
+                            <span class="dropdown-text">All</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <div class="filter-dropdown-content" id="managementLevelDropdown">
+                            <label class="select-all-option">
+                                <input type="checkbox" class="select-all" data-target="managementLevel" checked> Select All
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <label><input type="checkbox" name="managementLevel" value="executive" checked> Executive</label>
+                            <label><input type="checkbox" name="managementLevel" value="senior" checked> Senior Management</label>
+                            <label><input type="checkbox" name="managementLevel" value="middle" checked> Middle Management</label>
+                            <label><input type="checkbox" name="managementLevel" value="junior" checked> Junior Management</label>
+                            <label><input type="checkbox" name="managementLevel" value="non-management" checked> Non-Management</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button id="clearFilters" class="button-secondary w-100">Clear All</button>
+            <button id="applyFilters" class="button-primary w-100">Apply Filters</button>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <div class="loading-text">Updating dashboard...</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <!-- Logo, Navigation, and Header Actions will be created by navigation.js -->
+        </header>
+
+        <!-- Content Sections -->
+        <main>
+            <!-- Overview Section (Default) -->
+            <section id="overview" class="content-section active">
+                <div class="section-header mb-2">
+                    <button id="filterToggle" class="filter-toggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Filters
+                    </button>
+                    <div class="page-title">
+                        <div class="title-with-filters">
+                            <h1>Overview</h1>
+                            <div id="activeFilters" class="active-filters"></div>
+                        </div>
+                    </div>
+                    <button id="exportPdf" class="export-button ms-auto">
+                        <i class="material-icons">download</i>
+                        Export PDF
+                    </button>
+                </div>
+                
+                <!-- Data Timestamp Indicator -->
+                <div class="data-timestamp">
+                    <span class="timestamp-label">Data correct as of:</span>
+                    <span class="timestamp-date" id="dataTimestamp">12 Jun, 2025</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <!-- Response Rate -->
+                    <div class="metric-card">
+                        <h3>Current Response Rate</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="responseRateProgress" class="circular-progress"><svg viewBox="0 0 36 36" style="transform: rotate(-90deg);"><circle cx="18" cy="18" r="16" fill="none" stroke="#E5E5E5" stroke-width="3"></circle><circle cx="18" cy="18" r="16" fill="none" stroke="#FFB800" stroke-width="3" stroke-dasharray="100.53096491487338" stroke-dashoffset="44.23362456254428" stroke-linecap="round"></circle></svg><div class="percentage">56%</div></div>
+                                    <div class="details" id="responseRateDetails">
+            <div>N = 4,750</div>
+            <div>Total Sample = 8,540</div>
+        </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div class="trend-container">
+                                    <div class="trend">
+                                        <span class="trend-positive">
+                                            <i class="material-icons">trending_up</i>2%
+                                        </span>
+                                        Since Previous Survey (2023)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Response Target Progress -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Response Target Progress</h3>
+                            <div class="reliability-tooltip">
+                                <i class="material-icons">info</i>
+                                <div class="tooltip-content">
+                                    Response target progress is calculated based on response rate.<br>
+                                    • Excellent: ≥75% response rate<br>
+                                    • Good: 60-74% response rate<br>
+                                    • Fair: 45-59% response rate<br>
+                                    • Needs Attention: <45% response rate
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="reliability-indicator">
+                                    <div class="intro-text">
+                                        Current response target progress:
+                                    </div>
+                                    <div class="reliability-status">
+                                        <div class="status-icon high"></div>
+                                        <strong>Excellent</strong> 1,257 / 1,410 (89%)
+                                    </div>
+                                    <div class="reliability-progress">
+                                        <div class="reliability-bar">
+                                            <div class="reliability-bar-fill" style="width: 89%; background: #00AE4E"></div>
+                                        </div>
+                                        <div class="reliability-thresholds">
+                                            <div class="threshold-marker" style="left: 50%">
+                                                <div class="marker-line"></div>
+                                                <span class="threshold-label">50%</span>
+                                            </div>
+                                            <div class="threshold-marker" style="left: 75%">
+                                                <div class="marker-line"></div>
+                                                <span class="threshold-label">75%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div class="trend">
+                                    <strong>153</strong> more responses needed for Excellent target
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dimensions-section">
+                    <h3>Survey Dimensions</h3>
+                    <p class="section-description">Performance across the two key dimensions of organizational culture</p>
+                    <div class="dimensions-grid">
+                        <!-- Employee Engagement Dimension -->
+                        <div class="dimension-item">
+                            <div class="dimension-header">
+                                <div class="dimension-title">
+                                    <span class="dimension-color-indicator" style="background-color: #F37021;"></span>
+                                    Employee Engagement <span class="fw-normal">Average Score</span>
+                                </div>
+                            </div>
+                            <div class="dimension-description">Measures commitment, involvement, and enthusiasm toward work and organization</div>
+                            <div class="d-flex align-items-end">
+                                <div class="dimension-score">4.7</div>
+                                <span class="dimension-stats scale"><strong>/6</strong></span>
+                            </div>
+                            <div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill green" style="width: 78%;"></div>
+                                </div>
+                                <div class="progress-scale-markers">
+                                    <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+                                </div>
+                            </div>
+                            <div class="dimension-stats">
+                                <span><strong>12</strong> Questions</span>
+                                <span>
+                                    <i class="material-icons trend-positive">trending_up</i>
+                                    +0.3 vs previous
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Change Readiness Dimension -->
+                        <div class="dimension-item">
+                            <div class="dimension-header">
+                                <div class="dimension-title">
+                                    <span class="dimension-color-indicator" style="background-color: #E91E63;"></span>
+                                    Change Readiness <span class="fw-normal">Average Score</span>
+                                </div>
+                            </div>
+                            <div class="dimension-description">Measures organizational readiness and preparedness for change initiatives</div>
+                            <div class="d-flex align-items-end">
+                                <div class="dimension-score">3.8</div>
+                                <span class="dimension-stats scale"><strong>/5</strong></span>
+                            </div>
+                            <div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill amber" style="width: 76%;"></div>
+                                </div>
+                                <div class="progress-scale-markers">
+                                    <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                                </div>
+                            </div>
+                            <div class="dimension-stats">
+                                <span><strong>8</strong> Questions</span>
+                                <span>
+                                    <i class="material-icons trend-positive">trending_up</i>
+                                    +0.1 vs previous
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="statements-section">
+                    <div class="statements-header">
+                        <h3>Survey Statement Performance by Dimension</h3>
+                        <p class="section-description">Performance breakdown by survey dimensions with different rating scales</p>
+                    </div>
+                    
+                    <!-- Tabbed Interface -->
+                    <div class="dimension-tabs-container">
+                        <div class="dimension-tabs">
+                            <button class="dimension-tab active" data-tab="engagement">
+                                Employee Engagement
+                            </button>
+                            <button class="dimension-tab" data-tab="changeReadiness">
+                                Change Readiness
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="dimension-tab-content">
+                            <!-- Employee Engagement Tab -->
+                            <div class="dimension-tab-pane active" id="engagement-tab">
+                                <div class="dimension-statements-section">
+                                    <div class="dimension-header align-items-center">
+                                        <span class="dimension-color-indicator large" style="background: #F37021; margin-right: 8px;"></span>
+                                        <h4 class="mb-0">Employee Engagement (6-point scale)</h4>
+                                        <p class="dimension-description mb-3 w-100">Measures commitment, involvement, and enthusiasm toward work and organization</p>
+                                    </div>
+                                    <div class="statements-legend">
+                                        <div class="legend-title">Performance Indicators (6-point scale):</div>
+                                        <div class="legend-items">
+                                            <div class="legend-item">
+                                                <div class="legend-color red" title="Requires immediate attention and management"></div>
+                                                <span>1-2: Strongly Disagree / Disagree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color amber" title="Work required"></div>
+                                                <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color green" title="A positive and strong result"></div>
+                                                <span>5-6: Agree / Strongly Agree</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="statements-grid">
+                                        <div class="statements-columns">
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Top 3 Engagement Statements</h4>
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#1</div>
+                                                        <div class="statement-dimension">Employee Engagement</div>
+                                                    </div>
+                                                    <div class="statement-text">I am proud to work for this organization</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">5.2</div>
+                                                        <div class="score-scale">/6</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-positive">trending_up</i>
+                                                            +0.2 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill green" style="width: 87%"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#2</div>
+                                                        <div class="statement-dimension">Employee Engagement</div>
+                                                    </div>
+                                                    <div class="statement-text">I understand how my work contributes to organizational goals</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">5.1</div>
+                                                        <div class="score-scale">/6</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-positive">trending_up</i>
+                                                            +0.1 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill green" style="width: 85%"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#3</div>
+                                                        <div class="statement-dimension">Employee Engagement</div>
+                                                    </div>
+                                                    <div class="statement-text">I feel motivated to do my best work every day</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">4.9</div>
+                                                        <div class="score-scale">/6</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-neutral">trending_flat</i>
+                                                            0.0 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill green" style="width: 82%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Bottom 3 Engagement Statements</h4>
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#10</div>
+                                                        <div class="statement-dimension">Employee Engagement</div>
+                                                    </div>
+                                                    <div class="statement-text">I receive recognition when I do good work</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">3.8</div>
+                                                        <div class="score-scale">/6</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-negative">trending_down</i>
+                                                            -0.3 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill amber" style="width: 63%"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#11</div>
+                                                        <div class="statement-dimension">Employee Engagement</div>
+                                                    </div>
+                                                    <div class="statement-text">Communication is effective across teams</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">3.6</div>
+                                                        <div class="score-scale">/6</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-negative">trending_down</i>
+                                                            -0.1 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill amber" style="width: 60%"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#12</div>
+                                                        <div class="statement-dimension">Employee Engagement</div>
+                                                    </div>
+                                                    <div class="statement-text">There are opportunities for career growth</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">3.4</div>
+                                                        <div class="score-scale">/6</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-negative">trending_down</i>
+                                                            -0.2 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill amber" style="width: 57%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Employee Engagement Comments & Sentiment -->
+                                <div class="sentiment-section">
+                                    <div class="comment-sentiment">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="mb-0 me-4">Employee Engagement Comments & Sentiment</h3>
+                                            <a href="comments-analysis-v3.html" class="btn btn-primary">Analyse Comments</a>
+                                        </div>
+                                        
+                                        <div class="sentiment-chart" data-sentiment='{"positive": 65, "neutral": 25, "negative": 10, "totalComments": 847}'>
+                                            <!-- Will be rendered by JavaScript -->
+                                        </div>
+                                    </div>
+                                    <div class="sentiment-analysis">
+                                        <h3>Employee Engagement Sentiment Themes</h3>
+                                        <div class="themes-columns">
+                                            <div class="themes-column">
+                                                <h4>Top 5 Positive Themes</h4>
+                                                <div class="analysis-list">
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Work-Life Balance</div>
+                                                            <div class="comment-count">156 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill positive" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Team Collaboration</div>
+                                                            <div class="comment-count">134 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill positive" style="width: 86%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Career Growth</div>
+                                                            <div class="comment-count">98 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill positive" style="width: 63%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Recognition & Rewards</div>
+                                                            <div class="comment-count">87 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill positive" style="width: 56%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Leadership Support</div>
+                                                            <div class="comment-count">76 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill positive" style="width: 49%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="themes-column">
+                                                <h4>Bottom 5 Negative Themes</h4>
+                                                <div class="analysis-list">
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Workload Management</div>
+                                                            <div class="comment-count">45 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Communication Issues</div>
+                                                            <div class="comment-count">38 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 84%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Resource Constraints</div>
+                                                            <div class="comment-count">32 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 71%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Process Inefficiencies</div>
+                                                            <div class="comment-count">28 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 62%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Technology Challenges</div>
+                                                            <div class="comment-count">25 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 56%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Change Readiness Tab -->
+                            <div class="dimension-tab-pane" id="changeReadiness-tab">
+                                <div class="dimension-statements-section">
+                                    <div class="dimension-header align-items-center">
+                                        <span class="dimension-color-indicator large" style="background: #E91E63; margin-right: 8px;"></span>
+                                        <h4 class="mb-0">Change Readiness (5-point scale)</h4>
+                                        <p class="dimension-description w-100 mb-3">Measures organizational readiness and preparedness for change initiatives</p>
+                                    </div>
+                                    <div class="statements-legend">
+                                        <div class="legend-title">Performance Indicators (5-point scale):</div>
+                                        <div class="legend-items">
+                                            <div class="legend-item">
+                                                <div class="legend-color red" title="Requires immediate attention and management"></div>
+                                                <span>1-2: Strongly Disagree / Disagree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color amber" title="Work required"></div>
+                                                <span>3: Neutral</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color green" title="A positive and strong result"></div>
+                                                <span>4-5: Agree / Strongly Agree</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="statements-grid">
+                                        <div class="statements-columns">
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Top 3 Change Readiness Statements</h4>
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#1</div>
+                                                        <div class="statement-dimension">Change Readiness</div>
+                                                    </div>
+                                                    <div class="statement-text">Leadership communicates change effectively</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">4.1</div>
+                                                        <div class="score-scale">/5</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-positive">trending_up</i>
+                                                            +0.2 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill green" style="width: 82%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Bottom 3 Change Readiness Statements</h4>
+                                                <div class="statement-item">
+                                                    <div class="statement-header">
+                                                        <div class="statement-rank">#8</div>
+                                                        <div class="statement-dimension">Change Readiness</div>
+                                                    </div>
+                                                    <div class="statement-text">Resources are available for change initiatives</div>
+                                                    <div class="statement-score">
+                                                        <div class="score-value">3.2</div>
+                                                        <div class="score-scale">/5</div>
+                                                        <span class="statement-trend">
+                                                            <i class="material-icons trend-negative">trending_down</i>
+                                                            -0.1 vs previous
+                                                        </span>
+                                                    </div>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill amber" style="width: 64%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Change Readiness Comments & Sentiment -->
+                                <div class="sentiment-section">
+                                    <div class="comment-sentiment">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="mb-0 me-4">Change Readiness Comments & Sentiment</h3>
+                                            <a href="comments-analysis-v3.html" class="btn btn-primary">Analyse Comments</a>
+                                        </div>
+                                        
+                                        <div class="sentiment-chart" data-sentiment='{"positive": 45, "neutral": 35, "negative": 20, "totalComments": 623}'>
+                                            <!-- Will be rendered by JavaScript -->
+                                        </div>
+                                    </div>
+                                    <div class="sentiment-analysis">
+                                        <h3>Change Readiness Sentiment Themes</h3>
+                                        <div class="themes-columns single-column">
+                                            <div class="themes-column">
+                                                <h4>Top 5 Negative Themes</h4>
+                                                <div class="analysis-list">
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Change Resistance</div>
+                                                            <div class="comment-count">78 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Communication Gaps</div>
+                                                            <div class="comment-count">65 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 83%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Resource Allocation</div>
+                                                            <div class="comment-count">52 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 67%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Timeline Concerns</div>
+                                                            <div class="comment-count">44 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 56%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="analysis-item">
+                                                        <div class="analysis-header">
+                                                            <div class="theme-name">Training Needs</div>
+                                                            <div class="comment-count">38 comments</div>
+                                                        </div>
+                                                        <div class="analysis-bar">
+                                                            <div class="analysis-bar-fill negative" style="width: 49%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-copyright">
+                    © 2025 Pulse Survey Dashboard. All rights reserved.
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="navigation.js"></script>
+    <script src="static.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+        // Page-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date in timestamp
+            const timestampElement = document.getElementById('dataTimestamp');
+            if (timestampElement) {
+                const now = new Date();
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const day = now.getDate();
+                const month = months[now.getMonth()];
+                const year = now.getFullYear();
+                timestampElement.textContent = `${day} ${month}, ${year}`;
+            }
+            
+            // Set the current page for navigation
+            const currentPage = document.body.dataset.currentPage;
+            if (window.pulseNavigation && currentPage) {
+                window.pulseNavigation.updateCurrentPage(currentPage);
+            }
+            
+            // Initialize filter functionality
+            initializeFilterFunctionality();
+        });
+        
+        // Filter functionality
+        function initializeFilterFunctionality() {
+            const filterToggle = document.getElementById('filterToggle');
+            const filterMenu = document.getElementById('filterMenu');
+            const closeFilters = document.getElementById('closeFilters');
+            const container = document.querySelector('.container');
+            
+            if (filterToggle) {
+                filterToggle.addEventListener('click', function() {
+                    if (filterMenu && container) {
+                        filterMenu.classList.add('active');
+                        container.classList.add('filter-active');
+                    }
+                });
+            }
+            
+            if (closeFilters) {
+                closeFilters.addEventListener('click', function() {
+                    if (filterMenu && container) {
+                        filterMenu.classList.remove('active');
+                        container.classList.remove('filter-active');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

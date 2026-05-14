@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug Test - Static Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-info { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .loading { color: red; font-weight: bold; }
+        .populated { color: green; font-weight: bold; }
+        .error { color: red; background: #ffe0e0; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Test - Static Report Engine</h1>
+    
+    <div class="debug-info">
+        <h3>Configuration Test</h3>
+        <p>Dimension Name: <span data-field="dimension-name" class="loading">Loading...</span></p>
+        <p>Scale Type: <span id="scale-type" class="loading">Loading...</span></p>
+        <p>Colors: <span id="colors" class="loading">Loading...</span></p>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Data Test</h3>
+        <p>Employee Headcount: <span data-field="employee-headcount" class="loading">Loading...</span></p>
+        <p>Response Rate: <span data-field="response-rate" class="loading">Loading...</span></p>
+        <p>Overall Score: <span data-field="overall-average-score" class="loading">Loading...</span></p>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Filter Data Test</h3>
+        <p>Worker Group: <span data-field="worker-group-filter" class="loading">Loading...</span></p>
+        <p>Country: <span data-field="country-filter" class="loading">Loading...</span></p>
+        <p>Generate Date: <span data-field="generate-date" class="loading">Loading...</span></p>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Questions Test</h3>
+        <table data-table="top-questions">
+            <thead>
+                <tr><th>#</th><th>Question</th><th>Score</th></tr>
+            </thead>
+            <tbody>
+                <!-- Will be populated by JS -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="error-log" class="error" style="display: none;">
+        <h3>Error Log</h3>
+        <pre id="error-details"></pre>
+    </div>
+    
+    <!-- Include the same scripts as the main report -->
+    <script src="../config.js"></script>
+    <script src="../data.js"></script>
+    <script src="js/report.js"></script>
+    
+    <script>
+        // Debug logging
+        window.addEventListener('error', function(e) {
+            document.getElementById('error-log').style.display = 'block';
+            document.getElementById('error-details').textContent += e.message + '\n' + e.stack + '\n\n';
+        });
+        
+        // Wait for the report engine to load and then show debug info
+        setTimeout(() => {
+            try {
+                if (typeof reportEngine !== 'undefined' && reportEngine.config) {
+                    document.getElementById('scale-type').textContent = reportEngine.config.ScaleType;
+                    document.getElementById('scale-type').className = 'populated';
+                    
+                    document.getElementById('colors').textContent = `Primary: ${reportEngine.config.Color}, Secondary: ${reportEngine.config.ColorSecondary}`;
+                    document.getElementById('colors').className = 'populated';
+                    
+                    console.log('Report engine config:', reportEngine.config);
+                    console.log('Report engine data:', reportEngine.reportData);
+                } else {
+                    throw new Error('Report engine not loaded or no config found');
+                }
+            } catch (error) {
+                document.getElementById('error-log').style.display = 'block';
+                document.getElementById('error-details').textContent = error.message + '\n' + error.stack;
+            }
+            
+            // Check which elements were populated
+            document.querySelectorAll('[data-field]').forEach(el => {
+                if (el.textContent !== 'Loading...') {
+                    el.className = 'populated';
+                }
+            });
+        }, 2000);
+    </script>
+</body>
+</html>

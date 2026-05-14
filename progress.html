@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Survey Admin Dashboard - Progress Tracker</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <style>
+        
+        /* ===== Content Tabs Styles ===== */
+        .content-tabs-container {
+            margin-top: var(--spacing-sm);
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important; /* Chrome, Safari, Edge */
+                color-adjust: exact !important; /* Firefox */
+                print-color-adjust: exact !important; /* Firefox 97+, Safari 15.4+ */
+            }
+            .completion-rate.excellent {
+                background-color: #00AE4E !important;
+            }
+            .completion-rate.good {
+                background-color: #ffb800 !important;
+            }
+            @page {margin: 0 !important;}
+            body {
+                background-color: #FFF;
+                margin: 0 !important;
+            }
+            header,footer,.section-header,.content-tabs-container,#exportLeaderboardPDF {
+                display: none !important;
+            }
+
+            .container {
+                padding: 0 !important;
+            }
+
+            .tab-content {
+                border-top: none !important;
+                padding: 0 1.5rem;
+            }
+
+            .pdf-header {
+                display: flex !important;
+                padding: 0 1.5rem;
+            }
+
+            .pdf-header .pdf-header-left {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .pdf-header .pdf-header-right {
+                padding: 1rem 1rem 0;
+            }
+
+            .pdf-header .pdf-header-right img {
+                width: 100px;
+            }
+        }
+        .pdf-header {
+                display: none;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+
+            .pdf-header h1 {
+                color: #009677;
+                font-weight: bold;
+                font-family: 'Century Gothic', sans-serif;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+                margin: 1rem 0 0 1rem;
+            }
+
+
+        .content-tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            border-bottom: none;
+        }
+
+        .content-tab {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--grey-2);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .content-tab:hover {
+            color: var(--text-color);
+            background-color: rgba(0, 150, 119, 0.05);
+        }
+
+        .content-tab.active {
+            color: var(--text-color);
+            font-weight: 700;
+            border-bottom-color: var(--primary-color);
+            background-color: #FFF;
+        }
+
+
+        .tab-content {
+            position: relative;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .content-tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .content-tab-pane.active {
+            display: block;
+        }
+        .response-rate-leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            background: #FFF;
+        }
+        
+        .response-rate-leaderboard-table td:first-of-type  {
+            color: var(--grey-2);
+        }
+
+        .response-rate-leaderboard-table th:last-of-type, .response-rate-leaderboard-table td:last-of-type  {
+            text-align: center;
+        }
+
+        .response-rate-leaderboard-table .completion-rate {
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 16px;
+            color: white;
+            text-align: center;
+            display: inline-block;
+            min-width: 50px;
+        }
+        
+    </style>
+</head>
+<body data-current-page="progress">
+    <div class="container">
+        <header>
+            <!-- Logo, Navigation, and Header Actions will be created by navigation.js -->
+        </header>
+        <div class="pdf-header">
+            <div class="pdf-header-left">
+                <img src="/reports/img/om-anchor.png">
+                <h1>Mini Pulse Culture Survey Leaderboard</h1>
+            </div>
+            <div class="pdf-header-right">
+                <img src="/reports/img/pulse-culture-survey.png" width="100">
+            </div>
+        </div>
+        <main>
+            <!-- Progress Tracker Section -->
+            <section id="progress">
+                <div class="section-header">
+                    <div class="page-title">
+                        <h1>Progress Tracker</h1>
+                        <p class="section-description">Monitor survey completion progress across organizational hierarchy</p>
+                    </div>
+                </div>
+
+                <!--Tabbed Interface-->
+                <div class="content-tabs-container d-flex align-items-center justify-content-between">
+                    <div class="content-tabs">
+                        <button class="content-tab active" data-tab="response-rate-leaderboard">
+                            Response Rate Leaderboard
+                        </button>
+                        <button class="content-tab" data-tab="progress-tracker">
+                            Progress Tracker
+                        </button>
+                    </div>
+                    
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Response Rate Leaderboard Tab -->
+                    <div class="content-tab-pane active" id="response-rate-leaderboard-tab">            
+                        <div class="response-rate-leaderboard-container">
+
+                            <div class="response-rate-table-container mt-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h3 class="mb-0"><strong>85% have completed</strong> the Mini Pulse Culture Survey as of Thursday, 24 July 2025 14:00</h3>
+                                    <button id="exportLeaderboardPDF" class="export-button">
+                                        <i class="material-icons">picture_as_pdf</i>
+                                        Export Leaderboard PDF
+                                    </button>
+                                </div>
+
+                                <table class="table table-striped response-rate-leaderboard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Segment</th>
+                                            <th class="text-center">Response Rate</th>
+                                            <th>Country</th>
+                                            <th class="text-center">Response Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Group Internal Audit</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">96%</span>
+                                            </td>
+                                            <td>Botswana</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">96%</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>OM Insure</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">65%</span>
+                                            </td>
+                                            <td>South Sudan</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">65%</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Group Strategy, Sustainability, People and Public Affairs</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">50%</span>
+                                            </td>
+                                            <td>Namibia</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">50%</span>
+                                            </td>                                    
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Corporate</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">50%</span>
+                                            </td>
+                                            <td>Zimbabwe</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">40%</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td colspan="2">Total</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">85%</span>
+                                            </td>
+                                            <td>OMAR Total</td>
+                                            <td class="text-center">
+                                                <span class="completion-rate">88%</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="table-controls justify-content-center">
+                                    <div class="table-legend">
+                                        <div class="legend-item">
+                                            <div class="legend-color excellent"></div>
+                                            <span>≥75% Excellent</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color good"></div>
+                                            <span>60-74% Good</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color fair"></div>
+                                            <span>45-59% Fair</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color attention"></div>
+                                            <span>&lt;45% Needs Attention</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Progress Tracker Tab -->
+                    <div class="content-tab-pane" id="progress-tracker-tab">
+                        <div class="progress-tracker-container">
+                            <!-- Summary Cards -->
+                            <div class="progress-summary-cards">
+                                <div class="summary-card">
+                                    <div class="card-icon">
+                                        <i class="material-icons">groups</i>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-value" id="totalPopulation">27,518</div>
+                                        <div class="card-label">Total Population</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card">
+                                    <div class="card-icon">
+                                        <i class="material-icons">check_circle</i>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-value" id="totalCompleted">24,420</div>
+                                        <div class="card-label">Completed</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card">
+                                    <div class="card-icon">
+                                        <i class="material-icons">schedule</i>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-value" id="totalInProgress">1,847</div>
+                                        <div class="card-label">In Progress</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card">
+                                    <div class="card-icon">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-value" id="totalNotStarted">1,251</div>
+                                        <div class="card-label">Not Started</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card completion-card">
+                                    <div class="card-icon">
+                                        <i class="material-icons">analytics</i>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-value card-completion-rate" id="overallCompletionRate">89%</div>
+                                        <div class="card-label">Completion Rate</div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <!-- Progress Table with Integrated Breadcrumb -->
+                            <div class="progress-table-container">
+                                <div class="table-header">
+                                    <!-- Breadcrumb Navigation -->
+                                    <div class="progress-breadcrumb">
+                                        <div class="breadcrumb-path">
+                                            <span class="breadcrumb-item active" data-level="company">OML - Old Mutual Limited</span>
+                                        </div>
+                                    </div>
+                                    <div class="table-header-left">
+                                        <h3 id="tableTitle">Company Overview</h3>
+                                        <button id="backToParent" class="back-button" style="display: none;">
+                                            <i class="material-icons">arrow_back</i>
+                                            Back to Parent
+                                        </button>
+                                    </div>
+                                    <div class="table-controls">                                
+                                        <div class="table-legend">
+                                            <div class="legend-item">
+                                                <div class="legend-color excellent"></div>
+                                                <span>≥75% Excellent</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color good"></div>
+                                                <span>60-74% Good</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color fair"></div>
+                                                <span>45-59% Fair</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color attention"></div>
+                                                <span>&lt;45% Needs Attention</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress-table-wrapper">
+                                    <table class="progress-table" id="progressTable">
+                                        <thead>
+                                            <tr>
+                                                <th class="sortable" data-sort="name">
+                                                    Unit Name 
+                                                    <i class="material-icons sort-icon">sort</i>
+                                                </th>
+                                                <th class="sortable" data-sort="population">
+                                                    Population 
+                                                    <i class="material-icons sort-icon">sort</i>
+                                                </th>
+                                                <th class="sortable" data-sort="completed">
+                                                    Completed 
+                                                    <i class="material-icons sort-icon">sort</i>
+                                                </th>
+                                                <th class="sortable" data-sort="inprogress">
+                                                    In Progress 
+                                                    <i class="material-icons sort-icon">sort</i>
+                                                </th>
+                                                <th class="sortable" data-sort="notstarted">
+                                                    Not Started 
+                                                    <i class="material-icons sort-icon">sort</i>
+                                                </th>
+                                                <th class="sortable" data-sort="completion">
+                                                    Completion Rate 
+                                                    <i class="material-icons sort-icon">sort</i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="progressTableBody">
+                                            <!-- Table content will be populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-copyright">
+                    © 2025 Pulse Survey Dashboard. All rights reserved.
+                </div>
+                <!-- <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div> -->
+            </div>
+        </div>
+    </footer>
+
+    <script src="navigation.js"></script>
+    <script src="config.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>
+
+        function exportLeaderboardPDF() {
+            window.print()
+        }
+
+        const exportLeaderboardPDFButton = document.getElementById('exportLeaderboardPDF');
+        exportLeaderboardPDFButton.addEventListener('click', exportLeaderboardPDF);
+
+        // Page-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set the current page for navigation
+            const currentPage = document.body.dataset.currentPage;
+            if (window.pulseNavigation && currentPage) {
+                window.pulseNavigation.updateCurrentPage(currentPage);
+            }
+        });
+        
+        // Tabbed interface for progress.html
+        function setupProgressTabs() {
+            console.log('Setting up progress tabs...');
+            
+            // Look for tabs and panes anywhere in the document, not just active section
+            const tabs = document.querySelectorAll('.content-tab');
+            const tabPanes = document.querySelectorAll('.content-tab-pane');
+            
+            console.log('Found tabs:', tabs.length);
+            console.log('Found tab panes:', tabPanes.length);
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    console.log('Tab clicked:', targetTab);
+                    
+                    // Remove active from all tabs and panes
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active to clicked tab
+                    this.classList.add('active');
+                    
+                    // Find and activate target pane
+                    const targetPane = document.querySelector(`#${targetTab}-tab`);
+                    console.log('Target pane:', targetPane);
+                    
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                        console.log('Activated pane:', targetTab);
+                    } else {
+                        console.error('Could not find pane with ID:', `${targetTab}-tab`);
+                    }
+                });
+            });
+        }
+
+        // Completion rate color coding for leaderboard
+        function getCompletionRateClass(rate) {
+            if (rate >= 75) return 'excellent';
+            if (rate >= 60) return 'good';
+            if (rate >= 45) return 'fair';
+            return 'attention';
+        }
+        function applyCompletionRateColors() {
+            document.querySelectorAll('.response-rate-leaderboard-table .completion-rate').forEach(span => {
+                // Remove any previous color classes
+                span.classList.remove('excellent', 'good', 'fair', 'attention');
+                // Extract numeric value
+                const match = span.textContent.match(/\d+/);
+                if (match) {
+                    const rate = parseInt(match[0], 10);
+                    const colorClass = getCompletionRateClass(rate);
+                    span.classList.add(colorClass);
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up tabs...');
+            setupProgressTabs();
+            applyCompletionRateColors();
+        });
+    </script>
+</body>
+</html> 

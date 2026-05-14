@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Survey Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- <script src="config.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">                
+                <img src="images/pulse-logo.png" alt="Pulse Logo">
+            </div>
+            <!-- Main Navigation -->
+            <nav class="main-nav">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="nav-tab active" data-section="overview">
+                            <i class="material-icons">dashboard</i>
+                            Overview
+                        </li>
+                        <li class="nav-tab" data-section="overview-ee">
+                            <i class="material-icons">dashboard_customize</i>
+                            Overview (EE only)
+                        </li>
+                        <li class="nav-tab" data-section="reports">
+                            <i class="material-icons">assessment</i>
+                            Reports
+                        </li>
+                        <li class="nav-tab" data-section="progress">
+                            <i class="material-icons">trending_up</i>
+                            Progress Tracker
+                        </li>
+                        <li class="nav-tab hidden" data-section="settings">
+                            <i class="material-icons">settings</i>
+                            Settings
+                        </li>
+                        <li class="nav-tab hidden" data-section="users">
+                            <i class="material-icons">people</i>
+                            Users
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="header-actions">
+                <button id="openSurvey" class="survey-button">
+                    <i class="material-icons">poll</i>
+                    Open Survey (for demo only)
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Sections -->
+        <main>
+            <!-- Overview Section (Default) -->
+            <section id="overview" class="content-section active">
+                <div class="section-header mb-2">
+                    <button id="filterToggle" class="filter-toggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Filters
+                    </button>
+                    <div class="page-title">
+                        <div class="title-with-filters">
+                            <h1>Overview</h1>
+                            <div id="activeFilters" class="active-filters"></div>
+                        </div>
+                    </div>
+                    <button id="exportPdf" class="export-button ms-auto">
+                        <i class="material-icons">download</i>
+                        Export PDF
+                    </button>
+                </div>
+                
+                <!-- Data Timestamp Indicator -->
+                <div class="data-timestamp">
+                    <span class="timestamp-label">Data correct as of:</span>
+                    <span class="timestamp-date" id="dataTimestamp">Today's date</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <!-- Response Rate -->
+                    <div class="metric-card">
+                        <h3>Current Response Rate</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="responseRateProgress" class="circular-progress"></div>
+                                    <div class="details" id="responseRateDetails">
+                                        <!-- Will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="responseRateTrend" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pulse Score -->
+                    <div class="metric-card hidden">
+                        <h3>Overall Pulse Score (1-6 Scale)</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="pulseScoreProgress" class="circular-progress"></div>
+                                    <div class="score-scale-info">
+                                        <span class="scale-label">Scale: 1-6</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="pulseScoreTrend" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flight Risk -->
+                    <div class="metric-card hidden">
+                        <h3>Flight Risk Indicator</h3>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="metric-progress">
+                                    <div id="flightRiskProgress" class="circular-progress"></div>
+                                </div>
+                            </div>
+                            <div class="metric-footer">
+                                <div id="flightRiskTrend" class="trend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Response Target Progress -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Response Target Progress</h3>
+                            <div class="reliability-tooltip">
+                                <i class="material-icons">info</i>
+                                <div class="tooltip-content">
+                                    Response target progress is calculated based on response rate.<br>
+                                    • Excellent: ≥75% response rate<br>
+                                    • Good: 60-74% response rate<br>
+                                    • Fair: 45-59% response rate<br>
+                                    • Needs Attention: <45% response rate
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-body">
+                                <div class="reliability-indicator">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="metric-footer" id="reliabilityFooter">
+                                <!-- Will be populated by JavaScript -->dimensionsGrid
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dimensions-section">
+                    <h3>Survey Dimensions</h3>
+                    <p class="section-description">Performance across the two key dimensions of organizational culture</p>
+                    <div class="dimensions-grid" id="dimensionsGrid">
+                        <!-- Dimensions will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="statements-section">
+                    <div class="statements-header">
+                        <h3>Survey Statement Performance by Dimension</h3>
+                        <p class="section-description">Performance breakdown by survey dimensions with different rating scales</p>
+                    </div>
+                    
+                    <!-- Tabbed Interface -->
+                    <div class="dimension-tabs-container">
+                        <div class="dimension-tabs">
+                            <button class="dimension-tab active" data-tab="engagement">
+                                <!-- <span class="dimension-color-indicator" style="background: #F37021;"></span> -->
+                                Employee Engagement
+                            </button>
+                            <button class="dimension-tab" data-tab="changeReadiness">
+                                <!-- <span class="dimension-color-indicator" style="background: #E91E63;"></span> -->
+                                Change Readiness
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="dimension-tab-content">
+                            <!-- Employee Engagement Tab -->
+                            <div class="dimension-tab-pane active" id="engagement-tab">
+                                <div class="dimension-statements-section">
+                                    <div class="dimension-header align-items-center">
+                                        <span class="dimension-color-indicator large" style="background: #F37021; margin-right: 8px;"></span>
+                                        <h4 class="mb-0">Employee Engagement (6-point scale)</h4>
+                                        <p class="dimension-description mb-3 w-100">Measures commitment, involvement, and enthusiasm toward work and organization</p>
+                                    </div>
+                                    <div class="statements-legend">
+                                        <div class="legend-title">Performance Indicators (6-point scale):</div>
+                                        <div class="legend-items">
+                                            <div class="legend-item">
+                                                <div class="legend-color red" title="Requires immediate attention and management"></div>
+                                                <span>1-2: Strongly Disagree / Disagree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color amber" title="Work required"></div>
+                                                <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color green" title="A positive and strong result"></div>
+                                                <span>5-6: Agree / Strongly Agree</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="statements-grid">
+                                        <div class="statements-columns">
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Top 3 Engagement Statements</h4>
+                                                <div id="topEngagementStatements"></div>
+                                            </div>
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Bottom 3 Engagement Statements</h4>
+                                                <div id="bottomEngagementStatements"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Employee Engagement Comments & Sentiment -->
+                                <div class="sentiment-section">
+                                    <div class="comment-sentiment">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="mb-0 me-4">Employee Engagement Comments & Sentiment</h3>
+                                            <a class='btn btn-primary' href='/comments-analysis-v3'>Analyse Comments</a>
+                                        </div>
+                                        
+                                        <div id="engagementSentimentChart" class="sentiment-chart"></div>
+                                    </div>
+                                    <div class="sentiment-analysis">
+                                        <h3>Employee Engagement Sentiment Themes</h3>
+                                        <div id="engagementSentimentAnalysis"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Change Readiness Tab -->
+                            <div class="dimension-tab-pane" id="changeReadiness-tab">
+                                <div class="dimension-statements-section">
+                                    <div class="dimension-header align-items-center">
+                                        <span class="dimension-color-indicator large" style="background: #E91E63; margin-right: 8px;"></span>
+                                        <h4 class="mb-0">Change Readiness (5-point scale)</h4>
+                                        <p class="dimension-description w-100 mb-3">Measures organizational readiness and preparedness for change initiatives</p>
+                                    </div>
+                                    <div class="statements-legend">
+                                        <div class="legend-title">Performance Indicators (5-point scale):</div>
+                                        <div class="legend-items">
+                                            <div class="legend-item">
+                                                <div class="legend-color red" title="Requires immediate attention and management"></div>
+                                                <span>1-2: Strongly Disagree / Disagree</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color amber" title="Work required"></div>
+                                                <span>3: Neutral</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color green" title="A positive and strong result"></div>
+                                                <span>4-5: Agree / Strongly Agree</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="statements-grid">
+                                        <div class="statements-columns">
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Top 3 Change Readiness Statements</h4>
+                                                <div id="topChangeReadinessStatements"></div>
+                                            </div>
+                                            <div class="statements-column">
+                                                <h4 class="statements-column-title">Bottom 3 Change Readiness Statements</h4>
+                                                <div id="bottomChangeReadinessStatements"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Change Readiness Comments & Sentiment -->
+                                <div class="sentiment-section">
+                                    <div class="comment-sentiment">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="mb-0 me-4">Change Readiness Comments & Sentiment</h3>
+                                            <a class='btn btn-primary' href='/comments-analysis-v3'>Analyse Comments</a>
+                                        </div>
+                                        
+                                        <div id="changeReadinessSentimentChart" class="sentiment-chart"></div>
+                                    </div>
+                                    <div class="sentiment-analysis">
+                                        <h3>Change Readiness Sentiment Themes</h3>
+                                        <div id="changeReadinessSentimentAnalysis"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section>
+</body>
+</html>

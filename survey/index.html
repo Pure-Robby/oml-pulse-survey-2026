@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old Mutual Pulse Culture Survey 2025</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="../config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="https://www.puresurvey.co.za/ofp/om.jpg" alt="Old Mutual Logo" class="logo-image">
+            </div>
+            <p class="survey-subtitle">Your feedback helps us improve our workplace culture and operations.</p>
+            
+            <!-- Subtle Back Button -->
+            <button type="button" class="back-button-subtle" id="backToOverview" title="Return to Dashboard">
+                <span class="material-icons">arrow_back</span>
+                <span class="back-text">Return to Overview (for demo only)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Progress Info Bar -->
+    <div class="progress-info-container">
+        <div class="container">
+            <div class="progress-info">
+                <span class="progress-questions" id="progressQuestions"></span>
+                <span class="progress-section" id="progressSection"></span>
+            </div>
+            <div class="progress-percentage-bar">
+                <div class="progress-percentage-fill" id="progressPercentageFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container md-elevation-1">
+        <div class="container">
+            <div class="progress-indicator" id="progressIndicator">
+                <!-- Progress steps will be populated dynamically by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Survey Container -->
+    <div class="survey-container">
+        <div class="container">
+            <form id="cultureSurvey">
+                <!-- Landing Page -->
+                <div class="survey-page md-card md-elevation-8 active" id="landingPage">
+                    <div class="landing-content">
+                        <h1 class="landing-title">Welcome to the Mini Pulse Culture Survey.</h1>
+                        <h2 class="text-center fw-bold mb-3" style="font-size: 1.2rem; line-height: 1.5;">
+                            Your participation will help us to understand how you're feeling and how we can support each other during this time of change.
+                        </h2>
+                        <div class="welcome-message">
+                            <p class="mb-3">
+                                In answering this survey focus on the <strong>immediate team</strong> that you belong to. This is your proximal or nearest work group, 
+                                the people you work with day-to-day and with whom you interact with on a regular basis in order to perform your work. 
+                                You and your nearest team members are more likely to report to the same line manager/team leader.
+                            </p>
+                            <p>
+                                <strong>Line managers </strong> should focus your responses on the team that you belong to and not on the team you manage.
+                            </p>
+                        </div>
+
+                        <div class="survey-info">
+                            <h3>About This Survey</h3>
+                            <ul class="ms-0">
+                                <li><strong>Duration:</strong> Approximately 10 minutes to complete</li>
+                                <li><strong>Questions:</strong> <span id="totalQuestionCount">12</span> questions covering (1) Employee Engagement and (2) Change Resilience</li>
+                                <li><strong>Format:</strong> Rate your agreement with each statement using the scale provided</li>
+                                <li><strong>Optional comments:</strong> Share additional thoughts on each topic</li>
+                            </ul>
+                        </div>
+
+                        <div class="survey-dimensions">
+                            <h3>What We'll Explore</h3>
+                            <div class="dimension-grid" id="dimensionGrid">
+                                <!-- Dimensions will be populated dynamically by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="confidentiality-notice">
+                            <h3><span class="material-icons">lock</span> Your Privacy is Protected</h3>
+                            <div class="confidentiality-content">
+                                <p>Your responses are confidential. The data of the survey will be used to create feedback reports on a company, business unit and team level. 
+                                Data in these reports will be reported to managers and Old Mutual in aggregate groups of 5 or more respondents. Only the People Data Analytics 
+                                team at Old Mutual will have access to your survey responses connected to your employee profile. In addition, all submitted comments are shared. 
+                                Take care not to identify yourself in the comments unless you are comfortable to do so. 
+                                For more information view the Pure Survey Data Protection Summary.</p>
+                                <p><strong>Independent Survey Management:</strong> This survey is being managed independently by <a href="https://www.puresurvey.co.za/" 
+                                target="_blank">Pure Survey</a>, a professional survey platform specialising in confidential employee feedback. This ensures complete 
+                                independence and neutrality in data collection and analysis.</p>
+                                
+                                <p><strong>How We Protect Your Privacy:</strong></p>
+                                <ul>
+                                    <li>All responses are collected anonymously through Pure Survey's secure platform</li>
+                                    <li>Data is aggregated and analyzed at group level only</li>
+                                    <li>No personal identifiers are linked to your responses</li>
+                                    <li>Results are presented in summary format that cannot identify individuals</li>
+                                    <li>Independent management ensures unbiased data handling</li>
+                                </ul>
+                                
+                                <p class="mb-0">Please answer honestly and openly. Your candid feedback is crucial for improving our workplace culture.</p>
+                            </div>
+                        </div>
+
+                        <div class="getting-started">
+                            <p id="gettingStartedText"><strong>Ready to begin?</strong> Click the button below to start the survey. You can save your progress and return to complete it later if needed.</p>
+                        </div>
+                    </div>
+
+                    <div class="page-navigation">
+                        <button type="button" class="nav-button primary" id="startSurvey">
+                            <span class="material-icons">play_arrow</span>
+                            <span id="startButtonText">Start Survey</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Page 1: Employee Engagement (renumbered from original page 2) -->
+                <div class="survey-page md-card md-elevation-8" id="page1">
+                    <h3 class="page-title">Employee Engagement</h3>
+                    <div class="page-meta">
+                        <span class="questions-range">Questions 1 - 6</span>
+                    </div>
+                    <p class="page-description">Measures commitment, involvement, and enthusiasm toward work and organization</p>
+
+                    <div class="question">
+                        <div class="question-text">1. In this team nearly everyone feels energised by the work that they do.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q1_1" name="q1" value="1">
+                                <label for="q1_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q1_2" name="q1" value="2">
+                                <label for="q1_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q1_3" name="q1" value="3">
+                                <label for="q1_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q1_4" name="q1" value="4">
+                                <label for="q1_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q1_5" name="q1" value="5">
+                                <label for="q1_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q1_6" name="q1" value="6">
+                                <label for="q1_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q1_comment">Optional Comment:</label>
+                            <textarea id="q1_comment" name="q1_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">2. In this team nearly everyone feels excited about the work that they do.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q2_1" name="q2" value="1">
+                                <label for="q2_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q2_2" name="q2" value="2">
+                                <label for="q2_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q2_3" name="q2" value="3">
+                                <label for="q2_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q2_4" name="q2" value="4">
+                                <label for="q2_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q2_5" name="q2" value="5">
+                                <label for="q2_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q2_6" name="q2" value="6">
+                                <label for="q2_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q2_comment">Optional Comment:</label>
+                            <textarea id="q2_comment" name="q2_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">3. In this team nearly everyone feels energetic while at work.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q3_1" name="q3" value="1">
+                                <label for="q3_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q3_2" name="q3" value="2">
+                                <label for="q3_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q3_3" name="q3" value="3">
+                                <label for="q3_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q3_4" name="q3" value="4">
+                                <label for="q3_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q3_5" name="q3" value="5">
+                                <label for="q3_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q3_6" name="q3" value="6">
+                                <label for="q3_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q3_comment">Optional Comment:</label>
+                            <textarea id="q3_comment" name="q3_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">4. In this team nearly everyone feels enthusiastic about their work.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q4_1" name="q4" value="1">
+                                <label for="q4_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q4_2" name="q4" value="2">
+                                <label for="q4_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q4_3" name="q4" value="3">
+                                <label for="q4_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q4_4" name="q4" value="4">
+                                <label for="q4_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q4_5" name="q4" value="5">
+                                <label for="q4_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q4_6" name="q4" value="6">
+                                <label for="q4_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q4_comment">Optional Comment:</label>
+                            <textarea id="q4_comment" name="q4_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">5. In this team nearly everyone feels happy and in good spirits while at work.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q5_1" name="q5" value="1">
+                                <label for="q5_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q5_2" name="q5" value="2">
+                                <label for="q5_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q5_3" name="q5" value="3">
+                                <label for="q5_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q5_4" name="q5" value="4">
+                                <label for="q5_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q5_5" name="q5" value="5">
+                                <label for="q5_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q5_6" name="q5" value="6">
+                                <label for="q5_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q5_comment">Optional Comment:</label>
+                            <textarea id="q5_comment" name="q5_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">6. In this team nearly everyone is inspired by their work.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q6_1" name="q6" value="1">
+                                <label for="q6_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q6_2" name="q6" value="2">
+                                <label for="q6_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q6_3" name="q6" value="3">
+                                <label for="q6_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q6_4" name="q6" value="4">
+                                <label for="q6_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q6_5" name="q6" value="5">
+                                <label for="q6_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q6_6" name="q6" value="6">
+                                <label for="q6_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q6_comment">Optional Comment:</label>
+                            <textarea id="q6_comment" name="q6_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="navigation">
+                        <div></div>
+                        <button type="button" class="nav-button next-button" id="nextPage1">Next: Change Resilience</button>
+                    </div>
+                </div>
+
+                <!-- Page 2: Change Readiness -->
+                <div class="survey-page" id="page2">
+                    <h3 class="page-title">Change Resilience</h3>
+                    <div class="page-meta">
+                        <span class="questions-range">Questions 7 - 12</span>
+                    </div>
+                    <p class="page-description">Measures organizational adaptability and resilience to change initiatives</p>
+
+                    <div class="question">
+                        <div class="question-text">7. I feel confident in my ability to adapt to ongoing changes within the organisation.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q7_1" name="q7" value="1">
+                                <label for="q7_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q7_2" name="q7" value="2">
+                                <label for="q7_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q7_3" name="q7" value="3">
+                                <label for="q7_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q7_4" name="q7" value="4">
+                                <label for="q7_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q7_5" name="q7" value="5">
+                                <label for="q7_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q7_6" name="q7" value="6">
+                                <label for="q7_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q7_comment">Optional Comment:</label>
+                            <textarea id="q7_comment" name="q7_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">8. The organisation communicates the purpose and impact of changes clearly.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q8_1" name="q8" value="1">
+                                <label for="q8_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q8_2" name="q8" value="2">
+                                <label for="q8_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q8_3" name="q8" value="3">
+                                <label for="q8_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q8_4" name="q8" value="4">
+                                <label for="q8_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q8_5" name="q8" value="5">
+                                <label for="q8_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q8_6" name="q8" value="6">
+                                <label for="q8_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q8_comment">Optional Comment:</label>
+                            <textarea id="q8_comment" name="q8_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">9. I understand the impacts of changes to the organisation.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q9_1" name="q9" value="1">
+                                <label for="q9_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q9_2" name="q9" value="2">
+                                <label for="q9_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q9_3" name="q9" value="3">
+                                <label for="q9_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q9_4" name="q9" value="4">
+                                <label for="q9_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q9_5" name="q9" value="5">
+                                <label for="q9_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q9_6" name="q9" value="6">
+                                <label for="q9_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q9_comment">Optional Comment:</label>
+                            <textarea id="q9_comment" name="q9_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">10. When a change is introduced, my line manager effectively communicates and manages the change.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q10_1" name="q10" value="1">
+                                <label for="q10_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q10_2" name="q10" value="2">
+                                <label for="q10_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q10_3" name="q10" value="3">
+                                <label for="q10_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q10_4" name="q10" value="4">
+                                <label for="q10_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q10_5" name="q10" value="5">
+                                <label for="q10_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q10_6" name="q10" value="6">
+                                <label for="q10_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q10_comment">Optional Comment:</label>
+                            <textarea id="q10_comment" name="q10_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">11. My feedback and concerns about change are heard and considered by leadership.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q11_1" name="q11" value="1">
+                                <label for="q11_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q11_2" name="q11" value="2">
+                                <label for="q11_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q11_3" name="q11" value="3">
+                                <label for="q11_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q11_4" name="q11" value="4">
+                                <label for="q11_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q11_5" name="q11" value="5">
+                                <label for="q11_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q11_6" name="q11" value="6">
+                                <label for="q11_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q11_comment">Optional Comment:</label>
+                            <textarea id="q11_comment" name="q11_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">12. My organisation has provided me with sufficient resources to enable me to navigate current changes.</div>
+                        <div class="scale-labels-mobile">1 = Strongly Disagree • 6 = Strongly Agree</div>
+                        <div class="likert-scale likert-scale-6">
+                            <div class="scale-option">
+                                <input type="radio" id="q12_1" name="q12" value="1">
+                                <label for="q12_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q12_2" name="q12" value="2">
+                                <label for="q12_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q12_3" name="q12" value="3">
+                                <label for="q12_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q12_4" name="q12" value="4">
+                                <label for="q12_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q12_5" name="q12" value="5">
+                                <label for="q12_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q12_6" name="q12" value="6">
+                                <label for="q12_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q12_comment">Optional Comment:</label>
+                            <textarea id="q12_comment" name="q12_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="navigation">
+                        <button type="button" class="nav-button prev-button" id="prevPage2">Previous: Employee Engagement</button>
+                        <button type="button" class="nav-button submit-button" id="submitSurvey">Submit Survey</button>
+                    </div>
+                </div>
+
+                <!-- Hidden: Page 4: Psychological Safety (preserved for future use) -->
+                <div class="survey-page" id="page4" style="display: none;">
+                    <h3 class="page-title">Psychological Safety</h3>
+                    <div class="page-meta">
+                        <span class="questions-range">Questions 15 - 18</span>
+                    </div>
+                    <p class="page-description">Measures safety to speak up and express yourself in your team</p>
+
+                    <div class="question">
+                        <div class="question-text">15. I feel safe being myself at work.</div>
+                        <div class="likert-scale">
+                            <div class="scale-option">
+                                <input type="radio" id="q15_1" name="q15" value="1">
+                                <label for="q15_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q15_2" name="q15" value="2">
+                                <label for="q15_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q15_3" name="q15" value="3">
+                                <label for="q15_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q15_4" name="q15" value="4">
+                                <label for="q15_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q15_5" name="q15" value="5">
+                                <label for="q15_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q15_6" name="q15" value="6">
+                                <label for="q15_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q15_comment">Optional Comment:</label>
+                            <textarea id="q15_comment" name="q15_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">16. I can show vulnerability and discuss my mistakes with members of my team.</div>
+                        <div class="likert-scale">
+                            <div class="scale-option">
+                                <input type="radio" id="q16_1" name="q16" value="1">
+                                <label for="q16_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q16_2" name="q16" value="2">
+                                <label for="q16_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q16_3" name="q16" value="3">
+                                <label for="q16_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q16_4" name="q16" value="4">
+                                <label for="q16_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q16_5" name="q16" value="5">
+                                <label for="q16_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q16_6" name="q16" value="6">
+                                <label for="q16_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q16_comment">Optional Comment:</label>
+                            <textarea id="q16_comment" name="q16_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">17. I am able to bring up problems and tough issues.</div>
+                        <div class="likert-scale">
+                            <div class="scale-option">
+                                <input type="radio" id="q17_1" name="q17" value="1">
+                                <label for="q17_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q17_2" name="q17" value="2">
+                                <label for="q17_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q17_3" name="q17" value="3">
+                                <label for="q17_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q17_4" name="q17" value="4">
+                                <label for="q17_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q17_5" name="q17" value="5">
+                                <label for="q17_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q17_6" name="q17" value="6">
+                                <label for="q17_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q17_comment">Optional Comment:</label>
+                            <textarea id="q17_comment" name="q17_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">18. It is safe to take a risk in our team.</div>
+                        <div class="likert-scale">
+                            <div class="scale-option">
+                                <input type="radio" id="q18_1" name="q18" value="1">
+                                <label for="q18_1">1</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q18_2" name="q18" value="2">
+                                <label for="q18_2">2</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q18_3" name="q18" value="3">
+                                <label for="q18_3">3</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q18_4" name="q18" value="4">
+                                <label for="q18_4">4</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q18_5" name="q18" value="5">
+                                <label for="q18_5">5</label>
+                            </div>
+                            <div class="scale-option">
+                                <input type="radio" id="q18_6" name="q18" value="6">
+                                <label for="q18_6">6</label>
+                            </div>
+                        </div>
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="comment-box">
+                            <label for="q18_comment">Optional Comment:</label>
+                            <textarea id="q18_comment" name="q18_comment" placeholder="Please share any additional thoughts about this statement..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="navigation">
+                        <button type="button" class="nav-button prev-button" id="prevPage4">Previous: Employee Engagement</button>
+                        <button type="button" class="nav-button next-button" id="nextPage4">View Results</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Dashboard -->
+            <div class="dashboard" id="dashboard">
+                <!-- FEATURE FLAG: Simple Thank You Message (Production) -->
+                <div id="simpleThankYou" class="thank-you-container" style="display: none;">
+                    <div class="thank-you-card">
+                        <div class="thank-you-icon">
+                            <span class="material-icons">check_circle</span>
+                        </div>
+                        <h2 class="thank-you-title">Thank You for Participating!</h2>
+                        <p class="thank-you-message">
+                            We appreciate you taking the time to complete the Old Mutual Culture Survey. 
+                            Your feedback is valuable and will help us improve our workplace culture and create a better environment for everyone.
+                        </p>
+                        
+                        <div class="thank-you-details">
+                            <div class="detail-item">
+                                
+                                <div class="detail-content">
+                                    <h4 class="d-flex justify-content-center align-items-center"><span class="material-icons me-2">security</span> Your Privacy is Protected</h4>
+                                    <p>All responses are anonymous and will be aggregated with other responses to ensure individual privacy.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- <div class="detail-item">
+                                <span class="material-icons">analytics</span>
+                                <div class="detail-content">
+                                    <h4>Results Will Be Shared</h4>
+                                    <p>Survey results will be analyzed and shared at the organizational level to drive positive change.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <span class="material-icons">schedule</span>
+                                <div class="detail-content">
+                                    <h4>Next Steps</h4>
+                                    <p>Results will be available within 2-3 weeks. Your manager or HR representative will share the outcomes with your team.</p>
+                                </div>
+                            </div> -->
+                        </div>
+                        
+                        <div class="thank-you-footer">
+                            <p class="thank-you-note">
+                                <strong>Independent Survey Management:</strong> This survey is managed by Pure Survey (www.puresurvey.co.za) to ensure complete confidentiality and neutrality in data collection.
+                            </p>
+                        </div>
+                        
+                        <div class="thank-you-actions flex-column align-items-center">
+                            
+                            <button type="button" class="action-button md-button md-elevation-2 secondary-button" onclick="window.close()">
+                                <span class="material-icons">close</span>
+                                Close Survey
+                            </button>
+                            <button type="button" class="action-button retake-button" id="restartSurveySimple">
+                                <span class="material-icons">refresh</span>
+                                Take Survey Again (for demo only)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FEATURE FLAG: Advanced Survey Results Dashboard (POC) -->
+                <div id="advancedDashboard" class="advanced-dashboard" style="display: none;">
+                    <h2 class="dashboard-title">Survey Results & Insights</h2>
+                    
+                    <div class="dashboard-intro md-card md-elevation-2" style="text-align: center; margin-bottom: var(--spacing-xl); padding: var(--spacing-lg); background: var(--outline-variant);">
+                        <h3 style="color: var(--primary-color); margin-bottom: var(--spacing-md);">Thank You for Participating!</h3>
+                        <p style="color: var(--on-surface); margin-bottom: var(--spacing-sm);">We appreciate you taking the time to complete the Old Mutual Culture Survey.</p>
+                        <p style="color: var(--on-surface-variant); font-size: 0.875rem;">The results and insights below are personalized based on your individual responses and reflect your unique perspective on our organizational culture.</p>
+                    </div>
+                    
+                    <!-- FEATURE FLAG: Overall results summary (disabled due to different rating scales) -->
+                    <!-- <div class="results-summary-grouped md-card md-elevation-4">
+                        <div class="summary-item">
+                            <h3>Overall Culture Score</h3>
+                            <div class="score-value" id="overallScore">0</div>
+                            <div class="score-label">out of 6.0</div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <h3>Overall Culture Health</h3>
+                            <div class="culture-gauge" id="cultureGauge">
+                                <div class="gauge-container">
+                                    <div class="gauge-fill" id="gaugeFill"></div>
+                                    <div class="gauge-text md-headline-4" id="gaugeText">0%</div>
+                                </div>
+                                <div class="gauge-status md-body-2" id="gaugeStatus">Analyzing...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <h3>Response Distribution</h3>
+                            <div class="response-quality" id="responseQuality">
+                                <div class="quality-bars">
+                                    <div class="quality-bar" data-level="1">
+                                        <div class="bar-fill" id="bar1"></div>
+                                        <span class="bar-label md-caption">Negative</span>
+                                        <span class="bar-count md-caption" id="barCount1">0</span>
+                                    </div>
+                                    <div class="quality-bar" data-level="2">
+                                        <div class="bar-fill" id="bar2"></div>
+                                        <span class="bar-label md-caption">Neutral</span>
+                                        <span class="bar-count md-caption" id="barCount2">0</span>
+                                    </div>
+                                    <div class="quality-bar" data-level="3">
+                                        <div class="bar-fill" id="bar3"></div>
+                                        <span class="bar-label md-caption">Positive</span>
+                                        <span class="bar-count md-caption" id="barCount3">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- Dimension-Specific Results Summary -->
+                    <div class="dimension-results-summary md-card md-elevation-4">
+                        <h3 class="results-title md-headline-5">
+                            <span class="material-icons">analytics</span>
+                            Your Dimension Scores
+                        </h3>
+                        <div class="dimension-scores-grid" id="dimensionScoresGrid">
+                            <!-- Dimension score cards will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="visual-dashboard">
+                        <div class="dashboard-indicators">
+                            
+                            <div class="indicator-card md-card md-elevation-4 full-width">
+                                <h4 class="indicator-title md-headline-6">Dimension Performance</h4>
+                                <div class="dimension-indicators" id="dimensionIndicators">
+
+                                    
+                                    <div class="dimension-item md-elevation-2" data-dimension="engagement">
+                                        <div class="dimension-icon">
+                                            <span class="material-icons">favorite</span>
+                                        </div>
+                                        <div class="dimension-info">
+                                            <span class="dimension-name md-subtitle-1">Employee Engagement</span>
+                                            <div class="dimension-meter">
+                                                <div class="meter-fill" id="engagementMeter"></div>
+                                            </div>
+                                            <span class="dimension-score md-headline-6" id="engagementDisplay">0.0</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="dimension-item md-elevation-2" data-dimension="changeReadiness">
+                                        <div class="dimension-icon">
+                                            <span class="material-icons">trending_up</span>
+                                        </div>
+                                        <div class="dimension-info">
+                                            <span class="dimension-name md-subtitle-1">Change Resilience</span>
+                                            <div class="dimension-meter">
+                                                <div class="meter-fill" id="changeReadinessMeter"></div>
+                                            </div>
+                                            <span class="dimension-score md-headline-6" id="changeReadinessDisplay">0.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="personal-insights-section md-card md-elevation-4">
+                        <h3 class="insights-title md-headline-5">
+                            <span class="material-icons">psychology</span>
+                            Your Personal Culture Profile
+                        </h3>
+                        <div class="personal-insights-grid" id="personalInsightsContainer">
+                            <!-- Personal insights will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="action-recommendations-section md-card md-elevation-4">
+                        <h3 class="insights-title md-headline-5">
+                            <span class="material-icons">lightbulb</span>
+                            Personalized Recommendations
+                        </h3>
+                        <div class="recommendations-grid" id="recommendationsContainer">
+                            <!-- Recommendations will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="learning-resources-section md-card md-elevation-4">
+                        <h3 class="insights-title md-headline-5">
+                            <span class="material-icons">school</span>
+                            Learning Resources
+                        </h3>
+                        <div class="learning-intro">
+                            <p class="md-body-2">Based on your survey responses, we've curated these Udemy courses to help you develop skills in areas that could enhance your workplace experience and professional growth.</p>
+                        </div>
+                        <div class="learning-resources-grid" id="learningResourcesContainer">
+                            <!-- Learning resources will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" class="action-button md-button md-elevation-2 download-button" id="downloadResults">
+                            <span class="material-icons">download</span>
+                            Download Results
+                        </button>
+                        <button type="button" class="action-button md-button md-elevation-2 retake-button" id="restartSurvey">
+                            <span class="material-icons">refresh</span>
+                            Restart Survey
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="survey-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    <a href="https://www.puresurvey.co.za" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <span class="powered-by-text">Powered by</span>
+                        <img src="https://puresurvey.co.za/images/pure-survey-logo-2024.svg" alt="Pure Survey Logo" class="footer-logo">
+                    </a>
+                </p>
+                <p class="footer-description">Independent survey management for confidential employee feedback</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize dynamic elements on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSurveyConfiguration();
+        });
+        
+        function initializeSurveyConfiguration() {
+            if (typeof DIMENSION_CONFIG === 'undefined') {
+                console.warn('DIMENSION_CONFIG not loaded yet, retrying in 100ms');
+                setTimeout(initializeSurveyConfiguration, 100);
+                return;
+            }
+            
+            console.log('DIMENSION_CONFIG loaded successfully');
+            console.log('Dimension order:', DIMENSION_CONFIG.dimensionOrder);
+            console.log('All dimensions:', Object.keys(DIMENSION_CONFIG.dimensionDefinitions));
+            
+            // Check each dimension's active status
+            Object.entries(DIMENSION_CONFIG.dimensionDefinitions).forEach(([id, dimension]) => {
+                console.log(`${id}: active = ${dimension.active}`);
+            });
+            
+            populateLandingPageDimensions();
+            populateProgressIndicator();
+            updateSurveyInfo();
+        }
+        
+        function populateLandingPageDimensions() {
+            const dimensionGrid = document.getElementById('dimensionGrid');
+            if (!dimensionGrid) return;
+            
+            try {
+                const activeDimensions = DIMENSION_CONFIG.getActiveDimensionIds();
+                console.log('Active dimensions:', activeDimensions); // Debug log
+                dimensionGrid.innerHTML = '';
+                
+                activeDimensions.forEach(dimensionId => {
+                    const dimension = DIMENSION_CONFIG.dimensionDefinitions[dimensionId];
+                    if (dimension && dimension.active) { // Double-check active status
+                        console.log('Adding dimension:', dimension.title); // Debug log
+                        const dimensionItem = document.createElement('div');
+                        dimensionItem.className = 'dimension-item flex-wrap';
+                        dimensionItem.setAttribute('data-dimension', dimensionId);
+                        dimensionItem.innerHTML = `
+                            <span class="material-icons">${dimension.icon}</span>
+                            <div class="dimension-text">
+                                <span class="dimension-title">${dimension.title}</span>
+                                <span class="dimension-questions">${dimension.numberOfQuestions} Questions</span>
+                                <span class="dimension-scale">Rating Scale: ${dimension.ratingScale}</span>
+                            </div>
+                        `;
+                        dimensionGrid.appendChild(dimensionItem);
+                    }
+                });
+            } catch (error) {
+                console.error('Error populating dimensions:', error);
+            }
+        }
+        
+        function populateProgressIndicator() {
+            const progressIndicator = document.getElementById('progressIndicator');
+            if (!progressIndicator) return;
+            
+            try {
+                const activeDimensions = DIMENSION_CONFIG.getActiveDimensionIds();
+                console.log('Progress indicator - Active dimensions:', activeDimensions); // Debug log
+                progressIndicator.innerHTML = '';
+                
+                activeDimensions.forEach((dimensionId, index) => {
+                    const dimension = DIMENSION_CONFIG.dimensionDefinitions[dimensionId];
+                    if (dimension && dimension.active) { // Double-check active status
+                        console.log('Adding progress step:', dimension.title); // Debug log
+                        const step = index + 1;
+                        const progressStep = document.createElement('div');
+                        progressStep.className = `progress-step ${step === 1 ? 'active' : ''}`;
+                        progressStep.setAttribute('data-step', step);
+                        progressStep.innerHTML = `
+                            <div class="step-circle md-elevation-2">
+                                <span class="material-icons">${dimension.icon}</span>
+                            </div>
+                            <div class="step-label md-body-2">${dimension.title}</div>
+                        `;
+                        progressIndicator.appendChild(progressStep);
+                    }
+                });
+            } catch (error) {
+                console.error('Error populating progress indicator:', error);
+            }
+        }
+        
+        function updateSurveyInfo() {
+            const totalQuestionCount = document.getElementById('totalQuestionCount');
+            const dimensionCount = document.getElementById('dimensionCount');
+            
+            if (totalQuestionCount) {
+                const questionManager = new QuestionNumberingManager();
+                totalQuestionCount.textContent = questionManager.getTotalActiveQuestions();
+            }
+            
+            if (dimensionCount) {
+                const activeDimensions = DIMENSION_CONFIG.getActiveDimensionIds();
+                dimensionCount.textContent = activeDimensions.length;
+            }
+        }
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

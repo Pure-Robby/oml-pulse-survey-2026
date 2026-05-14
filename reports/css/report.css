@@ -1,0 +1,1141 @@
+:root {
+    --primary-color: #009677;
+    --secondary-color: #FFB800;
+    --danger-color: #FF4B4B;
+    --text-color: #282828;
+    --grey-1: #58595B;
+    --grey-2: #808285;
+    --grey-3: #A7A9AC;
+    --grey-4: #DCDDDE;
+    --grey-5: #F1F2F2;
+    --border-color: #E5E5E5;
+    --background-color: #F5F5F5;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --elevation-2: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    /* Unified score color variables for both segment scores and trend scores */
+    --score-low: #FF0000;
+    --score-mid: #FFC20E;
+    --score-high: #92D051;
+    --score-top: #00AE4E;
+    
+    /* Unified legend styling variables */
+    --legend-gap: 24px;
+    --legend-box-size: 16px;
+    --legend-border-radius: 2px;
+    --legend-border-color: #ccc;
+}
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('../Fonts/GOTHIC.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('../Fonts/GOTHICB.TTF') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('../Fonts/GOTHICI.TTF') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('../Fonts/GOTHICBI.TTF') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+body {
+    background: #e1e1e1;
+    font-family: 'Century Gothic', sans-serif;
+}
+
+.btn.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.btn.btn-primary:hover:not(:disabled) {
+    background: #007e64;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.btn-group .dropdown-menu {
+    font-size: 0.9rem;
+} 
+.report-page {
+    width: 1280px;
+    height: 720px;
+    background-color: #FFF;
+    border: 1px solid #eee;
+    position: relative;
+    padding: 0;
+    margin: 0 auto;
+    font-family: 'Century Gothic', Arial, sans-serif;
+}
+
+    .report-page.pattern-right {
+        background: #FFF url('../img/pattern-block.jpg') no-repeat right
+    }
+
+        .report-page.pattern-right .logo {
+            display: none;
+        }
+
+.page-break {
+    page-break-after: always;
+    padding: 8px 0;
+}
+
+.report-page.cover {
+    background: url('../img/report-cover.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+    .report-page.cover .title-container {
+        position: absolute;
+        left: 55px;
+        top: 520px;
+    }
+
+    .report-page.cover .title-text {
+        color: #009677;
+    }
+
+        .report-page.cover .title-text h1 {
+            font-size: 40px;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        .report-page.cover .title-text h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+.report-page header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px 0 32px;
+}
+
+    .report-page header div {
+        display: flex;
+        align-items: center;
+    }
+
+        .report-page header div img {
+            margin-right: 24px;
+        }
+
+        .report-page header div h1 {
+            color: #009677;
+            text-transform: uppercase;
+            font-size: 32px;
+            margin: 16px 0 0;
+            font-weight: 700;
+        }
+
+    .report-page header .logo {
+        align-self: center;
+    }
+
+.report-page .page-content {
+    padding: 24px 32px;
+}
+
+    .report-page .page-content h3 {
+        color: #282828;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .report-page .page-content h4 {
+        color: #282828;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+.report-page footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 24px;
+    background: #FFF;
+}
+
+    .report-page footer div {
+        padding: 8px 0;
+        border-top: 1px solid #DCDDDE;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .report-page footer p {
+        margin: 0;
+        font-size: 13px;
+        color: #808285;
+    }
+
+.report-page .filters-table {
+    font-family: var(--primary-font-family);
+    font-size: 14px;
+}
+
+    .report-page .filters-table:first-of-type {
+        margin-bottom: 20px;
+    }
+
+    .report-page .filters-table td {
+        padding: 5px;
+        max-height: 37px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .report-page .filters-table td:first-of-type {
+            width: 150px;
+        }
+
+        .report-page .filters-table td .cell-content {
+            position: relative;
+            line-height: 1.5em;
+            max-height: calc(1.5em * 2);
+            overflow: hidden;
+            word-break: break-word;
+            white-space: normal;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+/* fallback: browsers without line-clamp */
+@supports not (-webkit-line-clamp: 3) {
+    .report-page .filters-table td .cell-content {
+        display: block;
+    }
+
+        .report-page .filters-table td .cell-content::after {
+            content: '...';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: white; /* or table cell background */
+            padding-left: 5px;
+        }
+}
+
+.report-page.section.green {
+    background: url('../img/section-bg-green.jpg')
+}
+
+.report-page.section .title-container {
+    position: absolute;
+    top: 400px;
+    left: 80px;
+}
+
+    .report-page.section .title-container .title-text {
+        color: #FFF;
+    }
+
+        .report-page.section .title-container .title-text h1 {
+            text-transform: uppercase;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .report-page.section .title-container .title-text h2 {
+            text-transform: uppercase;
+            font-size: 40px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+:root {
+    /* colour palette */
+    --grey-bg: #f4f5f5;
+    --panel-bg: #ffffff;
+    --orange: #F37021;
+    --om-onyx: #282828;
+    --text-gray: #666666;
+    --border-light: #e0e0e0;
+    /* sizing */
+    --radius: 12px;
+    --gap: 24px;
+}
+
+/*Dimension Summary Scores*/
+/* summary‑slide.css */
+.summary {
+    /* Theme variables, scoped to the summary slide */
+    --grey-bg: #f4f5f5;
+    --panel-bg: #ffffff;
+    --orange: #f37021;
+    --om-onyx: #282828;
+    --text-gray: #666666;
+    --border-light: #e0e0e0;
+    --radius: 12px;
+    --gap: 24px;
+}
+
+    .summary .slide-content {
+        /* 16:9 or custom aspect ratio container */
+        width: 100%;
+        aspect-ratio: 16 / 7.5;
+        background-color: var(--grey-bg);
+        border-radius: var(--radius);
+        padding: var(--gap);
+        box-sizing: border-box;
+        /* Flex container to stretch its child panels */
+        display: flex;
+        align-items: stretch;
+    }
+
+    .summary .slide-grid {
+        /* Two columns: fixed sidebar + flexible cards area */
+        display: flex;
+        flex: 1; /* fill the width of .slide-content */
+        gap: var(--gap);
+    }
+
+    /* ─── LEFT METRICS PANEL ───────────────────────────────────────────────────── */
+    .summary .metrics-panel {
+        flex: 0 0 200px; /* fixed 200px width */
+        background-color: var(--panel-bg);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        gap: var(--gap);
+        text-align: center;
+    }
+
+    .summary .metric-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .summary .metric-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--om-onyx);
+        line-height: 1;
+    }
+
+    .summary .metric-label {
+        font-size: 14px;
+        color: var(--text-gray);
+        margin-top: 4px;
+    }
+
+    /* ─── RIGHT CARDS PANEL ─────────────────────────────────────────────────────── */
+    .summary .cards-panel {
+        flex: 1; /* take remaining width */
+        display: flex;
+        gap: 16px;
+        align-items: center; /* vertical‑center cards */
+    }
+
+    /* Base card styling */
+    .summary .card {
+        background-color: var(--panel-bg);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        text-align: center;
+    }
+
+    /* Dynamic dimension cards */
+    .summary .engagement-card,
+    .summary .readiness-card {
+        background-color: var(--dimension-color, var(--orange));
+        color: var(--panel-bg);
+        flex: 2;
+    }
+
+        .summary .engagement-card .card-title,
+        .summary .readiness-card .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .summary .engagement-card .card-sub,
+        .summary .readiness-card .card-sub {
+            font-size: 16px;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+    /* Average score card (white with dynamic border) */
+    .summary .average-card {
+        border: 1px solid var(--dimension-color, var(--orange));
+        flex: 1;
+    }
+
+        .summary .average-card .card-heading {
+            font-size: 14px;
+            color: var(--om-onyx);
+            margin: 0 0 8px;
+        }
+
+        .summary .average-card .card-score {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+
+        .summary .average-card .score-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--om-onyx);
+        }
+
+        .summary .average-card sup {
+            font-size: 14px;
+            color: var(--om-onyx);
+            margin-left: 4px;
+        }
+
+    /* Top & bottom statement cards (white with light border) */
+    .summary .top-statement-card,
+    .summary .bottom-statement-card {
+        border: 1px solid var(--border-light);
+        flex: 1;
+    }
+
+        .summary .top-statement-card .card-heading,
+        .summary .bottom-statement-card .card-heading {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--om-onyx);
+            margin: 0 0 8px;
+        }
+
+        .summary .top-statement-card .statement-text,
+        .summary .bottom-statement-card .statement-text {
+            font-size: 14px;
+            color: var(--om-onyx);
+            margin: 0 0 12px;
+            line-height: 1.4;
+        }
+
+        .summary .top-statement-card .card-score,
+        .summary .bottom-statement-card .card-score {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+
+        .summary .top-statement-card .score-number,
+        .summary .bottom-statement-card .score-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--om-onyx);
+            margin-right: 4px;
+        }
+
+        .summary .top-statement-card sup,
+        .summary .bottom-statement-card sup {
+            font-size: 14px;
+            color: var(--om-onyx);
+        }
+
+/*Score Trends*/
+.score-trends {
+    /* Theme vars, scoped to this slide */
+    --grey-bg: #f4f5f5;
+    --panel-bg: #ffffff;
+    --pink: #e91e63;
+    --orange: #f37021;
+    --om-onyx: #282828;
+    --text-gray: #666666;
+    --border-light: #e0e0e0;
+    --radius: 12px;
+    --gap: 24px;
+}
+
+/* 1) The grey “canvas” is a fixed aspect‑ratio flex container */
+.score-trends__slide-content {
+    width: 100%;
+    aspect-ratio: 16 / 7.5;
+    background-color: var(--grey-bg);
+    border-radius: var(--radius);
+    padding: var(--gap);
+    box-sizing: border-box;
+    display: flex;
+    align-items: stretch; /* children fill full height */
+}
+
+/* 2) Two‑column flex layout (sidebar + charts) */
+.score-trends__grid {
+    display: flex;
+    flex: 1; /* fill the width of slide-content */
+    gap: var(--gap);
+}
+
+/* ─── METRICS PANEL ───────────────────────────────────────────────────────── */
+.score-trends__metrics-panel {
+    flex: 0 0 200px; /* fixed 200px sidebar */
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: var(--gap);
+}
+
+.score-trends__panel-header {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--pink);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.score-trends__metric {
+    display: flex;
+    flex-direction: column;
+}
+
+.score-trends__metric-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--om-onyx);
+    text-align: center;
+    line-height: 1;
+}
+
+.score-trends__metric-label {
+    font-size: 12px;
+    color: var(--text-gray);
+    margin-top: 4px;
+}
+
+/* ─── CHARTS PANEL ─────────────────────────────────────────────────────────── */
+.score-trends__charts-panel {
+    flex: 1; /* take remaining width */
+    display: flex;
+    align-items: stretch; /* stretch chart blocks top‑to‑bottom */
+    gap: var(--gap);
+}
+
+/* Base chart‑block: equal flex, but we’ll override the 2nd */
+.score-trends__chart-block {
+    flex: 0 0 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+/* Make the second block (by‑question) twice as wide as the first */
+.score-trends__charts-panel .score-trends__chart-block:nth-of-type(2) {
+    flex: 1;
+}
+
+.score-trends__chart-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--om-onyx);
+    text-align: center;
+}
+
+/* Chart container: flex‑fill, no fixed height */
+.score-trends__chart-container {
+    background-color: var(--panel-bg);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-sizing: border-box;
+    flex: 1; /* fill available height in its block */
+    position: relative;
+}
+
+    .score-trends__chart-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+/*Segment Scores Table*/
+
+/* ─── TABLE ─────────────────────────────────────────────────────────────────── */
+.segment-scores__table {
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.segment-scores__th,
+.segment-scores__td {
+    padding: 8px 12px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 400;
+    text-transform: none;
+    color: #282828;
+    vertical-align: bottom;
+    font-size: 14px;
+}
+
+.segment-scores__th.question-header {
+    font-size: 12px;
+    
+}
+
+    .segment-scores__th.segment {
+        text-align: left;
+    }
+
+.segment-scores__td {
+    vertical-align: middle;
+}
+
+    .segment-scores__td:first-child {
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .segment-scores__td.index {
+        font-weight: 700;
+    }
+
+/* alternating row shading */
+.segment-scores__table tbody tr:nth-child(odd) {
+    background-color: #f4f5f5;
+}
+
+/* ─── SCORE‑BASED COLOURS ───────────────────────────────────────────────────── */
+/* score badge styling */
+.segment-scores__score-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    min-width: 40px;
+    font-weight: 600;
+    color: #fff;
+    /* font-size: 12px; */
+}
+
+/* now apply them to the badge, not the <td> */
+.segment-scores__score-badge.score-low {
+    background-color: var(--score-low);
+}
+
+.segment-scores__score-badge.score-mid {
+    background-color: var(--score-mid);
+}
+
+.segment-scores__score-badge.score-high {
+    background-color: var(--score-high);
+}
+
+.segment-scores__score-badge.score-top {
+    background-color: var(--score-top);
+}
+
+/* OML TOTAL row stronger border */
+.segment-scores__table tbody tr.total-row td {
+    border-top: 2px solid #282828;
+}
+
+/* ─── LEGEND (Unified) ─────────────────────────────────────────────────────── */
+.score-legend {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--legend-gap);
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.score-legend__item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.score-legend__item .box {
+    width: var(--legend-box-size);
+    height: var(--legend-box-size);
+    display: inline-block;
+    border: 1px solid var(--legend-border-color);
+    border-radius: var(--legend-border-radius);
+}
+
+.score-legend__item.low .box { background-color: var(--score-low); }
+.score-legend__item.mid .box { background-color: var(--score-mid); }
+.score-legend__item.high .box { background-color: var(--score-high); }
+.score-legend__item.top .box { background-color: var(--score-top); }
+.score-legend__item.variance-info { font-weight: 600; }
+
+
+
+/*Scale*/
+.scoring-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 60%;
+}
+
+/* ─── BULLETS ──────────────────────────────────────────────────────────────── */
+.scoring-scale__bullets {
+    list-style-type: disc;
+    margin: 0 0 0 1.5em;
+    padding: 0;
+    line-height: 1.5;
+}
+
+    .scoring-scale__bullets li {
+        margin: 0 0 1.25em;
+    }
+
+/* ─── TABLE ─────────────────────────────────────────────────────────────────── */
+.scoring-scale__table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin-top: 8px;
+}
+
+    /* Header cells (top colour bands) */
+    .scoring-scale__table th {
+        padding: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+.scoring-scale__table {
+    width: 100%;
+    table-layout: fixed; /* enforce equal distribution */
+    border-collapse: collapse;
+}
+
+    .scoring-scale__table th,
+    .scoring-scale__table td {
+        width: 16.6667%; /* 100% ÷ 6 columns */
+    }
+
+/* Coloured top headers */
+.header-red {
+    background-color: var(--score-low);
+    color: #fff;
+}
+
+.header-amber {
+    background-color: var(--score-mid);
+    color: #fff;
+}
+
+.header-green {
+    background-color: var(--score-high);
+    color: #fff;
+}
+
+/* Numeric row styling */
+.numeric-row th {
+    background-color: #efefef;
+    font-weight: 500;
+}
+
+/* Body cells */
+.scoring-scale__table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Legend row (bottom) */
+.legend-row td {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Coloured legend cells */
+.cell-red {
+    background-color: var(--score-low);
+}
+
+.cell-amber {
+    background-color: var(--score-mid);
+}
+
+.cell-green {
+    background-color: var(--score-high);
+}
+
+.trend-scores {
+    /* Using unified color variables from :root */
+    --border-light: #e0e0e0;
+    --panel-bg: #ffffff;
+    --om-onyx: #282828;
+    --radius: 8px;
+    --gap: 16px;
+    font-family: "Century Gothic", sans-serif;
+    /* font-size: 14px; */
+    color: var(--om-onyx);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+/* TABLE */
+.trend-scores__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trend-scores__th,
+.trend-scores__td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-light);
+    text-align: right;
+    font-size: 14px;
+}
+
+    .trend-scores__th.segment {
+        text-align: left;
+    }
+
+    .trend-scores__td:first-child {
+        text-align: left;
+    }
+
+    .trend-scores__th.variance {
+        text-align: right;
+        width: 170px;
+    }
+
+    .trend-scores__td.variance {
+        background-color: #f4f4f4;
+        font-weight: 600;
+        text-align: right;
+    }
+
+.trend-scores__td {
+    color: var(--om-onyx);
+}
+    /* COLOUR THRESHOLDS */
+    .trend-scores__td.score-low {
+        background-color: var(--score-low);
+    }
+
+    .trend-scores__td.score-mid {
+        background-color: var(--score-mid);
+    }
+
+    .trend-scores__td.score-high {
+        background-color: var(--score-high);
+    }
+
+    .trend-scores__td.score-top {
+        background-color: var(--score-top);
+    }
+
+    /* variance states */
+    .trend-scores__td.variance-positive .trend-scores__arrow-up {
+        color: var(--score-top);
+    }
+
+    .trend-scores__td.variance-negative .trend-scores__arrow-down {
+        color: var(--score-low);
+    }
+
+/* TOTAL ROW */
+.trend-scores__total-row td {
+    border-top: 2px solid var(--om-onyx);
+    font-weight: bold;
+}
+
+/* ARROWS (Unified) */
+.score-arrow-up,
+.score-arrow-down,
+.scoring-table__arrow-up,
+.scoring-table__arrow-down,
+.trend-scores__arrow-up,
+.trend-scores__arrow-down {
+    font-size: 1em;
+    margin: 0 2px;
+    vertical-align: middle;
+}
+
+/* Ensure badges and arrows align properly */
+.segment-scores__score-badge {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.score-arrow-up,
+.score-arrow-down {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+    width: 12px; /* Fixed width for consistent spacing */
+}
+
+/* Invisible arrow placeholder for consistent spacing */
+.score-arrow-placeholder {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+    width: 12px; /* Same width as real arrows */
+    opacity: 0; /* Invisible but takes up space */
+}
+
+.score-arrow-up,
+.scoring-table__arrow-up,
+.trend-scores__arrow-up { color: var(--score-top); }
+
+.score-arrow-down,
+.scoring-table__arrow-down,
+.trend-scores__arrow-down { color: var(--score-low); }
+
+/* LEGEND */
+.trend-scores__legend {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--legend-gap);
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.trend-scores__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+    .trend-scores__legend-item .box {
+        width: var(--legend-box-size);
+        height: var(--legend-box-size);
+        display: inline-block;
+        border: 1px solid var(--legend-border-color);
+        border-radius: var(--legend-border-radius);
+    }
+
+    .trend-scores__legend-item.low .box {
+        background-color: var(--score-low);
+    }
+
+    .trend-scores__legend-item.mid .box {
+        background-color: var(--score-mid);
+    }
+
+    .trend-scores__legend-item.high .box {
+        background-color: var(--score-high);
+    }
+
+    .trend-scores__legend-item.top .box {
+        background-color: var(--score-top);
+    }
+
+    .trend-scores__legend-item.variance-info {
+        font-weight: 600;
+        color: var(--om-onyx);
+    }
+
+/* Demographics */
+.demographics {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Two‑column split */
+.demographics__cols {
+    display: flex;
+    gap: 32px;
+}
+
+/* Each column is a vertical flex stack */
+.demographics__col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* COLUMN 1 specifics */
+.demographics__col-left .demographics__chart-container--age {
+    height: 210px; /* fixed height for age chart */
+}
+
+/* Let the table fill whatever is left */
+.demographics__col-left .demographics__table-block {
+    flex: 1;
+    overflow: auto;
+}
+
+/* COLUMN 2 specifics — both charts equal height */
+.demographics__col-right .demographics__chart-container--side {
+    height: 255px; /* fixed height for both right‑side charts */
+}
+
+/* Base chart container / table styles remain the same: */
+.demographics__chart-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.demographics__chart-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.demographics__chart-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px 16px 0 16px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+    .demographics__chart-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+/* Table block spans full width of its grid cell */
+.demographics__table-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Static demographics table */
+.demographics__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+    .demographics__table th,
+    .demographics__table td {
+        padding: 3px 10px;
+        border-bottom: 1px solid #e0e0e0;
+        text-align: right;
+    }
+
+    .demographics__table th {
+        font-weight: 600;
+        background: #f4f5f5;
+    }
+
+        .demographics__table td:first-child,
+        .demographics__table th:first-child {
+            text-align: left;
+        }
+
+.demographics__sub td {
+    padding-left: 24px;
+}
+
+.demographics__total td {
+    border-top: 2px solid #002b5c;
+    font-weight: 600;
+}
+
+/* Variance arrows */
+.demographics__arrow-up {
+    color: var(--score-high);
+    margin-left: 4px;
+}
+
+.demographics__arrow-down {
+    color: var(--score-low);
+    margin-left: 4px;
+}
+
+/* Top & Bottom Scoring Questions (.question-scores)*/
+.question-scores {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    color: var(--om-onyx);
+    font-size: 14px;
+}
+
+.question-scores__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.question-scores__th,
+.question-scores__td {
+    padding: 12px;
+    text-align: left;
+}
+
+.question-scores__th {
+    font-weight: 600;
+    border-bottom: 2px solid #e0e0e0;
+    font-size: 16px;
+}
+
+    .question-scores__th.dimension,
+    .question-scores__td.dimension {
+        width: 230px;
+    }
+
+    .question-scores__th.score,
+    .question-scores__td.score {
+        width: 140px;
+        text-align: right;
+    }
+
+.question-scores__td.score {
+    font-weight: 700;
+}
+
+.question-scores__td .question-scores__out-of {
+    font-weight: 400;
+    color: #666666;
+    margin-left: 4px;
+    font-size: 12px;
+}
+
+.question-scores__table tbody tr:nth-child(even) {
+    background-color: #f4f5f5;
+}
+
+.question-scores__td.number,
+.question-scores__th.number {
+    width: 40px;
+}
+
+.question-scores__td.question,
+.question-scores__th.question {
+    /* allow wrapping */
+    word-wrap: break-word;
+}

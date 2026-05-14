@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old Mutual Pulse Culture Survey - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .landing-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #009677 0%, #8DC63F  100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+        }
+
+        .logo-container img {
+            height: 60px;
+            width: auto;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #019676  0%, #8DC63F  100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .back-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .demo-note {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .demo-note strong {
+            color: #495057;
+        }
+
+        .input-hint {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 3px;
+            margin-bottom: 8px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="login-card">
+            <div class="logo-container">
+                <img src="images/pulse-logo.png" alt="Old Mutual Pulse Logo">
+            </div>
+            
+            <h1 class="login-title">Pulse Culture Survey</h1>
+            <p class="login-subtitle">Please enter your credentials to access the survey</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="staffCode">Staff Code</label>
+                    <div class="input-hint">Enter your six-digit employee ID as it appears on Workday: 123456</div>
+                    <input type="text" id="staffCode" name="staffCode" placeholder="123456" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <div class="input-hint">Enter your date of birth using the following format including the slashes: YYYY/MM/DD</div>
+                    <input type="text" id="dateOfBirth" name="dateOfBirth" placeholder="YYYY/MM/DD" pattern="\d{4}/\d{2}/\d{2}" maxlength="10" required>
+                </div>
+                
+                <div class="error-message" id="errorMessage">
+                    Invalid staff code or date of birth. Please try again.
+                </div>
+                
+                <button type="submit" class="login-button" id="loginButton">
+                    <span id="buttonText">Access Survey</span>
+                    <div class="loading-spinner" id="loadingSpinner"></div>
+                </button>
+            </form>
+            
+            <a href="index.html" class="back-link">
+                <span class="material-icons">arrow_back</span>
+                Back to Dashboard
+            </a>
+            
+            <div class="demo-note">
+                <strong>Demo Note:</strong> For demonstration purposes, you can use any staff code and date of birth to proceed to the survey.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const staffCode = document.getElementById('staffCode').value.trim();
+            const dateOfBirth = document.getElementById('dateOfBirth').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const buttonText = document.getElementById('buttonText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const loginButton = document.getElementById('loginButton');
+            
+            // Hide error message
+            errorMessage.style.display = 'none';
+            
+            // Validate inputs
+            if (!staffCode || !dateOfBirth) {
+                errorMessage.textContent = 'Please fill in all fields.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Validate date format (YYYY/MM/DD)
+            const datePattern = /^\d{4}\/\d{2}\/\d{2}$/;
+            if (!datePattern.test(dateOfBirth)) {
+                errorMessage.textContent = 'Please enter date of birth in YYYY/MM/DD format.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Validate date is valid and not in the future
+            const dateParts = dateOfBirth.split('/');
+            const year = parseInt(dateParts[0]);
+            const month = parseInt(dateParts[1]);
+            const day = parseInt(dateParts[2]);
+            const inputDate = new Date(year, month - 1, day);
+            const today = new Date();
+            
+            if (inputDate.getFullYear() !== year || 
+                inputDate.getMonth() !== month - 1 || 
+                inputDate.getDate() !== day ||
+                inputDate > today) {
+                errorMessage.textContent = 'Please enter a valid date of birth.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Show loading state
+            buttonText.style.display = 'none';
+            loadingSpinner.style.display = 'block';
+            loginButton.disabled = true;
+            
+            // Simulate authentication (in real implementation, this would be an API call)
+            setTimeout(() => {
+                // For demo purposes, accept any valid input
+                if (staffCode.length >= 3 && dateOfBirth) {
+                    // Store authentication state (you might want to use sessionStorage or cookies)
+                    sessionStorage.setItem('surveyAuthenticated', 'true');
+                    sessionStorage.setItem('staffCode', staffCode);
+                    
+                    // Redirect to first question page (skip landing page)
+                    window.location.href = 'survey/index.html?page=1';
+                } else {
+                    // Show error
+                    errorMessage.textContent = 'Invalid staff code or date of birth. Please try again.';
+                    errorMessage.style.display = 'block';
+                    
+                    // Reset button state
+                    buttonText.style.display = 'block';
+                    loadingSpinner.style.display = 'none';
+                    loginButton.disabled = false;
+                }
+            }, 1500);
+        });
+        
+        // Add input formatting for date field
+        const dateInput = document.getElementById('dateOfBirth');
+        dateInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            
+            // Add slashes as user types
+            if (value.length >= 4) {
+                value = value.substring(0, 4) + '/' + value.substring(4);
+            }
+            if (value.length >= 7) {
+                value = value.substring(0, 7) + '/' + value.substring(7);
+            }
+            
+            // Limit to 10 characters (YYYY/MM/DD)
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+            
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html> 

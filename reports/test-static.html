@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Test Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-link {
+            display: block;
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        .test-link:hover {
+            background: #e0e0e0;
+        }
+        .test-link strong {
+            color: #F37021;
+        }
+        .engagement { border-left: 4px solid #F37021; }
+        .change-readiness { border-left: 4px solid #E91E63; }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Static Report System Test</h1>
+    
+    <div class="info">
+        <strong>Instructions:</strong> Click the links below to test the different report configurations. 
+        The system should automatically detect the report type and load the appropriate configuration.
+    </div>
+
+    <h2>Test Links</h2>
+    
+    <a href="online/index-static.html" class="test-link engagement">
+        <strong>Employee Engagement Report (Default)</strong><br>
+        <small>URL: online/index-static.html</small><br>
+        Expected: 6-point scale, orange theme (#F37021), engagement questions
+    </a>
+    
+    <a href="online/index-static.html?type=employee-engagement" class="test-link engagement">
+        <strong>Employee Engagement Report (Explicit)</strong><br>
+        <small>URL: online/index-static.html?type=employee-engagement</small><br>
+        Expected: 6-point scale, orange theme (#F37021), engagement questions
+    </a>
+    
+    <a href="online/index-static.html?type=change-readiness" class="test-link change-readiness">
+        <strong>Change Readiness Report</strong><br>
+        <small>URL: online/index-static.html?type=change-readiness</small><br>
+        Expected: 5-point scale, pink theme (#E91E63), change readiness questions
+    </a>
+    
+    <a href="online/index-static.html?type=change" class="test-link change-readiness">
+        <strong>Change Report (Keyword Detection)</strong><br>
+        <small>URL: online/index-static.html?type=change</small><br>
+        Expected: 5-point scale, pink theme (#E91E63), change readiness questions
+    </a>
+    
+    <a href="online/index-static.html?debug=true" class="test-link engagement">
+        <strong>Employee Engagement (Debug Mode)</strong><br>
+        <small>URL: online/index-static.html?debug=true</small><br>
+        Expected: Full console logging, debug information
+    </a>
+    
+    <a href="online/index-static.html?type=change-readiness&debug=true" class="test-link change-readiness">
+        <strong>Change Readiness (Debug Mode)</strong><br>
+        <small>URL: online/index-static.html?type=change-readiness&debug=true</small><br>
+        Expected: Change readiness with full debug output
+    </a>
+
+    <h2>What to Verify</h2>
+    <ul>
+        <li><strong>Scale Type:</strong> Check if 5-point or 6-point scale is shown correctly</li>
+        <li><strong>Colors:</strong> Header and theme colors should match the dimension</li>
+        <li><strong>Content:</strong> All "Loading..." text should be replaced with actual data</li>
+        <li><strong>Questions:</strong> Top/bottom scoring questions should populate automatically</li>
+        <li><strong>Headers:</strong> Page headers should include the correct dimension name</li>
+        <li><strong>Console:</strong> Check browser console for any errors</li>
+    </ul>
+
+    <h2>Sample Data</h2>
+    <p>The reports use sample data that includes:</p>
+    <ul>
+        <li>Employee headcount: 8,540</li>
+        <li>Response count: 4,750</li>
+        <li>Response rate: 56%</li>
+        <li>Various filter combinations and demographics</li>
+        <li>Realistic scoring data for each dimension</li>
+    </ul>
+
+    <h2>Troubleshooting</h2>
+    <ul>
+        <li><strong>If content shows "Loading...":</strong> 
+            <ul>
+                <li>Open browser console (F12) and check for JavaScript errors</li>
+                <li>Verify that config.js and data.js are loading (check Network tab)</li>
+                <li>Check console for debug messages from the report engine</li>
+            </ul>
+        </li>
+        <li><strong>If wrong scale shows:</strong> Verify URL parameter is detected correctly in console</li>
+        <li><strong>If colors are wrong:</strong> Check CSS custom properties are being set in Elements tab</li>
+        <li><strong>If config.js not found:</strong> System should fall back to built-in configuration</li>
+    </ul>
+    
+    <h2>Debug Links</h2>
+    <a href="debug-test.html" class="test-link">
+        <strong>Debug Test Page</strong><br>
+        <small>Simple debug page to test the report engine</small>
+    </a>
+
+    <script>
+        // Add some debug information
+        console.log('Test page loaded');
+        console.log('Current URL:', window.location.href);
+        
+        // Check if required files are accessible
+        const links = document.querySelectorAll('.test-link');
+        links.forEach((link, index) => {
+            link.addEventListener('click', (e) => {
+                console.log(`Testing link ${index + 1}:`, link.href);
+            });
+        });
+    </script>
+</body>
+</html>

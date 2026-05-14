@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dimension Statements</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="config.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Dimension Statements</h1>
+        
+        <div class="statements-section">
+            <div class="statements-header">
+                <h3>Survey Statement Performance by Dimension</h3>
+                <p class="section-description">Performance breakdown by survey dimensions with different rating scales</p>
+            </div>
+            
+            <!-- Employee Engagement Section (6-point scale) -->
+            <div class="dimension-statements-section">
+                <div class="dimension-header">
+                    <h4>Employee Engagement (6-point scale)</h4>
+                    <p class="dimension-description">Measures commitment, involvement, and enthusiasm toward work and organization</p>
+                </div>
+                <div class="statements-legend">
+                    <div class="legend-title">Performance Indicators (6-point scale):</div>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color excellent"></div>
+                            <span>Excellent (4.5-6.0)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color good"></div>
+                            <span>Good (3.5-4.4)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color warning"></div>
+                            <span>Warning (2.5-3.4)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color critical"></div>
+                            <span>Critical (1.0-2.4)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statements-grid">
+                    <div class="statements-columns">
+                        <div class="statements-column">
+                            <h4 class="statements-column-title">Top 3 Engagement Statements</h4>
+                            <div id="topEngagementStatements"></div>
+                        </div>
+                        <div class="statements-column">
+                            <h4 class="statements-column-title">Bottom 3 Engagement Statements</h4>
+                            <div id="bottomEngagementStatements"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change Readiness Section (5-point scale) -->
+            <div class="dimension-statements-section">
+                <div class="dimension-header">
+                    <h4>Change Readiness (5-point scale)</h4>
+                    <p class="dimension-description">Measures organizational readiness and preparedness for change initiatives</p>
+                </div>
+                <div class="statements-legend">
+                    <div class="legend-title">Performance Indicators (5-point scale):</div>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color excellent"></div>
+                            <span>Excellent (4.0-5.0)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color good"></div>
+                            <span>Good (3.0-3.9)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color warning"></div>
+                            <span>Warning (2.0-2.9)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color critical"></div>
+                            <span>Critical (1.0-1.9)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statements-grid">
+                    <div class="statements-columns">
+                        <div class="statements-column">
+                            <h4 class="statements-column-title">Top 3 Change Readiness Statements</h4>
+                            <div id="topChangeReadinessStatements"></div>
+                        </div>
+                        <div class="statements-column">
+                            <h4 class="statements-column-title">Bottom 3 Change Readiness Statements</h4>
+                            <div id="bottomChangeReadinessStatements"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test the rendering when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Testing dimension statements rendering...');
+            renderStatements();
+        });
+    </script>
+</body>
+</html> 

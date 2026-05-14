@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration System Test</title>
+    <script src="config.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .info {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dimension Configuration System Test</h1>
+    
+    <div class="test-section">
+        <h2>Current Configuration Status</h2>
+        <div id="config-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Question Numbering Test</h2>
+        <div id="numbering-test"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Reactivation Simulation</h2>
+        <button onclick="testReactivation()">Simulate Employee Sentiment Reactivation</button>
+        <div id="reactivation-test"></div>
+    </div>
+
+    <script>
+        function runTests() {
+            testCurrentConfiguration();
+            testQuestionNumbering();
+        }
+        
+        function testCurrentConfiguration() {
+            const statusDiv = document.getElementById('config-status');
+            const activeDimensions = DIMENSION_CONFIG.getActiveDimensions();
+            const questionManager = new QuestionNumberingManager();
+            
+            let html = '<div class="info">';
+            html += `<strong>Active Dimensions:</strong> ${activeDimensions.length}<br>`;
+            activeDimensions.forEach((dim, index) => {
+                const range = questionManager.getDimensionRange(dim.id);
+                html += `${index + 1}. ${dim.title} (Questions ${range.start}-${range.end})<br>`;
+            });
+            html += `<br><strong>Total Active Questions:</strong> ${questionManager.getTotalActiveQuestions()}<br>`;
+            html += `<strong>Employee Sentiment Status:</strong> ${DIMENSION_CONFIG.dimensionDefinitions.sentiment.active ? 'Active' : 'Inactive'}`;
+            html += '</div>';
+            
+            statusDiv.innerHTML = html;
+        }
+        
+        function testQuestionNumbering() {
+            const testDiv = document.getElementById('numbering-test');
+            const questionManager = new QuestionNumberingManager();
+            
+            let html = '<div class="info">';
+            html += '<strong>Question Mapping Examples:</strong><br>';
+            
+            // Test some mappings
+            const testMappings = [
+                { original: 'q4', display: questionManager.getDisplayNumber('q4') },
+                { original: 'q5', display: questionManager.getDisplayNumber('q5') },
+                { original: 'q10', display: questionManager.getDisplayNumber('q10') },
+                { original: 'q14', display: questionManager.getDisplayNumber('q14') }
+            ];
+            
+            testMappings.forEach(mapping => {
+                if (mapping.display) {
+                    html += `${mapping.original} → Question ${mapping.display}<br>`;
+                } else {
+                    html += `${mapping.original} → Not active<br>`;
+                }
+            });
+            
+            html += '</div>';
+            testDiv.innerHTML = html;
+        }
+        
+        function testReactivation() {
+            const testDiv = document.getElementById('reactivation-test');
+            
+            // Simulate reactivation
+            DIMENSION_CONFIG.dimensionDefinitions.sentiment.active = true;
+            DIMENSION_CONFIG.dimensionOrder = ['sentiment', 'engagement', 'riskCulture'];
+            
+            // Create new question manager with updated config
+            const newQuestionManager = new QuestionNumberingManager();
+            const activeDimensions = DIMENSION_CONFIG.getActiveDimensions();
+            
+            let html = '<div class="info success">';
+            html += '<strong>After Employee Sentiment Reactivation:</strong><br>';
+            html += `<strong>Active Dimensions:</strong> ${activeDimensions.length}<br>`;
+            activeDimensions.forEach((dim, index) => {
+                const range = newQuestionManager.getDimensionRange(dim.id);
+                html += `${index + 1}. ${dim.title} (Questions ${range.start}-${range.end})<br>`;
+            });
+            html += `<br><strong>Total Questions:</strong> ${newQuestionManager.getTotalActiveQuestions()}<br>`;
+            html += '<br><strong>Question Renumbering Examples:</strong><br>';
+            html += `q1 → Question ${newQuestionManager.getDisplayNumber('q1')}<br>`;
+            html += `q4 → Question ${newQuestionManager.getDisplayNumber('q4')}<br>`;
+            html += `q10 → Question ${newQuestionManager.getDisplayNumber('q10')}<br>`;
+            html += '</div>';
+            
+            // Reset to original state
+            DIMENSION_CONFIG.dimensionDefinitions.sentiment.active = false;
+            DIMENSION_CONFIG.dimensionOrder = ['engagement', 'riskCulture'];
+            
+            testDiv.innerHTML = html;
+        }
+        
+        // Run tests on page load
+        document.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html> 
