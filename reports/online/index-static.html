@@ -454,12 +454,14 @@
             // Get report type directly from URL to ensure accurate detection
             const urlParams = new URLSearchParams(window.location.search);
             const reportType = urlParams.get('type') || 'employee-engagement';
-            const isEngagement = !reportType.toLowerCase().includes('change');
+            const rt = reportType.toLowerCase();
+            const isCulture = rt.includes('culture') || rt.includes('change') || rt.includes('readiness');
+            const isEngagement = !isCulture;
             
             // Set chart properties based on report type
-            const scaleMax = 6; // Both dimensions now use 6-point scale
+            const scaleMax = 5;
             const dimensionColor = isEngagement ? '#F37021' : '#E91E63';
-            const dimensionName = isEngagement ? 'Employee Engagement' : 'Change Resilience';
+            const dimensionName = isEngagement ? 'Employee Engagement' : 'Organisational Culture';
             
             console.log('Report type:', reportType);
             console.log('Is engagement:', isEngagement);

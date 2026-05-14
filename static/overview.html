@@ -53,10 +53,10 @@
                 </div>
             </nav>
             <div class="header-actions">
-                <button id="openSurvey" class="survey-button">
+                <a id="openSurvey" class="survey-button" href="../survey/index.html" target="_blank" rel="noopener noreferrer">
                     <i class="material-icons">poll</i>
                     Open Survey (for demo only)
-                </button>
+                </a>
             </div>
         </header>
 
@@ -110,13 +110,13 @@
 
                     <!-- Pulse Score -->
                     <div class="metric-card hidden">
-                        <h3>Overall Pulse Score (1-6 Scale)</h3>
+                        <h3>Overall Pulse Score (1–5 Scale)</h3>
                         <div class="metric-content">
                             <div class="metric-body">
                                 <div class="metric-progress">
                                     <div id="pulseScoreProgress" class="circular-progress"></div>
                                     <div class="score-scale-info">
-                                        <span class="scale-label">Scale: 1-6</span>
+                                        <span class="scale-label">Scale: 1–5</span>
                                     </div>
                                 </div>
                             </div>
@@ -190,9 +190,9 @@
                                 <!-- <span class="dimension-color-indicator" style="background: #F37021;"></span> -->
                                 Employee Engagement
                             </button>
-                            <button class="dimension-tab" data-tab="changeReadiness">
+                            <button class="dimension-tab" data-tab="organisationalCulture">
                                 <!-- <span class="dimension-color-indicator" style="background: #E91E63;"></span> -->
-                                Change Readiness
+                                Organisational Culture
                             </button>
                         </div>
                         
@@ -203,11 +203,11 @@
                                 <div class="dimension-statements-section">
                                     <div class="dimension-header align-items-center">
                                         <span class="dimension-color-indicator large" style="background: #F37021; margin-right: 8px;"></span>
-                                        <h4 class="mb-0">Employee Engagement (6-point scale)</h4>
+                                        <h4 class="mb-0">Employee Engagement (5-point scale)</h4>
                                         <p class="dimension-description mb-3 w-100">Measures commitment, involvement, and enthusiasm toward work and organization</p>
                                     </div>
                                     <div class="statements-legend">
-                                        <div class="legend-title">Performance Indicators (6-point scale):</div>
+                                        <div class="legend-title">Performance Indicators (5-point scale):</div>
                                         <div class="legend-items">
                                             <div class="legend-item">
                                                 <div class="legend-color red" title="Requires immediate attention and management"></div>
@@ -215,11 +215,11 @@
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color amber" title="Work required"></div>
-                                                <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                                <span>3: Neutral</span>
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color green" title="A positive and strong result"></div>
-                                                <span>5-6: Agree / Strongly Agree</span>
+                                                <span>4–5: Agree / Strongly Agree</span>
                                             </div>
                                         </div>
                                     </div>
@@ -254,13 +254,13 @@
                                 </div>
                             </div>
                             
-                            <!-- Change Readiness Tab -->
-                            <div class="dimension-tab-pane" id="changeReadiness-tab">
+                            <!-- Organisational Culture Tab -->
+                            <div class="dimension-tab-pane" id="organisationalCulture-tab">
                                 <div class="dimension-statements-section">
                                     <div class="dimension-header align-items-center">
                                         <span class="dimension-color-indicator large" style="background: #E91E63; margin-right: 8px;"></span>
-                                        <h4 class="mb-0">Change Readiness (5-point scale)</h4>
-                                        <p class="dimension-description w-100 mb-3">Measures organizational readiness and preparedness for change initiatives</p>
+                                        <h4 class="mb-0">Organisational Culture (5-point scale)</h4>
+                                        <p class="dimension-description w-100 mb-3">Measures how people experience values, behaviours, and ways of working in our organisation</p>
                                     </div>
                                     <div class="statements-legend">
                                         <div class="legend-title">Performance Indicators (5-point scale):</div>
@@ -282,30 +282,30 @@
                                     <div class="statements-grid">
                                         <div class="statements-columns">
                                             <div class="statements-column">
-                                                <h4 class="statements-column-title">Top 3 Change Readiness Statements</h4>
-                                                <div id="topChangeReadinessStatements"></div>
+                                                <h4 class="statements-column-title">Top 3 Organisational Culture Statements</h4>
+                                                <div id="topOrganisationalCultureStatements"></div>
                                             </div>
                                             <div class="statements-column">
-                                                <h4 class="statements-column-title">Bottom 3 Change Readiness Statements</h4>
-                                                <div id="bottomChangeReadinessStatements"></div>
+                                                <h4 class="statements-column-title">Bottom 3 Organisational Culture Statements</h4>
+                                                <div id="bottomOrganisationalCultureStatements"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Change Readiness Comments & Sentiment -->
+                                <!-- Organisational Culture Comments & Sentiment -->
                                 <div class="sentiment-section">
                                     <div class="comment-sentiment">
                                         <div class="d-flex justify-content-between">
-                                            <h3 class="mb-0 me-4">Change Readiness Comments & Sentiment</h3>
+                                            <h3 class="mb-0 me-4">Organisational Culture Comments & Sentiment</h3>
                                             <a class='btn btn-primary' href='/comments-analysis-v3'>Analyse Comments</a>
                                         </div>
                                         
-                                        <div id="changeReadinessSentimentChart" class="sentiment-chart"></div>
+                                        <div id="organisationalCultureSentimentChart" class="sentiment-chart"></div>
                                     </div>
                                     <div class="sentiment-analysis">
-                                        <h3>Change Readiness Sentiment Themes</h3>
-                                        <div id="changeReadinessSentimentAnalysis"></div>
+                                        <h3>Organisational Culture Sentiment Themes</h3>
+                                        <div id="organisationalCultureSentimentAnalysis"></div>
                                     </div>
                                 </div>
                             </div>

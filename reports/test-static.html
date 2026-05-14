@@ -29,7 +29,7 @@
             color: #F37021;
         }
         .engagement { border-left: 4px solid #F37021; }
-        .change-readiness { border-left: 4px solid #E91E63; }
+        .organisational-culture { border-left: 4px solid #E91E63; }
         .info {
             background: #e3f2fd;
             padding: 15px;
@@ -51,25 +51,31 @@
     <a href="online/index-static.html" class="test-link engagement">
         <strong>Employee Engagement Report (Default)</strong><br>
         <small>URL: online/index-static.html</small><br>
-        Expected: 6-point scale, orange theme (#F37021), engagement questions
+        Expected: 5-point scale, orange theme (#F37021), engagement questions
     </a>
     
     <a href="online/index-static.html?type=employee-engagement" class="test-link engagement">
         <strong>Employee Engagement Report (Explicit)</strong><br>
         <small>URL: online/index-static.html?type=employee-engagement</small><br>
-        Expected: 6-point scale, orange theme (#F37021), engagement questions
+        Expected: 5-point scale, orange theme (#F37021), engagement questions
     </a>
     
-    <a href="online/index-static.html?type=change-readiness" class="test-link change-readiness">
-        <strong>Change Readiness Report</strong><br>
+    <a href="online/index-static.html?type=organisational-culture" class="test-link organisational-culture">
+        <strong>Organisational Culture Report</strong><br>
+        <small>URL: online/index-static.html?type=organisational-culture</small><br>
+        Expected: 5-point scale, pink theme (#E91E63), organisational culture questions
+    </a>
+    
+    <a href="online/index-static.html?type=change-readiness" class="test-link organisational-culture">
+        <strong>Organisational Culture (legacy URL alias)</strong><br>
         <small>URL: online/index-static.html?type=change-readiness</small><br>
-        Expected: 5-point scale, pink theme (#E91E63), change readiness questions
+        Expected: Same as above — legacy <code>change-readiness</code> type still supported
     </a>
     
-    <a href="online/index-static.html?type=change" class="test-link change-readiness">
+    <a href="online/index-static.html?type=change" class="test-link organisational-culture">
         <strong>Change Report (Keyword Detection)</strong><br>
         <small>URL: online/index-static.html?type=change</small><br>
-        Expected: 5-point scale, pink theme (#E91E63), change readiness questions
+        Expected: 5-point scale, pink theme (#E91E63), organisational culture questions
     </a>
     
     <a href="online/index-static.html?debug=true" class="test-link engagement">
@@ -78,15 +84,15 @@
         Expected: Full console logging, debug information
     </a>
     
-    <a href="online/index-static.html?type=change-readiness&debug=true" class="test-link change-readiness">
-        <strong>Change Readiness (Debug Mode)</strong><br>
-        <small>URL: online/index-static.html?type=change-readiness&debug=true</small><br>
-        Expected: Change readiness with full debug output
+    <a href="online/index-static.html?type=organisational-culture&debug=true" class="test-link organisational-culture">
+        <strong>Organisational Culture (Debug Mode)</strong><br>
+        <small>URL: online/index-static.html?type=organisational-culture&debug=true</small><br>
+        Expected: Organisational Culture with full debug output
     </a>
 
     <h2>What to Verify</h2>
     <ul>
-        <li><strong>Scale Type:</strong> Check if 5-point or 6-point scale is shown correctly</li>
+        <li><strong>Scale Type:</strong> Both report types should use the 5-point scale section</li>
         <li><strong>Colors:</strong> Header and theme colors should match the dimension</li>
         <li><strong>Content:</strong> All "Loading..." text should be replaced with actual data</li>
         <li><strong>Questions:</strong> Top/bottom scoring questions should populate automatically</li>

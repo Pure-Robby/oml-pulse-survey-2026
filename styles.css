@@ -24,11 +24,16 @@
     box-sizing: border-box;
 }
 
+
+
 body {
     font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -140,7 +145,6 @@ header {
 /* Content Sections */
 .content-section {
     display: none;
-    animation: fadeIn 0.3s ease-out;
 }
 
 .content-section.active {
@@ -316,6 +320,7 @@ nav li {
 .metric-card h3 {
     font-size: 1rem;
     margin-bottom: 1rem;
+    font-weight: 600;
 }
 
 .metric-content {
@@ -1446,7 +1451,8 @@ nav li {
     background-color: white;
     border-top: 1px solid var(--border-color);
     padding: 2rem 0;
-    margin-top: 3rem;
+    margin-top: auto;
+    flex-shrink: 0;
 }
 
 .site-footer .container {
@@ -1643,7 +1649,7 @@ nav li {
     width: 100%;
 }
 
-/* Progress bar colors for 1-6 scale */
+/* Progress bar colours for Likert 1–5 scale */
 .progress-fill.progress-success {
     background-color: #00AE4E;
 }
@@ -2167,7 +2173,7 @@ nav li {
 }
 
 .metric-card {
-    background: #f8f9fa;
+    background: #fff;
     padding: 20px;
     border-radius: 8px;
     /* border-left: 4px solid var(--primary-color); */
@@ -2309,29 +2315,6 @@ nav li {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
-        height: 95%;
-    }
-    
-    .modal-header {
-        padding: 15px 20px;
-    }
-    
-    .modal-body {
-        padding: 20px;
-    }
-    
-    .modal-footer {
-        padding: 15px 20px;
-        flex-direction: column;
-    }
-    
-    .modal-footer button {
-        width: 100%;
-        justify-content: center;
-    }
-    
     .report-metrics {
         grid-template-columns: 1fr;
     }
@@ -3371,6 +3354,11 @@ nav li {
   flex-direction: column;
   gap: 18px;
   border: 1px solid #e5e5e5;
+}
+
+/* UA [hidden] can lose to display:flex above; keep suppressed until shown */
+.report-filters-card[hidden] {
+  display: none !important;
 }
 
 .report-filters-card h3 {
@@ -4482,7 +4470,7 @@ nav li {
 
 .progress-table th,
 .progress-table td {
-    padding: 16px;
+    padding: 16px 24px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
 }
@@ -5169,257 +5157,8 @@ nav li {
     }
 }
 
-/* Survey Access Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(4px);
-}
-
-.modal-overlay.active {
-    display: flex;
-}
-
-.modal-content {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    max-width: 800px;
-    width: 90%;
-    max-height: 90vh;
-    overflow: hidden;
-    animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 32px;
-    border-bottom: 1px solid #e1e5e9;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
-
-.modal-header h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-close:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.modal-close .material-icons {
-    font-size: 24px;
-}
-
-.modal-body {
-    padding: 32px;
-    max-height: calc(90vh - 120px);
-    overflow-y: auto;
-}
-
-.modal-description {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 32px;
-    text-align: center;
-}
-
-.access-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-}
-
-.access-option {
-    border: 2px solid #e1e5e9;
-    border-radius: 16px;
-    padding: 24px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.access-option:hover {
-    border-color: #667eea;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
-}
-
-.access-option::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.access-option:hover::before {
-    opacity: 1;
-}
-
-.option-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    margin-bottom: 20px;
-}
-
-.option-icon .material-icons {
-    font-size: 28px;
-    color: white;
-}
-
-.option-content h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 12px;
-}
-
-.option-content p {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.5;
-    margin-bottom: 16px;
-}
-
-.option-features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 24px 0;
-}
-
-.option-features li {
-    font-size: 13px;
-    color: #666;
-    padding: 4px 0;
-    position: relative;
-    padding-left: 20px;
-}
-
-.option-features li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: #667eea;
-    font-weight: bold;
-}
-
-.option-button {
-    width: 100%;
-    padding: 12px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.option-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.option-button .material-icons {
-    font-size: 18px;
-}
-
-/* Responsive Design for Modal */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
-        margin: 20px;
-    }
-    
-    .modal-header {
-        padding: 20px 24px;
-    }
-    
-    .modal-header h2 {
-        font-size: 20px;
-    }
-    
-    .modal-body {
-        padding: 24px;
-    }
-    
-    .access-options {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .access-option {
-        padding: 20px;
-    }
-    
-    .option-icon {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .option-icon .material-icons {
-        font-size: 24px;
-    }
-    
-    .option-content h3 {
-        font-size: 18px;
-    }
-}
-
-/* Dimension-specific color indicators for overview page */
-.dimension-item[data-dimension="changeResilience"] .dimension-color-indicator {
-    background-color: #E91E63; /* Pink for Change Resilience */
+.dimension-item[data-dimension="organisationalCulture"] .dimension-color-indicator {
+    background-color: #E91E63; /* Pink for Organisational Culture */
 }
 
 .dimension-item[data-dimension="engagement"] .dimension-color-indicator {
@@ -5508,7 +5247,6 @@ nav li {
 .dimension-tab-pane,
 .content-tab-pane {
     display: none;
-    animation: fadeIn 0.3s ease-in-out;
 }
 
 .dimension-tab-pane.active,
@@ -5564,7 +5302,7 @@ nav li {
     
     /* Ensure sentiment analysis sections stack properly on mobile */
     #engagementSentimentAnalysis,
-    #changeReadinessSentimentAnalysis {
+    #organisationalCultureSentimentAnalysis {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
@@ -6102,4 +5840,9 @@ nav li {
 /*Overview Page*/
 .metric-footer,.dimension-stats span:last-child, .statement-trend {
     display: none;
+}
+
+[hidden] {
+    display: none !important;
+    visibility: hidden;
 }

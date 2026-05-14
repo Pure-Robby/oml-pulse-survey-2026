@@ -394,63 +394,6 @@
         </div>
     </div>
     
-    <!-- Survey Access Modal -->
-    <div id="surveyAccessModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Access Survey</h2>
-                <button class="modal-close" id="closeSurveyModal">
-                    <span class="material-icons">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="modal-description">Select your preferred method to access the Pulse Culture Survey:</p>
-                
-                <div class="access-options">
-                    <div class="access-option" id="genericLinkOption">
-                        <div class="option-icon">
-                            <span class="material-icons">lock</span>
-                        </div>
-                        <div class="option-content">
-                            <h3>Staff Code Authentication</h3>
-                            <p>Access the survey using your staff code and date of birth for secure, authenticated access.</p>
-                            <ul class="option-features">
-                                <li>Secure staff code and DOB verification</li>
-                                <li>Standard employee authentication</li>
-                                <li>Tracked and validated responses</li>
-                                <li>Recommended for regular employees</li>
-                            </ul>
-                        </div>
-                        <button class="option-button" onclick="accessGenericLink()">
-                            <span class="material-icons">login</span>
-                            Access with Login
-                        </button>
-                    </div>
-                    
-                    <div class="access-option" id="guidLinkOption">
-                        <div class="option-icon">
-                            <span class="material-icons">vpn_key</span>
-                        </div>
-                        <div class="option-content">
-                            <h3>Personalized Link Access</h3>
-                            <p>Access the survey using your unique personalized link with GUID-based authentication.</p>
-                            <ul class="option-features">
-                                <li>Unique personalized link (GUID)</li>
-                                <li>Secure direct access</li>
-                                <li>No staff code required</li>
-                                <li>Personalized user experience</li>
-                            </ul>
-                        </div>
-                        <button class="option-button" onclick="accessGuidLink()">
-                            <span class="material-icons">link</span>
-                            Access via Personal Link
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <div class="container">
         <header>
             <!-- Logo, Navigation, and Header Actions will be created by navigation.js -->
@@ -461,7 +404,7 @@
             <!-- Overview Section (Default) -->
             <section id="overview" class="content-section active">
                 <div class="section-header mb-2">
-                    <button id="filterToggle" class="filter-toggle">
+                    <button id="filterToggle" class="filter-toggle" hidden>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
@@ -505,14 +448,14 @@
                     </div>
 
                     <!-- Pulse Score -->
-                    <div class="metric-card hidden">
-                        <h3>Overall Pulse Score (1-6 Scale)</h3>
+                    <div class="metric-card" hidden>
+                        <h3>Overall Pulse Score (1-5 Scale)</h3>
                         <div class="metric-content">
                             <div class="metric-body">
                                 <div class="metric-progress">
                                     <div id="pulseScoreProgress" class="circular-progress"></div>
                                     <div class="score-scale-info">
-                                        <span class="scale-label">Scale: 1-6</span>
+                                        <span class="scale-label">Scale: 1-5</span>
                                     </div>
                                 </div>
                             </div>
@@ -523,7 +466,7 @@
                     </div>
 
                     <!-- Flight Risk -->
-                    <div class="metric-card hidden">
+                    <div class="metric-card" hidden>
                         <h3>Flight Risk Indicator</h3>
                         <div class="metric-content">
                             <div class="metric-body">
@@ -538,7 +481,7 @@
                     </div>
 
                     <!-- Response Target Progress -->
-                    <div class="metric-card hidden">
+                    <div class="metric-card" hidden>
                         <div class="metric-header">
                             <h3>Response Target Progress</h3>
                             <div class="reliability-tooltip">
@@ -559,32 +502,24 @@
                                 </div>
                             </div>
                             <div class="metric-footer" id="reliabilityFooter">
-                                <!-- Will be populated by JavaScript -->dimensionsGrid
+                                <!-- Will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
 
                     <div class="dimensions-section">
                         <h3>Survey Dimensions</h3>
-                        <p class="section-description">Performance across the two key dimensions of organisational culture</p>
+                        <p class="section-description">Performance across the two key dimensions</p>
                         <div class="dimensions-grid" id="dimensionsGrid">
                             <!-- Dimensions will be populated by JavaScript -->
                         </div>
                     </div>
                 </div>
 
-                <!-- <div class="dimensions-section">
-                    <h3>Survey Dimensions</h3>
-                    <p class="section-description">Performance across the two key dimensions of organisational culture</p>
-                    <div class="dimensions-grid" id="dimensionsGrid">
-                        <!-- Dimensions will be populated by JavaScript -->
-                    <!--</div>
-                </div> -->
-
                 <div class="statements-section">
                     <div class="statements-header">
                         <h3>Survey Statement Performance by Dimension</h3>
-                        <p class="section-description">Performance breakdown by survey dimensions with different rating scales</p>
+                        <p class="section-description">Performance breakdown using a consistent 1-5 rating scale</p>
                     </div>
                     
                     <!-- Tabbed Interface -->
@@ -594,9 +529,9 @@
                                 <!-- <span class="dimension-color-indicator" style="background: #F37021;"></span> -->
                                 Employee Engagement
                             </button>
-                            <button class="content-tab" data-tab="changeReadiness">
+                            <button class="content-tab" data-tab="organisationalCulture">
                                 <!-- <span class="dimension-color-indicator" style="background: #E91E63;"></span> -->
-                                Change Resilience
+                                Organisational Culture
                             </button>
                         </div>
                         
@@ -619,11 +554,11 @@
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color amber" title="Work required"></div>
-                                                <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                                <span>3: Neutral</span>
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color green" title="A positive and strong result"></div>
-                                                <span>5-6: Agree / Strongly Agree</span>
+                                                <span>4-5: Agree / Strongly Agree</span>
                                             </div>
                                         </div>
                                     </div>
@@ -642,7 +577,7 @@
                                 </div>
                                 
                                 <!-- Employee Engagement Comments & Sentiment -->
-                                <div class="sentiment-section">
+                                <div class="sentiment-section" hidden>
                                     <div class="comment-sentiment">
                                         <div class="d-flex justify-content-between">
                                             <h3 class="mb-0 me-4">Employee Engagement Comments & Sentiment</h3>
@@ -658,13 +593,13 @@
                                 </div>
                             </div>
                             
-                            <!-- Change Readiness Tab -->
-                            <div class="content-tab-pane" id="changeReadiness-tab">
+                            <!-- Organisational Culture Tab -->
+                            <div class="content-tab-pane" id="organisationalCulture-tab">
                                 <div class="dimension-statements-section">
                                     <div class="dimension-header align-items-center">
                                         <span class="dimension-color-indicator large" style="background: #E91E63; margin-right: 8px;"></span>
-                                        <h4 class="mb-0">Change Resilience</h4>
-                                        <p class="dimension-description w-100 mb-3">Measures organisational adaptability and resilience to change initiatives</p>
+                                        <h4 class="mb-0">Organisational Culture</h4>
+                                        <p class="dimension-description w-100 mb-3">Measures how people experience values, behaviours, and ways of working in our organisation</p>
                                     </div>
                                     <div class="statements-legend">
                                         <div class="legend-title">Performance Indicators:</div>
@@ -675,41 +610,41 @@
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color amber" title="Work required"></div>
-                                                <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                                <span>3: Neutral</span>
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color green" title="A positive and strong result"></div>
-                                                <span>5-6: Agree / Strongly Agree</span>
+                                                <span>4-5: Agree / Strongly Agree</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="statements-grid">
                                         <div class="statements-columns">
                                             <div class="statements-column">
-                                                <h4 class="statements-column-title">Top 3 Change Resilience Statements</h4>
-                                                <div id="topChangeResilienceStatements"></div>
+                                                <h4 class="statements-column-title">Top 3 Organisational Culture Statements</h4>
+                                                <div id="topOrganisationalCultureStatements"></div>
                                             </div>
                                             <div class="statements-column">
-                                                <h4 class="statements-column-title">Bottom 3 Change Resilience Statements</h4>
-                                                <div id="bottomChangeResilienceStatements"></div>
+                                                <h4 class="statements-column-title">Bottom 3 Organisational Culture Statements</h4>
+                                                <div id="bottomOrganisationalCultureStatements"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Change Resilience Comments & Sentiment -->
+                                <!-- Organisational Culture Comments & Sentiment -->
                                 <div class="sentiment-section">
                                     <div class="comment-sentiment">
                                         <div class="d-flex justify-content-between">
-                                            <h3 class="mb-0 me-4">Change Resilience Comments & Sentiment</h3>
+                                            <h3 class="mb-0 me-4">Organisational Culture Comments & Sentiment</h3>
                                             <a href="comments-analysis-v3.html" class="btn btn-primary">Analyse Comments</a>
                                         </div>
                                         
-                                        <div id="changeResilienceSentimentChart" class="sentiment-chart"></div>
+                                        <div id="organisationalCultureSentimentChart" class="sentiment-chart"></div>
                                     </div>
                                     <div class="sentiment-analysis">
-                                        <h3>Change Resilience Sentiment Themes</h3>
-                                        <div id="changeResilienceSentimentAnalysis"></div>
+                                        <h3>Organisational Culture Sentiment Themes</h3>
+                                        <div id="organisationalCultureSentimentAnalysis"></div>
                                     </div>
                                 </div>
                             </div>
@@ -773,13 +708,13 @@
 
                     <!-- Pulse Score -->
                     <div class="metric-card hidden">
-                        <h3>Overall Pulse Score (1-6 Scale)</h3>
+                        <h3>Overall Pulse Score (1-5 Scale)</h3>
                         <div class="metric-content">
                             <div class="metric-body">
                                 <div class="metric-progress">
                                     <div id="pulseScoreProgressEE" class="circular-progress"></div>
                                     <div class="score-scale-info">
-                                        <span class="scale-label">Scale: 1-6</span>
+                                        <span class="scale-label">Scale: 1-5</span>
                                     </div>
                                 </div>
                             </div>
@@ -843,18 +778,18 @@
                 <div class="statements-section">
                     <div class="statements-header">
                         <h3>Survey Statement Performance by Dimension</h3>
-                        <p class="section-description">Performance breakdown by survey dimensions with different rating scales</p>
+                        <p class="section-description">Performance breakdown using a consistent 1-5 rating scale</p>
                     </div>
                     
                     <!-- Employee Engagement Content -->
                     <div class="dimension-statements-section">
                         <div class="dimension-header align-items-center">
                             <span class="dimension-color-indicator large" style="background: #F37021; margin-right: 8px;"></span>
-                            <h4 class="mb-0">Employee Engagement (6-point scale)</h4>
+                            <h4 class="mb-0">Employee Engagement (5-point scale)</h4>
                             <p class="dimension-description mb-3 w-100">Measures commitment, involvement, and enthusiasm toward work and organisation</p>
                         </div>
                         <div class="statements-legend robby">
-                            <div class="legend-title">Performance Indicators (6-point scale):</div>
+                            <div class="legend-title">Performance Indicators (5-point scale):</div>
                             <div class="legend-items">
                                 <div class="legend-item">
                                     <div class="legend-color red" title="Requires immediate attention and management"></div>
@@ -862,11 +797,11 @@
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color amber" title="Work required"></div>
-                                    <span>3-4: Slightly Disagree / Slightly Agree</span>
+                                    <span>3: Neutral</span>
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color green" title="A positive and strong result"></div>
-                                    <span>5-6: Agree / Strongly Agree</span>
+                                    <span>4-5: Agree / Strongly Agree</span>
                                 </div>
                             </div>
                         </div>
@@ -1097,9 +1032,9 @@
                         </div>
                     </div>
 
-                    <!-- Change Readiness Reports -->
+                    <!-- Organisational Culture Reports -->
                     <div class="dimension-section">
-                        <h3 class="dimension-label">Change Readiness Reports</h3>
+                        <h3 class="dimension-label">Organisational Culture Reports</h3>
                         <div class="report-actions modern-actions">
                             <button type="button" class="button-secondary">Draw Online Report</button>
                             <button type="button" class="button-primary" id="drawPPTCR">Draw PPT Report</button>
@@ -1116,7 +1051,7 @@
                 <div class="section-header">
                     <div class="page-title">
                         <h1>Progress Tracker</h1>
-                        <p class="section-description">Monitor survey completion progress across organisational hierarchy</p>
+                        <p class="section-description">Organization-wide progress. Hierarchy drill-down is paused until the structure is confirmed.</p>
                     </div>
                     <div class="export-buttons">
                         <button id="exportProgressPDF" class="export-button">
@@ -1186,11 +1121,11 @@
                             <!-- Breadcrumb Navigation -->
                             <div class="progress-breadcrumb">
                                 <div class="breadcrumb-path">
-                                    <span class="breadcrumb-item active" data-level="company">OML - Old Mutual Limited</span>
+                                    <span class="breadcrumb-item active" data-level="company">Overall</span>
                                 </div>
                             </div>
                             <div class="table-header-left">
-                                <h3 id="tableTitle">Company Overview</h3>
+                                <h3 id="tableTitle">Overall</h3>
                                 <button id="backToParent" class="back-button" style="display: none;">
                                     <i class="material-icons">arrow_back</i>
                                     Back to Parent
@@ -1307,7 +1242,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-copyright">
-                    © 2025 Pulse Survey Dashboard. All rights reserved.
+                    © 2026 Pulse Survey Dashboard. All rights reserved.
                 </div>
                 <!-- <div class="footer-links">
                     <a href="#">Privacy Policy</a>
@@ -1704,7 +1639,7 @@
                 });
             }
             
-            // Change Readiness Reports
+            // Organisational Culture Reports
             const drawPPTCR = document.getElementById('drawPPTCR');
             const drawInfographCR = document.getElementById('drawInfographCR');
             

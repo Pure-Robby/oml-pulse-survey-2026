@@ -24,172 +24,25 @@
                 <div class="section-header">
                     <div class="page-title">
                         <h1>Reports</h1>
-                        <p class="section-description">Generate customized reports with organization and demographic filters</p>
+                        <p class="section-description">Generate reports</p>
                     </div>
                 </div>
 
                 <!-- Tabbed Interface -->
-                <div class="content-tabs-container">
+                <div class="content-tabs-container" hidden>
                     <div class="content-tabs">
                         <button class="content-tab active" data-tab="filters">
                             <i class="material-icons">filter_list</i>
                             Filters
                         </button>
-                        <button class="content-tab" data-tab="custom-report">
+                        <button class="content-tab" data-tab="custom-report" hidden>
                             <i class="material-icons">upload_file</i>
                             Custom Report
                         </button>
                     </div>
                 </div>
 
-                <!-- Tab Content -->
-                <div class="content-tab-content">
-                    <!-- Filters Tab -->
-                    <div class="content-tab-pane active" id="filters-tab">
-                        <form class="modern-report-form">
-                            <!-- Primary Filters -->
-                            <div class="report-filters-card">
-                                <h3>Primary Filters</h3>
-                                <div class="filters-grid">
-                                    <div class="filter-row">
-                                        <label>Worker Group</label>
-                                        <button type="button" class="filter-modal-btn" id="openWorkerGroupModal">Select Worker Group</button>
-                                        <span class="selected-summary" id="workerGroupSelectedSummary">Old Mutual Limited</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Cluster</label>
-                                        <button type="button" class="filter-modal-btn" id="openClusterModal">Select Cluster</button>
-                                        <span class="selected-summary" id="clusterSelectedSummary">Operations, Sales</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Business Unit</label>
-                                        <button type="button" class="filter-modal-btn" id="openBusinessUnitModal">Select Business Unit</button>
-                                        <span class="selected-summary" id="businessUnitSelectedSummary">Operations, Sales</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Division</label>
-                                        <button type="button" class="filter-modal-btn" id="openDivisionsModal">Select Division</button>
-                                        <span class="selected-summary" id="divisionsSelectedSummary">Life Insurance, Banking</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Department</label>
-                                        <button type="button" class="filter-modal-btn" id="openDepartmentsModal">Select Department</button>
-                                        <span class="selected-summary" id="departmentsSelectedSummary">Customer Service</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Team</label>
-                                        <button type="button" class="filter-modal-btn" id="openTeamsModal">Select Team</button>
-                                        <span class="selected-summary" id="teamsSelectedSummary">Team Alpha</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Country</label>
-                                        <button type="button" class="filter-modal-btn" id="openCountryModal">Select Country</button>
-                                        <span class="selected-summary" id="countrySelectedSummary">South Africa</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Region</label>
-                                        <button type="button" class="filter-modal-btn" id="openRegionModal">Select Region</button>
-                                        <span class="selected-summary" id="regionSelectedSummary">Southern Africa</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Company</label>
-                                        <button type="button" class="filter-modal-btn" id="openCompanyModal">Select Company</button>
-                                        <span class="selected-summary" id="companySelectedSummary">Old Mutual Limited</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Secondary Filters -->
-                            <div class="report-filters-card">
-                                <h3>Secondary Filters</h3>
-                                <div class="filters-grid">
-                                    <div class="filter-row">
-                                        <label>Supervisory Organization</label>
-                                        <button type="button" class="filter-modal-btn" id="openSupervisoryOrgModal">Select Supervisory Organization</button>
-                                        <span class="selected-summary" id="supervisoryOrgSelectedSummary">Finance & Operations</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Job Family</label>
-                                        <button type="button" class="filter-modal-btn" id="openJobFamilyModal">Select Job Family</button>
-                                        <span class="selected-summary" id="jobFamilySelectedSummary">Administration</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Worker's Manager</label>
-                                        <button type="button" class="filter-modal-btn" id="openWorkersManagerModal">Select Worker's Manager</button>
-                                        <span class="selected-summary" id="workersManagerSelectedSummary">Manager 1</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Age</label>
-                                        <button type="button" class="filter-modal-btn" id="openAgeBandModal">Select Age</button>
-                                        <span class="selected-summary" id="ageBandSelectedSummary">36-50</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Gender</label>
-                                        <button type="button" class="filter-modal-btn" id="openGenderModal">Select Gender</button>
-                                        <span class="selected-summary" id="genderSelectedSummary">Female</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Race</label>
-                                        <button type="button" class="filter-modal-btn" id="openRaceModal">Select Race</button>
-                                        <span class="selected-summary" id="raceSelectedSummary">Black</span>
-                                    </div>
-                                    <div class="filter-row">
-                                        <label>Management Level</label>
-                                        <button type="button" class="filter-modal-btn" id="openManagementLevelModal">Select Management Level</button>
-                                        <span class="selected-summary" id="managementLevelSelectedSummary">Middle Management</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Custom Report Tab -->
-                    <div class="content-tab-pane" id="custom-report-tab">
-                        <div class="report-filters-card">
-                            <h3>Custom Report Upload</h3>
-                            <p class="section-description mb-0">Upload your custom report file to generate insights and analysis</p>
-                            
-                            <div class="upload-section">
-                                <div class="upload-area" id="uploadArea">
-                                    <div class="upload-content">
-                                        <i class="material-icons upload-icon">cloud_upload</i>
-                                        <h4>Upload Custom Report</h4>
-                                        <p>Drag and drop your file here or click to browse</p>
-                                        <p class="upload-formats">Supported formats:XLSX or CSV</p>
-                                        <input type="file" id="customReportFile" accept=".xlsx,.csv" style="display: none;">
-                                        <button type="button" class="button-primary" id="browseFileBtn">
-                                            <i class="material-icons">folder_open</i>
-                                            Browse Files
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="upload-preview" id="uploadPreview" style="display: none;">
-                                    <div class="file-info">
-                                        <i class="material-icons file-icon">description</i>
-                                        <div class="file-details">
-                                            <h5 id="fileName">filename.pdf</h5>
-                                            <p id="fileSize">2.5 MB</p>
-                                        </div>
-                                        <button type="button" class="btn-close" id="removeFileBtn">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="upload-actions" id="uploadActions" style="display: none;">
-                                <button type="button" class="button-primary" id="processReportBtn">
-                                    <i class="material-icons">play_arrow</i>
-                                    Process Report
-                                </button>
-                                <button type="button" class="button-secondary" id="cancelUploadBtn">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <!-- Report Composition - Visible on both tabs -->
                 <div class="report-filters-card">
@@ -284,7 +137,7 @@
                             <div class="w-100">
                                 <label for="reportName" class="field-label">Report Name <span class="required">*</span></label>
                                 <p class="field-description">Give your report a descriptive name for easy identification</p>
-                                <input type="text" class="form-input" id="reportName" name="reportName" placeholder="Change Readiness Pulse Survey Results" value="Change Readiness Pulse Survey Results">
+                                <input type="text" class="form-input" id="reportName" name="reportName" placeholder="Pulse Survey Results" value="Pulse Survey Results">
                             </div>
                             
                             <div class="results-count-card" id="resultsCountCard">
@@ -315,8 +168,8 @@
                                 <label for="rd-dim-eng">Employee Engagement</label>
                             </div>
                             <div class="custom-radio">
-                                <input type="radio" name="rd-dimension" id="rd-dim-cr" value="change-readiness" checked>
-                                <label for="rd-dim-cr">Change Readiness</label>
+                                <input type="radio" name="rd-dimension" id="rd-dim-cr" value="organisational-culture" checked>
+                                <label for="rd-dim-cr">Organisational Culture</label>
                             </div>
                         </div>
                     </div> -->
@@ -380,23 +233,23 @@
                     </div>
                 </div>
                 
-                <!-- Change Resilience Reports (Always Visible) -->
+                <!-- Organisational Culture Reports -->
                 <div class="dimension-section">
-                    <h3 class="dimension-label">Change Resilience Reports</h3>
+                    <h3 class="dimension-label">Organisational Culture Reports</h3>
                     <div class="report-actions modern-actions justify-content-center">
-                        <button id="ChangeResilienceReportsBtn" type="button" class="button-primary">
+                        <button id="OrganisationalCultureReportsBtn" type="button" class="button-primary">
                             <span class="btn-text">View Online Report</span>
                         </button>
-                        <button id="ChangeResiliencePPTBtn" type="button" class="button-primary">
+                        <button id="OrganisationalCulturePPTBtn" type="button" class="button-primary">
                             <span class="btn-text">Download PowerPoint</span>
                         </button>
-                        <button id="ChangeResiliencePDFBtn" type="button" class="button-primary">
+                        <button id="OrganisationalCulturePDFBtn" type="button" class="button-primary">
                             <span class="btn-text">Download PDF</span>
                         </button>
-                        <button id="ChangeResilienceInfographBtn" type="button" class="button-primary">
+                        <button id="OrganisationalCultureInfographBtn" type="button" class="button-primary">
                             <span class="btn-text">Generate Infographic (PDF)</span>
                         </button>
-                        <button id="ChangeResilienceCommentsBtn" type="button" class="button-primary">
+                        <button id="OrganisationalCultureCommentsBtn" type="button" class="button-primary">
                             <span class="btn-text">Download Comments (Excel)</span>
                         </button>
                     </div>
@@ -428,9 +281,9 @@
                     </div>
                 </div> -->
 
-                <!-- Change Readiness Reports - Visible on both tabs -->
+                <!-- Organisational Culture Reports - Visible on both tabs -->
                 <!-- <div class="dimension-section">
-                    <h3 class="dimension-label">Change Readiness Reports</h3>
+                    <h3 class="dimension-label">Organisational Culture Reports</h3>
                     <div class="report-actions modern-actions">
 
                         <div class="btn-group">
@@ -457,7 +310,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-copyright">
-                    © 2025 Pulse Survey Dashboard. All rights reserved.
+                    © 6 Pulse Survey Dashboard. All rights reserved.
                 </div>
                 <!-- <div class="footer-links">
                     <a href="#">Privacy Policy</a>
@@ -679,8 +532,8 @@
                     const dimension = document.querySelector('input[name="rd-dimension"]:checked')?.value;
                     if (dimension === 'employee-engagement') {
                         window.open('reports/online/index-static.html?type=employee-engagement', '_blank');
-                    } else if (dimension === 'change-readiness') {
-                        window.open('reports/online/index-static.html?type=change-readiness', '_blank');
+                    } else if (dimension === 'organisational-culture') {
+                        window.open('reports/online/index-static.html?type=organisational-culture', '_blank');
                     }
                 });
             }
@@ -691,7 +544,7 @@
                     const dimension = document.querySelector('input[name="rd-dimension"]:checked')?.value;
                     if (dimension === 'employee-engagement') {
                         downloadFile('reports/OMCultureSurveyReportDemo-v4-EE.pptx', 'OM-Culture-Survey-Report-Demo-v4-EE.pptx');
-                    } else if (dimension === 'change-readiness') {
+                    } else if (dimension === 'organisational-culture') {
                         downloadFile('reports/OMCultureSurveyReportDemo-v4-CR.pptx', 'OM-Culture-Survey-Report-Demo-v4-CR.pptx');
                     }
                 });
@@ -709,7 +562,7 @@
                     const dimension = document.querySelector('input[name="rd-dimension"]:checked')?.value;
                     if (dimension === 'employee-engagement') {
                         downloadFile('reports/Culture Survey Infographic demo-v4-EE.pdf', 'Culture-Survey-Infographic-demo-v4-EE.pdf');
-                    } else if (dimension === 'change-readiness') {
+                    } else if (dimension === 'organisational-culture') {
                         downloadFile('reports/Culture Survey Infographic demo-v4-CR.pdf', 'Culture-Survey-Infographic-demo-v4-CR.pdf');
                     }
                 });
@@ -932,7 +785,7 @@
             });
         }
         
-        // Change Readiness Reports
+        // Organisational Culture Reports
         const drawPPTCR = document.getElementById('drawPPTCR');
         const drawInfographCR = document.getElementById('drawInfographCR');
         
@@ -960,7 +813,7 @@
         
         if (drawOnlineCR) {
             drawOnlineCR.addEventListener('click', function() {
-                window.open('reports/online/index-static.html?type=change-readiness', '_blank');
+                window.open('reports/online/index-static.html?type=organisational-culture', '_blank');
             });
         }
     </script>
@@ -1014,7 +867,7 @@
           const dimContainer = document.getElementById('rd-dimensions');
           const dims = [
             { id: 'employee-engagement', label: 'Employee Engagement', allowed: true },
-            { id: 'change-readiness',    label: 'Change Readiness',    allowed: (window.userPermissions?.canViewCR ?? true) }
+            { id: 'organisational-culture',    label: 'Organisational Culture',    allowed: (window.userPermissions?.canViewOrganisationalCulture ?? window.userPermissions?.canViewCR ?? true) }
           ].filter(d => d.allowed);
           if (dimContainer && dims.length) {
             dimContainer.innerHTML = dims.map((d, i) => `

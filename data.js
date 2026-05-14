@@ -18,7 +18,7 @@ function generateStatementsFromConfig() {
             let baseScore, previousScore;
             
             if (dimension.id === 'engagement') {
-                // Employee Engagement (1-6 scale) - predefined realistic scores
+                // Employee Engagement (1-5 scale)
                 const engagementScores = [
                     { current: 2.8, previous: 3.1 }, // "feels energised"
                     { current: 3.1, previous: 2.9 }, // "feels excited"
@@ -30,17 +30,17 @@ function generateStatementsFromConfig() {
                 const scoreData = engagementScores[index] || { current: 3.5, previous: 3.4 };
                 baseScore = scoreData.current;
                 previousScore = scoreData.previous;
-            } else if (dimension.id === 'changeReadiness') {
-                // Change Resilience (1-6 scale) - predefined realistic scores
-                const changeReadinessScores = [
-                    { current: 3.4, previous: 3.7 }, // "heard about changes"
-                    { current: 4.8, previous: 4.6 }, // "aware of scope"
-                    { current: 4.6, previous: 4.4 }, // "understand why"
-                    { current: 2.6, previous: 2.8 }, // "understand impacts"
-                    { current: 4.3, previous: 4.3 }, // "believe change is right"
-                    { current: 4.1, previous: 4.0 }  // "understand benefits"
+            } else if (dimension.id === 'organisationalCulture') {
+                // Organisational Culture (1-5 scale)
+                const cultureScores = [
+                    { current: 3.4, previous: 3.7 },
+                    { current: 4.8, previous: 4.6 },
+                    { current: 4.6, previous: 4.4 },
+                    { current: 2.6, previous: 2.8 },
+                    { current: 4.3, previous: 4.3 },
+                    { current: 4.1, previous: 4.0 }
                 ];
-                const scoreData = changeReadinessScores[index] || { current: 3.5, previous: 3.4 };
+                const scoreData = cultureScores[index] || { current: 3.5, previous: 3.4 };
                 baseScore = scoreData.current;
                 previousScore = scoreData.previous;
             } else {
@@ -50,7 +50,7 @@ function generateStatementsFromConfig() {
             }
             
             // Ensure scores are within valid ranges
-            const maxScore = 6; // Both dimensions now use 6-point scale
+            const maxScore = 5;
             baseScore = Math.max(1, Math.min(maxScore, baseScore));
             previousScore = Math.max(1, Math.min(maxScore, previousScore));
             
@@ -121,42 +121,42 @@ function getFallbackStatements() {
             score: 3.4,
             previousScore: 3.7,
             trend: "down",
-            dimension: "Change Resilience"
+            dimension: "Organisational Culture"
         },
         {
             text: "The organisation communicates the purpose and impact of changes clearly.",
             score: 4.8,
             previousScore: 4.6,
             trend: "up",
-            dimension: "Change Resilience"
+            dimension: "Organisational Culture"
         },
         {
             text: "I understand the impacts of changes to the organisation.",
             score: 4.6,
             previousScore: 4.4,
             trend: "up",
-            dimension: "Change Resilience"
+            dimension: "Organisational Culture"
         },
         {
             text: "When a change is introduced, my line manager effectively communicates and manages the change.",
             score: 2.6,
             previousScore: 2.8,
             trend: "down",
-            dimension: "Change Resilience"
+            dimension: "Organisational Culture"
         },
         {
             text: "My feedback and concerns about change are heard and considered by leadership.",
             score: 4.3,
             previousScore: 4.3,
             trend: "level",
-            dimension: "Change Resilience"
+            dimension: "Organisational Culture"
         },
         {
             text: "My organisation has provided me with sufficient resources to enable me to navigate current changes.",
             score: 4.1,
             previousScore: 4.0,
             trend: "up",
-            dimension: "Change Resilience"
+            dimension: "Organisational Culture"
         }
     ];
 }
@@ -197,7 +197,7 @@ const dashboardData = {
             dimensions: {
                 "Employee Sentiment": { current: 4.15, previous: 3.95 },
                 "Employee Engagement": { current: 4.68, previous: 4.45 },
-                "Change Resilience": { current: 4.72, previous: 4.82 },
+                "Organisational Culture": { current: 4.72, previous: 4.82 },
                 "Risk Culture": { current: 4.25, previous: 4.15 }
             }
         },
@@ -208,7 +208,7 @@ const dashboardData = {
             dimensions: {
                 "Employee Sentiment": { current: 3.85, previous: 4.10 },
                 "Employee Engagement": { current: 4.25, previous: 4.30 },
-                "Change Readiness": { current: 4.75, previous: 4.90 },
+                "Organisational Culture": { current: 4.75, previous: 4.90 },
                 "Risk Culture": { current: 4.15, previous: 4.05 }
             }
         },
@@ -219,7 +219,7 @@ const dashboardData = {
             dimensions: {
                 "Employee Sentiment": { current: 4.05, previous: 3.85 },
                 "Employee Engagement": { current: 4.55, previous: 4.25 },
-                "Change Readiness": { current: 4.75, previous: 4.65 },
+                "Organisational Culture": { current: 4.75, previous: 4.65 },
                 "Risk Culture": { current: 4.35, previous: 4.25 }
             }
         },
@@ -230,7 +230,7 @@ const dashboardData = {
             dimensions: {
                 "Employee Sentiment": { current: 3.75, previous: 4.05 },
                 "Employee Engagement": { current: 4.15, previous: 4.35 },
-                "Change Readiness": { current: 4.55, previous: 4.75 },
+                "Organisational Culture": { current: 4.55, previous: 4.75 },
                 "Risk Culture": { current: 4.05, previous: 3.95 }
             }
         },
@@ -241,7 +241,7 @@ const dashboardData = {
             dimensions: {
                 "Employee Sentiment": { current: 4.25, previous: 4.15 },
                 "Employee Engagement": { current: 4.75, previous: 4.55 },
-                "Change Readiness": { current: 4.85, previous: 4.75 },
+                "Organisational Culture": { current: 4.85, previous: 4.75 },
                 "Risk Culture": { current: 4.45, previous: 4.35 }
             }
         },
@@ -252,7 +252,7 @@ const dashboardData = {
             dimensions: {
                 "Employee Sentiment": { current: 3.95, previous: 4.15 },
                 "Employee Engagement": { current: 4.25, previous: 4.40 },
-                "Change Readiness": { current: 4.35, previous: 4.55 },
+                "Organisational Culture": { current: 4.35, previous: 4.55 },
                 "Risk Culture": { current: 3.95, previous: 3.85 }
             }
         }
@@ -281,15 +281,15 @@ const dashboardData = {
             description: "Measures commitment, involvement, and enthusiasm toward work and organization"
         },
         {
-            title: "Change Resilience",
-            score: 4.86,
+            title: "Organisational Culture",
+            score: 4.3,
             previous: {
-                score: 4.92
+                score: 4.4
             },
-            trend: -0.06,
+            trend: -0.1,
             hasWarning: false,
             questions: 6,
-            description: "Measures organizational readiness and adaptability to change initiatives"
+            description: "Measures how people experience values, behaviours, and ways of working in our organisation"
         },
         {
             title: "Risk Culture",
@@ -518,10 +518,10 @@ const dashboardData = {
         company: {
             name: "OML - Old Mutual Limited",
             population: 27518,
-            completed: 19917,
-            inProgress: 4283,
-            notStarted: 3318,
-            completionRate: 72,
+            completed: 24420,
+            inProgress: 1847,
+            notStarted: 1251,
+            completionRate: 89,
             children: "segments"
         },
         segments: [

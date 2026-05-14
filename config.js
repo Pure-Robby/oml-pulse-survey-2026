@@ -4,7 +4,9 @@ const FEATURES = {
     showUdemyCourses: false,        // Hidden per client request
     showDimensionComparison: true,  // Show individual dimension results
     showPersonalInsights: true,     // Show personalized insights
-    showRecommendations: true       // Show action recommendations
+    showRecommendations: true,      // Show action recommendations
+    // When false: progress page shows one "Overall" row only (matches summary); no hierarchy drill-down
+    progressTrackerHierarchyDrillDown: false
 };
 
 // Production Configuration - Controls which features are active
@@ -80,7 +82,7 @@ function getFeatureConfig(featurePath) {
 const DIMENSION_CONFIG = {
     // Define the order dimensions should appear in the survey
     // Change this array to reorder dimensions or when reintroducing Employee Sentiment or Risk Culture
-    dimensionOrder: ['engagement', 'changeResilience'], // sentiment and riskCulture temporarily removed
+    dimensionOrder: ['engagement', 'organisationalCulture'], // sentiment and riskCulture temporarily removed
     
     dimensionDefinitions: {
         sentiment: {
@@ -114,14 +116,14 @@ const DIMENSION_CONFIG = {
             icon: 'favorite',
             color: '#F37021',
             gradientColors: ['#F37021', '#E55A00'],
-            ratingScale: "1-6",
+            ratingScale: "1-5",
             numberOfQuestions: 6,
             active: true
         },
-        changeResilience: {
-            id: 'changeResilience',
-            title: "Change Resilience",
-            description: "Measures organizational adaptability and resilience to change initiatives",
+        organisationalCulture: {
+            id: 'organisationalCulture',
+            title: "Organisational Culture",
+            description: "Measures how people experience values, behaviours, and ways of working in our organisation",
             originalQuestions: ['q10', 'q11', 'q12', 'q13', 'q14', 'q15'],
             questionTexts: {
                 q10: "I feel confident in my ability to adapt to ongoing changes within the organisation.",
@@ -134,7 +136,7 @@ const DIMENSION_CONFIG = {
             icon: 'trending_up',
             color: '#E91E63',
             gradientColors: ['#E91E63', '#C2185B'],
-            ratingScale: "1-6",
+            ratingScale: "1-5",
             numberOfQuestions: 6,
             active: true
         },

@@ -269,12 +269,12 @@ function getProgressColor(value) {
     return '#FF0000';                    // Red
 }
 
-// Helper function to get progress color for 1-6 scale
-function getProgressColorSixScale(value) {
-    if (value >= 5.1) return '#00AE4E';  // Dark Green (85% of 6)
-    if (value >= 3.9) return '#92D051';  // Light Green (65% of 6)
-    if (value >= 3.06) return '#FFB800'; // Yellow/Orange (51% of 6)
-    return '#FF0000';                    // Red
+// Helper function for 1-5 Likert score colour (circle progress)
+function getProgressColorLikertFive(value) {
+    if (value >= 4.25) return '#00AE4E';
+    if (value >= 3.25) return '#92D051';
+    if (value >= 2.55) return '#FFB800';
+    return '#FF0000';
 }
 
 // Helper function to get response target color (more positive approach)
@@ -298,12 +298,6 @@ function getProgressClass(disagreePercentage) {
     return 'progress-success';
 }
 
-function getProgressClassSixScale(score) {
-    if (score < 3) return 'red';
-    if (score < 5) return 'amber';
-    return 'green';
-}
-
 function getProgressClassFiveScale(score) {
     if (score < 3) return 'red';
     if (score < 4) return 'amber';
@@ -316,11 +310,6 @@ function calculateTrend(current, previous) {
 
 function calculateResponseRate(responses, total) {
     return Math.round((responses / total) * 100);
-}
-
-// Helper function to convert percentage to 1-6 scale
-function percentageToSixScale(percentage) {
-    return Math.round((percentage / 100) * 6 * 100) / 100; // Round to 2 decimal places
 }
 
 function renderMetrics() {
@@ -354,7 +343,7 @@ function renderMetrics() {
         `;
     }
     
-    // Pulse Score Circle - now using 1-6 scale directly
+    // Pulse Score Circle (1–5 scale)
     const pulseScore = dashboardData.pulseScore.current;
     const pulseScorePrevious = dashboardData.pulseScore.previous;
     const pulseTrend = Math.round((pulseScore - pulseScorePrevious) * 100) / 100; // Round to 2 decimal places
@@ -368,7 +357,7 @@ function renderMetrics() {
         renderTrendElement(pulseScoreTrend, pulseTrend, true);
     }
     
-    // Flight Risk Circle - now using 1-6 scale
+    // Flight Risk Circle (1–5 scale)
     const flightRiskTrend = Math.round((dashboardData.flightRisk.current - dashboardData.flightRisk.previous) * 100) / 100;
     const flightRiskProgress = activeSection.querySelector('#flightRiskProgress');
     const flightRiskTrendEl = activeSection.querySelector('#flightRiskTrend');
@@ -381,19 +370,12 @@ function renderMetrics() {
     }
 }
 
-function renderCircleProgress(elementId, value, color, isSixScale) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        renderCircleProgressElement(element, value, color, isSixScale);
-    }
-}
-
-function renderCircleProgressElement(element, value, color, isSixScale) {
+function renderCircleProgressElement(element, value, color, isLikertScore) {
     element.innerHTML = ''; // Clear existing content
     
     // If no specific color provided, use the default color scheme
     if (!color) {
-        color = isSixScale ? getProgressColorSixScale(value) : getProgressColor(value);
+        color = isLikertScore ? getProgressColorLikertFive(value) : getProgressColor(value);
     }
     
     // Create SVG element
@@ -406,8 +388,7 @@ function renderCircleProgressElement(element, value, color, isSixScale) {
     const circumference = 2 * Math.PI * radius;
     const dashArray = circumference;
     
-    // For 1-6 scale, convert to percentage for visual display (1-6 becomes 16.67%-100%)
-    const visualValue = isSixScale ? (value / 6) * 100 : value;
+    const visualValue = isLikertScore ? (value / 5) * 100 : value;
     const dashOffset = circumference * (1 - visualValue / 100);
     
     // Create background circle
@@ -437,10 +418,17 @@ function renderCircleProgressElement(element, value, color, isSixScale) {
     // Create percentage text
     const percentage = document.createElement('div');
     percentage.className = 'percentage';
-    percentage.textContent = isSixScale ? `${value}` : `${value}%`;
+    percentage.textContent = isLikertScore ? `${value}` : `${value}%`;
     
     element.appendChild(svg);
     element.appendChild(percentage);
+}
+
+function renderCircleProgress(elementId, value, color, isLikertScore) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        renderCircleProgressElement(element, value, color, isLikertScore);
+    }
 }
 
 function renderTrend(elementId, trendValue, isSixScale) {
@@ -487,10 +475,10 @@ function renderDimensions() {
     dimensionsGrid.innerHTML = '';
     let activeDimensions = DIMENSION_CONFIG.getActiveDimensions();
     
-    // Filter out Change Readiness dimension when on EE-only page
+    // Filter out Organisational Culture dimension when on EE-only page
     const currentSection = document.querySelector('.content-section.active');
     if (currentSection && currentSection.id === 'overview-ee') {
-        activeDimensions = activeDimensions.filter(dimension => dimension.title !== 'Change Readiness');
+        activeDimensions = activeDimensions.filter(dimension => dimension.title !== 'Organisational Culture');
     }
     
     activeDimensions.forEach(dimensionConfig => {
@@ -499,10 +487,10 @@ function renderDimensions() {
         const dimensionEl = document.createElement('div');
         dimensionEl.className = 'dimension-item';
         dimensionEl.setAttribute('data-dimension', dimensionConfig.id);
-        let scale = 6;
-        let progressClass = getProgressClassSixScale(dimensionData.score);
-        let scaleMarkers = [1, 2, 3, 4, 5, 6];
-        // All dimensions now use the 6-point scale
+        let scale = 5;
+        let progressClass = getProgressClassFiveScale(dimensionData.score);
+        let scaleMarkers = [1, 2, 3, 4, 5];
+        // All dimensions now use the 5-point scale
         const dimensionTrend = dimensionData.previous ? Math.round((dimensionData.score - dimensionData.previous.score) * 100) / 100 : 0;
         const trendClass = getTrendClass(dimensionTrend);
         const questionCount = dimensionConfig.originalQuestions.length;
@@ -572,13 +560,13 @@ function renderStatements() {
             let scale, topElementId, bottomElementId;
             
             if (dimension.title === "Employee Engagement") {
-                scale = 6;
+                scale = 5;
                 topElementId = 'topEngagementStatements';
                 bottomElementId = 'bottomEngagementStatements';
-            } else if (dimension.title === "Change Resilience") {
-                scale = 6;
-                topElementId = 'topChangeResilienceStatements';
-                bottomElementId = 'bottomChangeResilienceStatements';
+            } else if (dimension.title === "Organisational Culture") {
+                scale = 5;
+                topElementId = 'topOrganisationalCultureStatements';
+                bottomElementId = 'bottomOrganisationalCultureStatements';
             }
             
             if (topElementId && bottomElementId) {
@@ -616,8 +604,7 @@ function renderAllStatements(elementId, statements) {
         const statementEl = document.createElement('div');
         statementEl.className = 'statement-item';
         
-        // Get progress class based on score (1-6 scale)
-        const progressClass = getProgressClassSixScale(statement.score);
+        const progressClass = getProgressClassFiveScale(statement.score);
         
         statementEl.innerHTML = `
             <div class="statement-header">
@@ -627,10 +614,10 @@ function renderAllStatements(elementId, statements) {
             <div class="statement-text">${statement.text}</div>
             <div class="statement-score">
                 <div class="score-value">${statement.score}</div>
-                <div class="score-scale">/6</div>
+                <div class="score-scale">/5</div>
             </div>
             <div class="progress-bar">
-                <div class="progress-fill ${progressClass}" style="width: ${(statement.score / 6) * 100}%"></div>
+                <div class="progress-fill ${progressClass}" style="width: ${(statement.score / 5) * 100}%"></div>
             </div>
         `;
         
@@ -658,13 +645,7 @@ function renderStatementsColumnElement(container, statements, scale, dimensionTi
         const statementEl = document.createElement('div');
         statementEl.className = 'statement-item';
         
-        // Get progress class based on scale
-        let progressClass;
-        if (scale === 6) {
-            progressClass = getProgressClassSixScale(statement.score);
-        } else if (scale === 5) {
-            progressClass = getProgressClassFiveScale(statement.score);
-        }
+        const progressClass = getProgressClassFiveScale(statement.score);
         
         // Calculate rank within this dimension only
         const dimensionRank = sortedDimensionStatements.findIndex(s => s.text === statement.text) + 1;
@@ -716,8 +697,7 @@ function renderStatementsColumn(elementId, statements) {
         const statementEl = document.createElement('div');
         statementEl.className = 'statement-item';
         
-        // Get progress class based on score (1-6 scale)
-        const progressClass = getProgressClassSixScale(statement.score);
+        const progressClass = getProgressClassFiveScale(statement.score);
         
         // Calculate rank within active dimensions only
         const overallRank = sortedActiveStatements.findIndex(s => s.text === statement.text) + 1;
@@ -736,14 +716,14 @@ function renderStatementsColumn(elementId, statements) {
             <div class="statement-text">${statement.text}</div>
             <div class="statement-score">
                 <div class="score-value">${statement.score}</div>
-                <div class="score-scale">/6</div>
+                <div class="score-scale">/5</div>
                 <span class="statement-trend">
                     <i class="material-icons ${trendClass}">${trendIcon}</i>
                     ${trendValue >= 0 ? '+' : ''}${trendValue} vs previous
                 </span>
             </div>
             <div class="progress-bar">
-                <div class="progress-fill ${progressClass}" style="width: ${(statement.score / 6) * 100}%"></div>
+                <div class="progress-fill ${progressClass}" style="width: ${(statement.score / 5) * 100}%"></div>
             </div>
         `;
         
@@ -1230,22 +1210,22 @@ function renderAllData() {
     
     // Render dimension-specific sentiment
     renderDimensionSentiment('engagement');
-    renderDimensionSentiment('changeResilience');
+    renderDimensionSentiment('organisationalCulture');
 }
 
 function simulateDataChanges() {
-    // Simulate random changes to data with 1-6 scale
+    // Simulate random changes (1–5 scale)
     dashboardData.responseRate.responses = Math.floor(dashboardData.responseRate.total * (Math.random() * 0.3 + 0.5));
-    dashboardData.pulseScore.current = parseFloat((Math.random() * 2 + 3.5).toFixed(2)); // Range 3.5-5.5
+    dashboardData.pulseScore.current = parseFloat((Math.random() * 1.49 + 3.51).toFixed(2)); // Range ~3.51–5
     dashboardData.flightRisk.current = parseFloat((Math.random() * 1.5 + 2.0).toFixed(2)); // Range 2.0-3.5
 
-    // Update dimensions with random 1-6 scale scores
+    // Update dimensions with random 1–5 scale scores
     dashboardData.dimensions.forEach(dimension => {
         dimension.score = parseFloat((Math.random() * 2 + 3.0).toFixed(2)); // Range 3.0-5.0
         dimension.trend = parseFloat((Math.random() * 0.4 - 0.2).toFixed(2)); // Range -0.2 to +0.2
     });
 
-    // Update all statements with 1-6 scale scores
+    // Update all statements with random 1–5 scale scores
     dashboardData.allStatements.forEach(statement => {
         statement.score = parseFloat((Math.random() * 2 + 3.0).toFixed(2)); // Range 3.0-5.0
         statement.trend = parseFloat((Math.random() * 0.4 - 0.2).toFixed(2)); // Range -0.2 to +0.2
@@ -1556,44 +1536,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const isRootOrIndex = currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/index.html');
     const initialSection = isRootOrIndex ? 'overview' : lastActiveTab;
     switchToTab(initialSection, false); // Don't update URL
-    
-    // Survey access modal functionality
-    const openSurveyButton = document.getElementById('openSurvey');
-    const surveyAccessModal = document.getElementById('surveyAccessModal');
-    const closeSurveyModal = document.getElementById('closeSurveyModal');
-    
-    if (openSurveyButton) {
-        openSurveyButton.addEventListener('click', function() {
-            // Show the survey access modal
-            surveyAccessModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
-    }
-    
-    if (closeSurveyModal) {
-        closeSurveyModal.addEventListener('click', function() {
-            surveyAccessModal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-        });
-    }
-    
-    // Close modal when clicking outside
-    if (surveyAccessModal) {
-        surveyAccessModal.addEventListener('click', function(e) {
-            if (e.target === surveyAccessModal) {
-                surveyAccessModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-    
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && surveyAccessModal.classList.contains('active')) {
-            surveyAccessModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
 });
 
 // Report Builder Functions
@@ -2210,7 +2152,7 @@ function generateStatementPerformanceReportContent() {
                         <th>Rank</th>
                         <th>Statement</th>
                         <th>Dimension</th>
-                        <th>Score (1-6)</th>
+                        <th>Score (1-5)</th>
                         <th>Performance</th>
                     </tr>
                 </thead>
@@ -2223,8 +2165,8 @@ function generateStatementPerformanceReportContent() {
                             <td>${statement.score}</td>
                             <td>
                                 <div class="progress-bar">
-                                    <div class="progress-fill ${getProgressClassSixScale(statement.score)}" 
-                                         style="width: ${(statement.score / 6) * 100}%"></div>
+                                    <div class="progress-fill ${getProgressClassFiveScale(statement.score)}" 
+                                         style="width: ${(statement.score / 5) * 100}%"></div>
                                 </div>
                             </td>
                         </tr>
@@ -2897,8 +2839,23 @@ let progressTrackerState = {
     sortDirection: 'asc'
 };
 
+function isProgressTrackerDrillDownEnabled() {
+    return typeof FEATURES !== 'undefined' && FEATURES.progressTrackerHierarchyDrillDown === true;
+}
+
 // Progress Tracker Functions
 function initializeProgressTracker() {
+    if (!isProgressTrackerDrillDownEnabled()) {
+        progressTrackerState = {
+            currentLevel: 'company',
+            currentSegment: null,
+            currentDivision: null,
+            currentDepartment: null,
+            breadcrumbs: [{ level: 'company', name: 'Overall' }],
+            sortBy: null,
+            sortDirection: 'asc'
+        };
+    }
     renderProgressSummary();
     renderProgressTable();
     setupProgressEventListeners();
@@ -2957,7 +2914,9 @@ function renderProgressTable() {
     
     // Update table title and back button
     if (progressTrackerState.currentLevel === 'company') {
-        if (tableTitle) tableTitle.textContent = 'Segments Overview';
+        if (tableTitle) {
+            tableTitle.textContent = isProgressTrackerDrillDownEnabled() ? 'Segments Overview' : 'Overall';
+        }
         if (backButton) backButton.style.display = 'none';
     } else if (progressTrackerState.currentLevel === 'segments') {
         if (tableTitle) tableTitle.textContent = `${progressTrackerState.currentSegment} - Divisions`;
@@ -3021,6 +2980,18 @@ function getCurrentProgressData() {
 
 function getTableData() {
     if (progressTrackerState.currentLevel === 'company') {
+        if (!isProgressTrackerDrillDownEnabled()) {
+            const c = dashboardData.progressTracker.company;
+            return [{
+                name: 'Overall',
+                population: c.population,
+                completed: c.completed,
+                inProgress: c.inProgress,
+                notStarted: c.notStarted,
+                completionRate: c.completionRate,
+                hasChildren: false
+            }];
+        }
         return dashboardData.progressTracker.segments.map(segment => ({
             ...segment,
             hasChildren: segment.divisions && segment.divisions.length > 0
@@ -3051,6 +3022,8 @@ function getTableData() {
 }
 
 function drillDown(itemName) {
+    if (!isProgressTrackerDrillDownEnabled()) return;
+
     if (progressTrackerState.currentLevel === 'company') {
         // Drilling into segments
         progressTrackerState.currentLevel = 'segments';
@@ -3077,6 +3050,8 @@ function drillDown(itemName) {
 }
 
 function navigateBackInHierarchy() {
+    if (!isProgressTrackerDrillDownEnabled()) return;
+
     if (progressTrackerState.currentLevel === 'segments') {
         progressTrackerState.currentLevel = 'company';
         progressTrackerState.currentSegment = null;
@@ -3118,6 +3093,8 @@ function updateBreadcrumbs() {
 }
 
 function navigateToBreadcrumb(index) {
+    if (!isProgressTrackerDrillDownEnabled()) return;
+
     if (index === 0) {
         // Navigate back to company level
         progressTrackerState.currentLevel = 'company';
@@ -3187,7 +3164,7 @@ function exportProgressToExcel() {
     
     let csvContent = "Survey Progress Report\n";
     csvContent += `Generated: ${new Date().toLocaleDateString()}\n`;
-    let levelDescription = 'Company Overview';
+    let levelDescription = !isProgressTrackerDrillDownEnabled() ? 'Overall' : 'Company Overview';
     if (progressTrackerState.currentLevel === 'segments') {
         levelDescription = `${progressTrackerState.currentSegment} - Divisions`;
     } else if (progressTrackerState.currentLevel === 'divisions') {
@@ -3992,32 +3969,6 @@ updateCountrySummary();
 updateSupervisoryOrgSummary();
 updateRegionSummary();
 
-// Survey Access Functions
-function accessGenericLink() {
-    // Close the modal
-    const surveyAccessModal = document.getElementById('surveyAccessModal');
-    surveyAccessModal.classList.remove('active');
-    document.body.style.overflow = '';
-    
-    // Open the survey index page with authentication required parameter
-    window.open('./survey/index.html?access=auth', '_blank');
-}
-
-function accessGuidLink() {
-    // Close the modal
-    const surveyAccessModal = document.getElementById('surveyAccessModal');
-    surveyAccessModal.classList.remove('active');
-    document.body.style.overflow = '';
-    
-    // For demo purposes, generate a sample GUID
-    // In production, this would be a real GUID from the system
-    const sampleGuid = 'demo-' + Math.random().toString(36).substr(2, 9);
-    const guidUrl = `./survey/index.html?guid=${sampleGuid}`;
-    
-    // Open the survey with GUID parameter
-    window.open(guidUrl, '_blank');
-}
-
 // Dimension-specific sentiment data
 const dimensionSentimentData = {
     engagement: {
@@ -4044,7 +3995,7 @@ const dimensionSentimentData = {
             ]
         }
     },
-    changeResilience: {
+    organisationalCulture: {
         sentiment: {
             positive: 45,
             neutral: 35,

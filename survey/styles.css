@@ -409,16 +409,16 @@ body {
 }
 
 /* Dimension-specific styling for survey welcome page */
-.landing-content .dimension-item[data-dimension="changeResilience"] {
-    border-left-color: #E91E63; /* Pink for Change Readiness */
+.landing-content .dimension-item[data-dimension="organisationalCulture"] {
+    border-left-color: #E91E63; /* Pink for Organisational Culture */
 }
 
 .landing-content .dimension-item[data-dimension="engagement"] {
     border-left-color: #F37021; /* Orange for Employee Engagement */
 }
 
-.landing-content .dimension-item[data-dimension="changeResilience"] .material-icons {
-    color: #E91E63; /* Pink for Change Readiness */
+.landing-content .dimension-item[data-dimension="organisationalCulture"] .material-icons {
+    color: #E91E63; /* Pink for Organisational Culture */
 }
 
 .landing-content .dimension-item[data-dimension="engagement"] .material-icons {
@@ -670,12 +670,12 @@ body {
     gap: var(--spacing-sm);
 }
 
-/* 6-point scale (default for Employee Engagement) */
+/* 5-point scale (Likert across dimensions) */
 .likert-scale-6 {
     grid-template-columns: repeat(6, 1fr);
 }
 
-/* 5-point scale (for Change Readiness) */
+/* 5-point scale (organisational culture / legacy pages) */
 .likert-scale-5 {
     grid-template-columns: repeat(5, 1fr);
 }
@@ -1442,7 +1442,7 @@ body {
     background: linear-gradient(135deg, #F37021 0%, #E55A00 100%);
 }
 
-.dimension-item[data-dimension="changeResilience"] .dimension-icon {
+.dimension-item[data-dimension="organisationalCulture"] .dimension-icon {
     background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
 }
 
@@ -1486,7 +1486,7 @@ body {
     background: linear-gradient(90deg, #F37021 0%, #E55A00 100%) !important;
 }
 
-.dimension-item[data-dimension="changeResilience"] .meter-fill {
+.dimension-item[data-dimension="organisationalCulture"] .meter-fill {
     background: linear-gradient(90deg, #E91E63 0%, #C2185B 100%) !important;
 }
 

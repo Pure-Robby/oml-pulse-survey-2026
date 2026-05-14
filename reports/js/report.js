@@ -1,6 +1,12 @@
 // Static Report Configuration System
 // Converts ASP.NET report to static HTML/JS version
 
+/** URL ?type= values that load the Organisational Culture dimension (includes legacy aliases). */
+function reportTypeMatchesOrganisationalCulture(reportType) {
+    const rt = (reportType || '').toLowerCase();
+    return rt.includes('culture') || rt.includes('change') || rt.includes('readiness');
+}
+
 class StaticReportEngine {
     constructor() {
         this.config = null;
@@ -44,8 +50,8 @@ class StaticReportEngine {
         
         // Import configuration from existing config.js if available
         if (typeof DIMENSION_CONFIG !== 'undefined') {
-            if (reportType.toLowerCase().includes('change') || reportType.toLowerCase().includes('readiness')) {
-                this.config = this.createConfigFromDimension(DIMENSION_CONFIG.dimensionDefinitions.changeReadiness);
+            if (reportTypeMatchesOrganisationalCulture(reportType)) {
+                this.config = this.createConfigFromDimension(DIMENSION_CONFIG.dimensionDefinitions.organisationalCulture);
             } else {
                 this.config = this.createConfigFromDimension(DIMENSION_CONFIG.dimensionDefinitions.engagement);
             }
@@ -66,21 +72,21 @@ class StaticReportEngine {
             ColorSecondary: dimensionDef.gradientColors[1],
             CssClass: dimensionDef.id,
             QuestionCount: dimensionDef.numberOfQuestions || 6,
-            ScaleType: dimensionDef.ratingScale || (isEngagement ? "6-point" : "5-point"),
+            ScaleType: dimensionDef.ratingScale === '1-5' ? '5-point' : dimensionDef.ratingScale === '1-6' ? '6-point' : '5-point',
             Questions: Object.values(dimensionDef.questionTexts || {})
         };
     }
     
     createFallbackConfig(reportType) {
-        if (reportType.toLowerCase().includes('change') || reportType.toLowerCase().includes('readiness')) {
+        if (reportTypeMatchesOrganisationalCulture(reportType)) {
             return {
-                Id: "change-readiness",
-                Name: "Change Resilience",
+                Id: "organisational-culture",
+                Name: "Organisational Culture",
                 Color: "#E91E63",
                 ColorSecondary: "#C2185B",
-                CssClass: "changeReadiness",
+                CssClass: "organisationalCulture",
                 QuestionCount: 6,
-                ScaleType: "6-point",
+                ScaleType: "5-point",
                 Questions: [
                     "I feel confident in my ability to adapt to ongoing changes within the organisation",
                     "The organisation communicates the purpose and impact of changes clearly",
@@ -98,7 +104,7 @@ class StaticReportEngine {
                 ColorSecondary: "#E55A00",
                 CssClass: "engagement",
                 QuestionCount: 6,
-                ScaleType: "6-point",
+                ScaleType: "5-point",
                 Questions: [
                     "I feel energised by the work that I do",
                     "I feel excited about the work that I do",
@@ -124,11 +130,11 @@ class StaticReportEngine {
         // Get the current report type from URL to avoid inconsistencies
         const urlParams = new URLSearchParams(window.location.search);
         const reportType = urlParams.get('type') || 'employee-engagement';
-        const isEngagement = !reportType.toLowerCase().includes('change');
+        const isEngagement = !reportTypeMatchesOrganisationalCulture(reportType);
         
-        // Filter statements based on dimension, using the updated "Change Resilience" name
+        // Filter statements by dimension title from dashboard data
         const statements = data.allStatements ? data.allStatements.filter(s => 
-            isEngagement ? s.dimension === 'Employee Engagement' : s.dimension === 'Change Resilience'
+            isEngagement ? s.dimension === 'Employee Engagement' : s.dimension === 'Organisational Culture'
         ) : [];
         
         return {
@@ -337,9 +343,10 @@ class StaticReportEngine {
         this.updateElements('[data-field="response-rate"]', this.reportData.ResponsesRate + '%');
         this.updateElements('[data-field="dimension-name"]', this.config.Name);
         this.updateElements('[data-field="dimension-questions"]', `${this.config.QuestionCount} Questions`);
-        this.updateElements('[data-field="dimension-scale"]', `Rating Scale: 1-6`); // Both dimensions use 6-point scale
+        const maxScore = this.config.ScaleType === '5-point' ? 5 : 6;
+        this.updateElements('[data-field="dimension-scale"]', `Rating Scale: 1-${maxScore}`);
         this.updateElements('[data-field="overall-average-score"]', this.reportData.OverallAverageScore.toString().replace(',', '.'));
-        this.updateElements('[data-field="scale-max"]', '6'); // Both dimensions use 6-point scale
+        this.updateElements('[data-field="scale-max"]', String(maxScore));
         this.updateElements('[data-field="top-statement-text"]', this.reportData.TopScoringStatementText);
         this.updateElements('[data-field="top-statement-score"]', this.reportData.TopScoringStatementScore.toString().replace(',', '.'));
         this.updateElements('[data-field="bottom-statement-text"]', this.reportData.BottomScoringStatementText);
@@ -376,7 +383,7 @@ class StaticReportEngine {
                     <td class="question-scores__td dimension">${this.config.Name}</td>
                     <td class="question-scores__td score">
                         ${score.Score.toString().replace(',', '.')} 
-                        <span class="question-scores__out-of">out of 6</span>
+                        <span class="question-scores__out-of">out of ${this.config.ScaleType === '5-point' ? '5' : '6'}</span>
                     </td>
                 </tr>
             `).join('');
@@ -393,7 +400,7 @@ class StaticReportEngine {
                     <td class="question-scores__td dimension">${this.config.Name}</td>
                     <td class="question-scores__td score">
                         ${score.Score.toString().replace(',', '.')} 
-                        <span class="question-scores__out-of">out of 6</span>
+                        <span class="question-scores__out-of">out of ${this.config.ScaleType === '5-point' ? '5' : '6'}</span>
                     </td>
                 </tr>
             `).join('');

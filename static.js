@@ -344,11 +344,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return '#FF0000';                   // Red
     }
 
-    // --- Survey Access Modal (if present) ---
     const openSurveyBtn = document.getElementById('openSurvey');
-    if (openSurveyBtn) {
+    if (openSurveyBtn && openSurveyBtn.tagName === 'BUTTON') {
         openSurveyBtn.addEventListener('click', function() {
-            // Open survey in new tab
             window.open('survey/index.html', '_blank');
         });
     }

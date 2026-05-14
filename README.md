@@ -39,7 +39,7 @@
 
 ## 🚀 **New Application Structure**
 
-This application has been restructured with the **Admin Dashboard as the main application** and the Survey as an overlay feature.
+This application has been restructured with the **Admin Dashboard as the main application**, with the **Survey** opened from the header as a linked page (typically `survey/index.html` in a new tab).
 
 ## 📁 **File Structure**
 
@@ -70,12 +70,11 @@ FrontEnd/
 - **Reports**: Detailed reports section (placeholder)
 - **Settings**: Configuration section (hidden)
 - **Users**: User management section (hidden)
-- **Open Survey**: Button to launch the survey in new window
+- **Open Survey**: Header link to open the survey in a new tab
 
 ### **Survey Access**
-- Click the "Open Survey" button in the header
-- Survey opens in a new browser window
-- Use browser controls to return to dashboard
+- Use the **Open Survey** link in the header (opens `survey/index.html` in a new tab)
+- Use browser controls to return to the dashboard
 
 ## 🔧 **Development**
 

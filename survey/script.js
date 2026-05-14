@@ -48,45 +48,7 @@ function checkAccessTypeAndUpdateContent() {
     }
 }
 
-// Authentication check
-function checkAuthentication() {
-    const isAuthenticated = sessionStorage.getItem('surveyAuthenticated');
-    const staffCode = sessionStorage.getItem('staffCode');
-    
-    // If authenticated via staff code/DOB, allow access
-    if (isAuthenticated === 'true' && staffCode) {
-        console.log('Authenticated access detected for staff code:', staffCode);
-        return true;
-    }
-    
-    // Check for GUID-based access
-    if (checkGuidAccess()) {
-        console.log('GUID-based access detected');
-        return true;
-    }
-    
-    // Check for authentication required access (allow landing page access)
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessType = urlParams.get('access');
-    
-    if (accessType === 'auth') {
-        console.log('Authentication required access - allowing landing page access');
-        return true;
-    }
-    
-    // If no valid authentication method, redirect to login
-    console.log('Authentication required - redirecting to login');
-    window.location.href = '../landing.html';
-    return false;
-}
 
-// Check authentication on page load
-if (!checkAuthentication()) {
-    // Stop execution if not authenticated
-    throw new Error('Authentication required');
-}
-
-// Update content based on access type
 document.addEventListener('DOMContentLoaded', function() {
     checkAccessTypeAndUpdateContent();
     
@@ -109,27 +71,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Check for GUID-based access
-function checkGuidAccess() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const guid = urlParams.get('guid');
-    
-    if (guid) {
-        // This is a GUID-based access - validate the GUID
-        console.log('GUID-based access detected:', guid);
-        // TODO: In production, validate the GUID against a database
-        // For demo purposes, accept any GUID
-        return true;
-    }
-    
-    return false;
-}
-
 class PulseCultureSurvey {
     constructor() {
         this.currentPage = 0; // Start at landing page (0)
         this.responses = {};
-        this.maxScore = 6; // Updated for 6-point scale
+        this.maxScore = 5;
         
         // Initialize using configuration system
         this.questionManager = new QuestionNumberingManager();
@@ -697,7 +643,7 @@ class PulseCultureSurvey {
                 
                 // Determine status based on dimension and score
                 const status = this.getDimensionStatus(dimensionId, score);
-                const maxScore = dimensionId === 'engagement' ? 6 : 5;
+                const maxScore = 5;
                 
                 scoreCard.innerHTML = `
                     <div class="dimension-score-header">
@@ -728,20 +674,18 @@ class PulseCultureSurvey {
 
     getDimensionStatus(dimensionId, score) {
         if (dimensionId === 'engagement') {
-            // Employee Engagement (1-6 scale)
-            if (score >= 4.5) {
+            if (score >= 4) {
                 return { class: 'excellent', text: 'Excellent Engagement' };
-            } else if (score >= 3.5) {
+            } else if (score >= 3) {
                 return { class: 'good', text: 'Good Engagement' };
             } else {
                 return { class: 'developing', text: 'Needs Development' };
             }
-        } else if (dimensionId === 'changeReadiness') {
-            // Change Resilience (1-6 scale)
-            if (score >= 4.5) {
-                return { class: 'excellent', text: 'Excellent Resilience' };
-            } else if (score >= 3.5) {
-                return { class: 'good', text: 'Good Resilience' };
+        } else if (dimensionId === 'organisationalCulture') {
+            if (score >= 4) {
+                return { class: 'excellent', text: 'Strong Culture' };
+            } else if (score >= 3) {
+                return { class: 'good', text: 'Good Culture' };
             } else {
                 return { class: 'developing', text: 'Needs Development' };
             }
@@ -752,20 +696,20 @@ class PulseCultureSurvey {
 
     getDimensionDescription(dimensionId, score) {
         if (dimensionId === 'engagement') {
-            if (score >= 4.5) {
+            if (score >= 4) {
                 return "You show excellent engagement with your work and team. Your enthusiasm and energy contribute positively to the workplace culture.";
-            } else if (score >= 3.5) {
+            } else if (score >= 3) {
                 return "You demonstrate good engagement levels. There's room for growth in finding more excitement and energy in your work.";
             } else {
                 return "Your engagement could be improved. Consider exploring ways to find more meaning and excitement in your daily work.";
             }
-        } else if (dimensionId === 'changeReadiness') {
-            if (score >= 4.5) {
-                return "You demonstrate strong resilience to organizational changes. Your ability to adapt and support change initiatives is excellent.";
-            } else if (score >= 3.5) {
-                return "You show good resilience to change. Consider developing additional strategies to thrive during periods of organizational change.";
+        } else if (dimensionId === 'organisationalCulture') {
+            if (score >= 4) {
+                return "You demonstrate a strong sense of organisational culture—you experience our values and ways of working positively.";
+            } else if (score >= 3) {
+                return "You experience our culture in broadly positive ways. Small shifts in how teams collaborate could lift this further.";
             } else {
-                return "Your change resilience could be enhanced. Focus on building adaptability skills and seeking support during organizational changes.";
+                return "Your experience of organisational culture could be strengthened—consider talking with your line manager about support and clearer expectations.";
             }
         }
         
@@ -778,10 +722,10 @@ class PulseCultureSurvey {
         Object.values(this.responses).forEach(response => {
             if (response <= 2) {
                 responseCounts[0]++; // Negative (1-2)
-            } else if (response <= 4) {
-                responseCounts[1]++; // Neutral (3-4)
+            } else if (response <= 3) {
+                responseCounts[1]++; // Neutral (3)
             } else {
-                responseCounts[2]++; // Positive (5-6)
+                responseCounts[2]++; // Positive (4-5)
             }
         });
         
@@ -808,7 +752,7 @@ class PulseCultureSurvey {
 
     createDimensionMeters() {
         // Hide all dimension items first
-        const allDimensions = ['sentiment', 'engagement', 'changeReadiness'];
+        const allDimensions = ['sentiment', 'engagement', 'organisationalCulture'];
         allDimensions.forEach(dimension => {
             const dimensionItem = document.querySelector(`.dimension-item[data-dimension="${dimension}"]`);
             if (dimensionItem) {
@@ -863,8 +807,8 @@ class PulseCultureSurvey {
                         } else {
                             meter.style.background = "linear-gradient(90deg, #FFB366 0%, #FFCC99 100%)";
                         }
-                    } else if (dimension === 'changeReadiness') {
-                        // Pink gradient for Change Readiness
+                    } else if (dimension === 'organisationalCulture') {
+                        // Pink gradient for Organisational Culture
                         if (score >= 4.5) {
                             meter.style.background = "linear-gradient(90deg, #E91E63 0%, #C2185B 100%)";
                         } else if (score >= 3.5) {
@@ -1142,8 +1086,8 @@ class PulseCultureSurvey {
             });
         }
         
-        // Change Readiness courses (if score is low)
-        if (dimensionScores.changeReadiness < 3.5) {
+        // Organisational Culture courses (if score is low)
+        if (dimensionScores.organisationalCulture < 3) {
             resources.push({
                 title: "Change Management Fundamentals",
                 instructor: "Dr. Sarah Johnson",
@@ -1154,7 +1098,7 @@ class PulseCultureSurvey {
                 icon: "trending_up",
                 relevance: "high",
                 url: "https://www.udemy.com/course/change-management-fundamentals/",
-                category: "changeReadiness"
+                category: "organisationalCulture"
             });
             
             resources.push({
@@ -1167,7 +1111,7 @@ class PulseCultureSurvey {
                 icon: "leaderboard",
                 relevance: "medium",
                 url: "https://www.udemy.com/course/leading-organizational-change/",
-                category: "changeReadiness"
+                category: "organisationalCulture"
             });
         }
         
@@ -1294,7 +1238,7 @@ class PulseCultureSurvey {
     getDimensionInfo(dimension) {
         const dimensionMap = {
             engagement: { name: "Employee Engagement", icon: "favorite" },
-            changeReadiness: { name: "Change Resilience", icon: "trending_up" },
+            organisationalCulture: { name: "Organisational Culture", icon: "trending_up" },
             riskCulture: { name: "Risk Culture", icon: "security" }
         };
         return dimensionMap[dimension];
@@ -1308,11 +1252,11 @@ class PulseCultureSurvey {
                 message: "Work on building stronger emotional connections to your work and organization. Find meaningful projects and develop relationships with colleagues.",
                 actions: ["Join team social activities", "Find a mentor or sponsor", "Identify purpose in your daily work"]
             },
-            changeReadiness: {
-                title: "Enhance Change Adaptability",
+            organisationalCulture: {
+                title: "Strengthen Organisational Culture",
                 icon: "trending_up",
-                message: "Focus on developing your ability to adapt to and embrace organizational changes. Build resilience and contribute to positive change initiatives.",
-                actions: ["Stay informed about organizational changes", "Participate in change management training", "Share ideas for improving change processes", "Support colleagues during transitions"]
+                message: "Focus on how teams live our values day to day—seek clarity on expectations, recognise helpful behaviours, and take part in dialogue that shapes our culture.",
+                actions: ["Discuss team norms with your line manager", "Join initiatives that reinforce our values", "Share feedback on collaboration and inclusion", "Celebrate examples of culture in action"]
             },
             riskCulture: {
                 title: "Strengthen Risk Awareness",
@@ -1536,7 +1480,7 @@ class PulseCultureSurvey {
                     'sentiment': '#E91E63',
                     'talent': '#00BCD4', 
                     'engagement': '#F37021',
-                    'changeReadiness': '#ED0080'
+                    'organisationalCulture': '#ED0080'
                 };
                 
                 const meterFill = element.querySelector('.meter-fill');
@@ -1598,13 +1542,13 @@ class PulseCultureSurvey {
         results += `Generated: ${timestamp}\n`;
         results += `${'='.repeat(50)}\n\n`;
         
-        results += `OVERALL CULTURE SCORE: ${this.overallScore.toFixed(1)}/6.0\n\n`;
+        results += `OVERALL CULTURE SCORE: ${this.overallScore.toFixed(1)}/5.0\n\n`;
         
         results += `DIMENSION SCORES:\n`;
         this.activeDimensions.forEach(dimensionId => {
             const dimension = DIMENSION_CONFIG.dimensionDefinitions[dimensionId];
             const score = this.dimensionScores[dimensionId] || 0;
-            results += `• ${dimension.title}: ${score.toFixed(1)}/6.0\n`;
+            results += `• ${dimension.title}: ${score.toFixed(1)}/5.0\n`;
         });
         results += `\n`;
         
@@ -1617,7 +1561,7 @@ class PulseCultureSurvey {
         });
         results += `• Low scores (1-2): ${responseCounts.low} responses\n`;
         results += `• Medium scores (3-4): ${responseCounts.medium} responses\n`;
-        results += `• High scores (5-6): ${responseCounts.high} responses\n\n`;
+        results += `• High scores (4-5): ${responseCounts.high} responses\n\n`;
         
         results += `LEARNING RESOURCES RECOMMENDED:\n`;
         const learningContainer = document.getElementById('learningResourcesContainer');

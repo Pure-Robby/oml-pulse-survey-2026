@@ -9,7 +9,7 @@ The navigation component (`navigation.js`) provides a consistent navigation expe
 ## Features
 
 - **Automatic Header Creation**: Creates logo, navigation tabs, and header actions
-- **Survey Access Modal**: Handles the survey access modal functionality
+- **Survey Link**: Header includes a link to open the survey (`survey/index.html`) in a new tab
 - **Page Detection**: Automatically detects the current page and sets the active tab
 - **Consistent Styling**: Maintains consistent styling across all pages
 - **Browser History**: Handles browser back/forward navigation
@@ -139,16 +139,9 @@ The main navigation class that handles:
 - Managing active tabs
 - Handling page navigation
 
-### SurveyAccessModal Class
-
-Handles the survey access modal functionality:
-- Creating the modal HTML
-- Managing modal open/close
-- Handling survey access options
-
 ### HeaderActions Class
 
-Creates the header actions section including the "Open Survey" button.
+Creates the header actions section including the "Open Survey" link (`<a href="survey/index.html" target="_blank">`).
 
 ### LogoComponent Class
 
@@ -190,10 +183,10 @@ The navigation component creates the following structure:
         </div>
     </nav>
     <div class="header-actions">
-        <button id="openSurvey" class="survey-button">
+        <a id="openSurvey" class="survey-button" href="survey/index.html" target="_blank" rel="noopener noreferrer">
             <i class="material-icons">poll</i>
             Open Survey (for demo only)
-        </button>
+        </a>
     </div>
 </header>
 ```
@@ -227,7 +220,5 @@ To migrate existing pages to use the navigation component:
 - Check that the `data-current-page` value matches one of the navigation tab `data-page` values
 - Ensure the page-specific initialization script is running
 
-### Survey modal not working
-- Check that the modal HTML is being created correctly
-- Verify event listeners are attached to the survey button
-- Ensure no JavaScript errors are preventing the modal from working 
+### Survey link goes to wrong place
+- Confirm `href="survey/index.html"` matches your deploy path from the dashboard root
