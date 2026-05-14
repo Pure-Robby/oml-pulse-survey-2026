@@ -256,52 +256,6 @@
                 </div>
 
             </div>
-  
-  
-
-                <!-- Employee Engagement Reports - Visible on both tabs -->
-                <!-- <div class="dimension-section">
-                    <h3 class="dimension-label">Employee Engagement Reports</h3>
-                    <div class="report-actions modern-actions">
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary">Overall Report</button>
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" id="drawOnlineEE">View Online</a></li>
-                            <li><a class="dropdown-item" id="drawPPTEE">Download PowerPoint</a></li>
-                            <li><a class="dropdown-item" >Download PDF</a></li>
-                            </ul>
-                        </div>
-  
-                        <button type="button" class="button-primary" id="drawInfographEE">Generate Infograph (PDF)</button>
-                        <button type="button" class="button-primary">Download Comments (Excel)</button>
-                    </div>
-                </div> -->
-
-                <!-- Organisational Culture Reports - Visible on both tabs -->
-                <!-- <div class="dimension-section">
-                    <h3 class="dimension-label">Organisational Culture Reports</h3>
-                    <div class="report-actions modern-actions">
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary">Overall Report</button>
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" id="drawOnlineCR">View Online</a></li>
-                            <li><a class="dropdown-item" id="drawPPTCR">Download PowerPoint</a></li>
-                            <li><a class="dropdown-item" >Download PDF</a></li>
-                            </ul>
-                        </div>
-  
-                        <button type="button" class="button-primary" id="drawInfographCR">Generate Infograph (PDF)</button>
-                        <button type="button" class="button-primary">Download Comments (Excel)</button>
-                    </div>
-                </div> -->
             </section>
         </main>
     </div>
@@ -310,13 +264,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-copyright">
-                    © 6 Pulse Survey Dashboard. All rights reserved.
+                    © 2026 Pulse Survey Dashboard. All rights reserved.
                 </div>
-                <!-- <div class="footer-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Contact Us</a>
-                </div> -->
             </div>
         </div>
     </footer>
@@ -341,6 +290,7 @@
     </div>
 
     <script src="navigation.js"></script>
+    <script src="config.js"></script>
     <script src="data.js"></script>
     <script src="app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -500,14 +450,17 @@
             // Initialize checkbox change listeners for Report Composition
             initializeReportCompositionListeners();
             
-            // Initialize dropdown functionality
+            // Initialize dropdown functionality (legacy commented markup IDs, if present)
             initializeDropdownButtons();
+
+            initializeReportActionButtons();
         });
 
         // Initialize Report Composition checkbox listeners
         function initializeReportCompositionListeners() {
-            // Get all checkboxes in the Report Composition section
-            const compositionCheckboxes = document.querySelectorAll('.composition-two-column input[type="checkbox"]');
+            const compositionCheckboxes = document.querySelectorAll(
+                '.composition-one-column input[type="checkbox"], .composition-two-column input[type="checkbox"]'
+            );
             
             compositionCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
@@ -758,7 +711,6 @@
         // Expose updateSampleSize function globally for filter changes
         window.updateSampleSize = updateSampleSize;
         
-        // Simple file download functionality
         function downloadFile(filePath, fileName) {
             const link = document.createElement('a');
             link.href = filePath;
@@ -768,52 +720,50 @@
             link.click();
             document.body.removeChild(link);
         }
-        
-        // Employee Engagement Reports
-        const drawPPTEE = document.getElementById('drawPPTEE');
-        const drawInfographEE = document.getElementById('drawInfographEE');
-        
-        if (drawPPTEE) {
-            drawPPTEE.addEventListener('click', function() {
-                downloadFile('reports/OMCultureSurveyReportDemo-v4-EE.pptx', 'OM-Culture-Survey-Report-Demo-v4-EE.pptx');
-            });
+
+        function bindReportBtn(id, handler) {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', handler);
         }
-        
-        if (drawInfographEE) {
-            drawInfographEE.addEventListener('click', function() {
-                downloadFile('reports/Culture Survey Infographic demo-v4-EE.pdf', 'Culture-Survey-Infographic-demo-v4-EE.pdf');
-            });
-        }
-        
-        // Organisational Culture Reports
-        const drawPPTCR = document.getElementById('drawPPTCR');
-        const drawInfographCR = document.getElementById('drawInfographCR');
-        
-        if (drawPPTCR) {
-            drawPPTCR.addEventListener('click', function() {
-                downloadFile('reports/OMCultureSurveyReportDemo-v4-CR.pptx', 'OM-Culture-Survey-Report-Demo-v4-CR.pptx');
-            });
-        }
-        
-        if (drawInfographCR) {
-            drawInfographCR.addEventListener('click', function() {
-                downloadFile('reports/Culture Survey Infographic demo-v4-CR.pdf', 'Culture-Survey-Infographic-demo-v4-CR.pdf');
-            });
-        }
-        
-        // Online Report Buttons
-        const drawOnlineEE = document.getElementById('drawOnlineEE');
-        const drawOnlineCR = document.getElementById('drawOnlineCR');
-        
-        if (drawOnlineEE) {
-            drawOnlineEE.addEventListener('click', function() {
+
+        /** Wires Employee Engagement / Organisational Culture action rows (current markup IDs). */
+        function initializeReportActionButtons() {
+            bindReportBtn('EmployeeEngagementReportsBtn', function () {
                 window.open('reports/online/index-static.html?type=employee-engagement', '_blank');
             });
-        }
-        
-        if (drawOnlineCR) {
-            drawOnlineCR.addEventListener('click', function() {
+            bindReportBtn('EmployeeEngagementPPTBtn', function () {
+                downloadFile('reports/OMCultureSurveyReportDemo-v4-EE.pptx', 'OM-Culture-Survey-Report-Demo-v4-EE.pptx');
+            });
+            bindReportBtn('EmployeeEngagementPDFBtn', function () {
+                alert('PDF download functionality would be implemented here.');
+            });
+            bindReportBtn('EmployeeEngagementInfographBtn', function () {
+                downloadFile(
+                    'reports/Culture Survey Infographic demo-v4-EE.pdf',
+                    'Culture-Survey-Infographic-demo-v4-EE.pdf'
+                );
+            });
+            bindReportBtn('EmployeeEngagementCommentsBtn', function () {
+                alert('Excel comments download functionality would be implemented here.');
+            });
+
+            bindReportBtn('OrganisationalCultureReportsBtn', function () {
                 window.open('reports/online/index-static.html?type=organisational-culture', '_blank');
+            });
+            bindReportBtn('OrganisationalCulturePPTBtn', function () {
+                downloadFile('reports/OMCultureSurveyReportDemo-v4-CR.pptx', 'OM-Culture-Survey-Report-Demo-v4-CR.pptx');
+            });
+            bindReportBtn('OrganisationalCulturePDFBtn', function () {
+                alert('PDF download functionality would be implemented here.');
+            });
+            bindReportBtn('OrganisationalCultureInfographBtn', function () {
+                downloadFile(
+                    'reports/Culture Survey Infographic demo-v4-CR.pdf',
+                    'Culture-Survey-Infographic-demo-v4-CR.pdf'
+                );
+            });
+            bindReportBtn('OrganisationalCultureCommentsBtn', function () {
+                alert('Excel comments download functionality would be implemented here.');
             });
         }
     </script>

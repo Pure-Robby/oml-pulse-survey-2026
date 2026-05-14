@@ -954,22 +954,28 @@ function setupFilters() {
     const loadingOverlay = document.getElementById('loadingOverlay');
     const activeFiltersContainer = document.getElementById('activeFilters');
     
+    if (!filterMenu || !closeFilters || !clearFilters || !applyFilters || !container) {
+        return;
+    }
+    
     console.log('setupFilters called - elements found:', {
         filterToggle: !!filterToggle,
         filterMenu: !!filterMenu
     });
 
     // Toggle filter menu for main overview page
-    filterToggle.addEventListener('click', () => {
-        const isMenuOpen = filterMenu.classList.contains('active');
-        if (isMenuOpen) {
-            filterMenu.classList.remove('active');
-            container.classList.remove('filter-active');
-        } else {
-            filterMenu.classList.add('active');
-            container.classList.add('filter-active');
-        }
-    });
+    if (filterToggle) {
+        filterToggle.addEventListener('click', () => {
+            const isMenuOpen = filterMenu.classList.contains('active');
+            if (isMenuOpen) {
+                filterMenu.classList.remove('active');
+                container.classList.remove('filter-active');
+            } else {
+                filterMenu.classList.add('active');
+                container.classList.add('filter-active');
+            }
+        });
+    }
 
     // Toggle filter menu for EE-only page
     const filterToggleEE = document.getElementById('filterToggleEE');
@@ -1531,10 +1537,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Use localStorage for initial section, but force 'overview' on root URL
+    // Initial section: index keeps legacy behaviour (overview vs lastActiveTab).
+    // Standalone pages (reports/progress/overview HTML) advertise the correct section via
+    // body[data-current-page]; if we used lastActiveTab from index (e.g. "overview") on
+    // reports.html there is no #overview, nothing gets .active, and #reports stays display:none.
     const currentPath = window.location.pathname;
     const isRootOrIndex = currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/index.html');
-    const initialSection = isRootOrIndex ? 'overview' : lastActiveTab;
+    const pageFromBody = document.body?.dataset?.currentPage;
+    let initialSection;
+    if (!isRootOrIndex && pageFromBody && document.getElementById(pageFromBody)) {
+        initialSection = pageFromBody;
+    } else if (isRootOrIndex) {
+        initialSection = 'overview';
+    } else {
+        initialSection = lastActiveTab;
+    }
     switchToTab(initialSection, false); // Don't update URL
 });
 
@@ -3439,6 +3456,7 @@ const companySummary = document.getElementById('companySelectedSummary');
 const countrySummary = document.getElementById('countrySelectedSummary');
 const supervisoryOrgSummary = document.getElementById('supervisoryOrgSelectedSummary');
 const regionSummary = document.getElementById('regionSelectedSummary');
+const tenureSummary = document.getElementById('tenureSelectedSummary');
 
 let selectedWorkerGroup = filterOptions.workerGroup.map(o => o.value);
 let selectedCluster = filterOptions.cluster.map(o => o.value);
@@ -3458,6 +3476,7 @@ let selectedSupervisoryOrg = filterOptions.supervisoryOrg.map(o => o.value);
 let selectedRegion = filterOptions.region.map(o => o.value);
 
 function openFilterModal(filterKey, title, selected) {
+  if (!filterModal || !filterModalTitle || !filterModalBody) return;
   currentFilterKey = filterKey;
   tempSelected = [...selected];
   filterModalTitle.textContent = title;
@@ -3514,115 +3533,120 @@ function openFilterModal(filterKey, title, selected) {
   filterModal.classList.add('active');
 }
 
-workerGroupBtn.addEventListener('click', () => {
+function bindFilterBtn(el, handler) {
+  if (el) el.addEventListener('click', handler);
+}
+
+bindFilterBtn(workerGroupBtn, () => {
   openFilterModal('workerGroup', 'Select Worker Group', selectedWorkerGroup);
 });
-
-clusterBtn.addEventListener('click', () => {
+bindFilterBtn(clusterBtn, () => {
   openFilterModal('cluster', 'Select Cluster', selectedCluster);
 });
-
-businessUnitBtn.addEventListener('click', () => {
+bindFilterBtn(businessUnitBtn, () => {
   openFilterModal('businessUnit', 'Select Business Unit', selectedBusinessUnit);
 });
-divisionsBtn.addEventListener('click', () => {
+bindFilterBtn(divisionsBtn, () => {
   openFilterModal('divisions', 'Select Divisions', selectedDivisions);
 });
-departmentsBtn.addEventListener('click', () => {
+bindFilterBtn(departmentsBtn, () => {
   openFilterModal('departments', 'Select Departments', selectedDepartments);
 });
-teamsBtn.addEventListener('click', () => {
+bindFilterBtn(teamsBtn, () => {
   openFilterModal('teams', 'Select Teams', selectedTeams);
 });
-jobFamilyBtn.addEventListener('click', () => {
+bindFilterBtn(jobFamilyBtn, () => {
   openFilterModal('jobFamily', 'Select Job Family', selectedJobFamily);
 });
-workersManagerBtn.addEventListener('click', () => {
+bindFilterBtn(workersManagerBtn, () => {
   openFilterModal('workersManager', 'Select Worker\'s Manager', selectedWorkersManager);
 });
-genderBtn.addEventListener('click', () => {
+bindFilterBtn(genderBtn, () => {
   openFilterModal('gender', 'Select Gender', selectedGender);
 });
-raceBtn.addEventListener('click', () => {
+bindFilterBtn(raceBtn, () => {
   openFilterModal('race', 'Select Race', selectedRace);
 });
-ageBandBtn.addEventListener('click', () => {
+bindFilterBtn(ageBandBtn, () => {
   openFilterModal('ageBand', 'Select Age Band', selectedAgeBand);
 });
-managementLevelBtn.addEventListener('click', () => {
+bindFilterBtn(managementLevelBtn, () => {
   openFilterModal('managementLevel', 'Select Management Level', selectedManagementLevel);
 });
-companyBtn.addEventListener('click', () => {
+bindFilterBtn(companyBtn, () => {
   openFilterModal('company', 'Select Company', selectedCompany);
 });
-countryBtn.addEventListener('click', () => {
+bindFilterBtn(countryBtn, () => {
   openFilterModal('country', 'Select Country', selectedCountry);
 });
-supervisoryOrgBtn.addEventListener('click', () => {
+bindFilterBtn(supervisoryOrgBtn, () => {
   openFilterModal('supervisoryOrg', 'Select Supervisory Organization', selectedSupervisoryOrg);
 });
-regionBtn.addEventListener('click', () => {
+bindFilterBtn(regionBtn, () => {
   openFilterModal('region', 'Select Region', selectedRegion);
 });
 
-applyFilterModal.addEventListener('click', () => {
-  if (currentFilterKey === 'workerGroup') {
-    selectedWorkerGroup = [...tempSelected];
-    updateWorkerGroupSummary();
-  } else if (currentFilterKey === 'cluster') {
-    selectedCluster = [...tempSelected];
-    updateClusterSummary();
-  } else if (currentFilterKey === 'businessUnit') {
-    selectedBusinessUnit = [...tempSelected];
-    updateBusinessUnitSummary();
-  } else if (currentFilterKey === 'divisions') {
-    selectedDivisions = [...tempSelected];
-    updateDivisionsSummary();
-  } else if (currentFilterKey === 'departments') {
-    selectedDepartments = [...tempSelected];
-    updateDepartmentsSummary();
-  } else if (currentFilterKey === 'teams') {
-    selectedTeams = [...tempSelected];
-    updateTeamsSummary();
-  } else if (currentFilterKey === 'jobFamily') {
-    selectedJobFamily = [...tempSelected];
-    updateJobFamilySummary();
-  } else if (currentFilterKey === 'workersManager') {
-    selectedWorkersManager = [...tempSelected];
-    updateWorkersManagerSummary();
-  } else if (currentFilterKey === 'gender') {
-    selectedGender = [...tempSelected];
-    updateGenderSummary();
-  } else if (currentFilterKey === 'race') {
-    selectedRace = [...tempSelected];
-    updateRaceSummary();
-  } else if (currentFilterKey === 'ageBand') {
-    selectedAgeBand = [...tempSelected];
-    updateAgeBandSummary();
-  } else if (currentFilterKey === 'managementLevel') {
-    selectedManagementLevel = [...tempSelected];
-    updateManagementLevelSummary();
-  } else if (currentFilterKey === 'company') {
-    selectedCompany = [...tempSelected];
-    updateCompanySummary();
-  } else if (currentFilterKey === 'country') {
-    selectedCountry = [...tempSelected];
-    updateCountrySummary();
-  } else if (currentFilterKey === 'supervisoryOrg') {
-    selectedSupervisoryOrg = [...tempSelected];
-    updateSupervisoryOrgSummary();
-  } else if (currentFilterKey === 'region') {
-    selectedRegion = [...tempSelected];
-    updateRegionSummary();
-  }
-  filterModal.classList.remove('active');
-});
+if (filterModal && applyFilterModal && cancelFilterModal) {
+  applyFilterModal.addEventListener('click', () => {
+    if (currentFilterKey === 'workerGroup') {
+      selectedWorkerGroup = [...tempSelected];
+      updateWorkerGroupSummary();
+    } else if (currentFilterKey === 'cluster') {
+      selectedCluster = [...tempSelected];
+      updateClusterSummary();
+    } else if (currentFilterKey === 'businessUnit') {
+      selectedBusinessUnit = [...tempSelected];
+      updateBusinessUnitSummary();
+    } else if (currentFilterKey === 'divisions') {
+      selectedDivisions = [...tempSelected];
+      updateDivisionsSummary();
+    } else if (currentFilterKey === 'departments') {
+      selectedDepartments = [...tempSelected];
+      updateDepartmentsSummary();
+    } else if (currentFilterKey === 'teams') {
+      selectedTeams = [...tempSelected];
+      updateTeamsSummary();
+    } else if (currentFilterKey === 'jobFamily') {
+      selectedJobFamily = [...tempSelected];
+      updateJobFamilySummary();
+    } else if (currentFilterKey === 'workersManager') {
+      selectedWorkersManager = [...tempSelected];
+      updateWorkersManagerSummary();
+    } else if (currentFilterKey === 'gender') {
+      selectedGender = [...tempSelected];
+      updateGenderSummary();
+    } else if (currentFilterKey === 'race') {
+      selectedRace = [...tempSelected];
+      updateRaceSummary();
+    } else if (currentFilterKey === 'ageBand') {
+      selectedAgeBand = [...tempSelected];
+      updateAgeBandSummary();
+    } else if (currentFilterKey === 'managementLevel') {
+      selectedManagementLevel = [...tempSelected];
+      updateManagementLevelSummary();
+    } else if (currentFilterKey === 'company') {
+      selectedCompany = [...tempSelected];
+      updateCompanySummary();
+    } else if (currentFilterKey === 'country') {
+      selectedCountry = [...tempSelected];
+      updateCountrySummary();
+    } else if (currentFilterKey === 'supervisoryOrg') {
+      selectedSupervisoryOrg = [...tempSelected];
+      updateSupervisoryOrgSummary();
+    } else if (currentFilterKey === 'region') {
+      selectedRegion = [...tempSelected];
+      updateRegionSummary();
+    }
+    filterModal.classList.remove('active');
+  });
 
-cancelFilterModal.addEventListener('click', () => {
-  filterModal.classList.remove('active');
-});
+  cancelFilterModal.addEventListener('click', () => {
+    filterModal.classList.remove('active');
+  });
+}
 
 function updateWorkerGroupSummary() {
+  if (!workerGroupSummary) return;
   if (selectedWorkerGroup.includes('all') || selectedWorkerGroup.length === filterOptions.workerGroup.length) {
     workerGroupSummary.textContent = 'All';
     workerGroupSummary.className = 'selected-summary';
@@ -3644,6 +3668,7 @@ function updateWorkerGroupSummary() {
 }
 
 function updateClusterSummary() {
+  if (!clusterSummary) return;
   if (selectedCluster.includes('all') || selectedCluster.length === filterOptions.cluster.length) {
     clusterSummary.textContent = 'All';
     clusterSummary.className = 'selected-summary';
@@ -3663,7 +3688,31 @@ function updateClusterSummary() {
     });
   }
 }
+
+function updateBusinessUnitSummary() {
+  if (!businessUnitSummary) return;
+  if (selectedBusinessUnit.includes('all') || selectedBusinessUnit.length === filterOptions.businessUnit.length) {
+    businessUnitSummary.textContent = 'All';
+    businessUnitSummary.className = 'selected-summary';
+  } else if (selectedBusinessUnit.length === 0) {
+    businessUnitSummary.textContent = 'None';
+    businessUnitSummary.className = 'selected-summary';
+  } else {
+    businessUnitSummary.innerHTML = '';
+    businessUnitSummary.className = 'selected-summary multiple';
+    const selectedOptions = filterOptions.businessUnit
+      .filter(opt => selectedBusinessUnit.includes(opt.value) && opt.value !== 'all');
+    selectedOptions.forEach(opt => {
+      const tag = document.createElement('span');
+      tag.className = 'summary-tag';
+      tag.textContent = opt.label;
+      businessUnitSummary.appendChild(tag);
+    });
+  }
+}
+
 function updateDivisionsSummary() {
+  if (!divisionsSummary) return;
   if (selectedDivisions.includes('all') || selectedDivisions.length === filterOptions.divisions.length) {
     divisionsSummary.textContent = 'All';
     divisionsSummary.className = 'selected-summary';
@@ -3684,6 +3733,7 @@ function updateDivisionsSummary() {
   }
 }
 function updateRaceSummary() {
+  if (!raceSummary) return;
   if (selectedRace.includes('all') || selectedRace.length === filterOptions.race.length) {
     raceSummary.textContent = 'All';
     raceSummary.className = 'selected-summary';
@@ -3704,6 +3754,7 @@ function updateRaceSummary() {
   }
 }
 function updateGenderSummary() {
+  if (!genderSummary) return;
   if (selectedGender.includes('all') || selectedGender.length === filterOptions.gender.length) {
     genderSummary.textContent = 'All';
     genderSummary.className = 'selected-summary';
@@ -3724,6 +3775,7 @@ function updateGenderSummary() {
   }
 }
 function updateAgeBandSummary() {
+  if (!ageBandSummary) return;
   if (selectedAgeBand.includes('all') || selectedAgeBand.length === filterOptions.ageBand.length) {
     ageBandSummary.textContent = 'All';
     ageBandSummary.className = 'selected-summary';
@@ -3744,6 +3796,7 @@ function updateAgeBandSummary() {
   }
 }
 function updateTenureSummary() {
+  if (!tenureSummary) return;
   if (selectedTenure.includes('all') || selectedTenure.length === filterOptions.tenure.length) {
     tenureSummary.textContent = 'All';
     tenureSummary.className = 'selected-summary';
@@ -3765,6 +3818,7 @@ function updateTenureSummary() {
 }
 
 function updateDepartmentsSummary() {
+  if (!departmentsSummary) return;
   if (selectedDepartments.includes('all') || selectedDepartments.length === filterOptions.departments.length) {
     departmentsSummary.textContent = 'All';
     departmentsSummary.className = 'selected-summary';
@@ -3786,6 +3840,7 @@ function updateDepartmentsSummary() {
 }
 
 function updateTeamsSummary() {
+  if (!teamsSummary) return;
   if (selectedTeams.includes('all') || selectedTeams.length === filterOptions.teams.length) {
     teamsSummary.textContent = 'All';
     teamsSummary.className = 'selected-summary';
@@ -3807,6 +3862,7 @@ function updateTeamsSummary() {
 }
 
 function updateJobFamilySummary() {
+  if (!jobFamilySummary) return;
   if (selectedJobFamily.includes('all') || selectedJobFamily.length === filterOptions.jobFamily.length) {
     jobFamilySummary.textContent = 'All';
     jobFamilySummary.className = 'selected-summary';
@@ -3828,6 +3884,7 @@ function updateJobFamilySummary() {
 }
 
 function updateWorkersManagerSummary() {
+  if (!workersManagerSummary) return;
   if (selectedWorkersManager.includes('all') || selectedWorkersManager.length === filterOptions.workersManager.length) {
     workersManagerSummary.textContent = 'All';
     workersManagerSummary.className = 'selected-summary';
@@ -3849,6 +3906,7 @@ function updateWorkersManagerSummary() {
 }
 
 function updateManagementLevelSummary() {
+  if (!managementLevelSummary) return;
   if (selectedManagementLevel.includes('all') || selectedManagementLevel.length === filterOptions.managementLevel.length) {
     managementLevelSummary.textContent = 'All';
     managementLevelSummary.className = 'selected-summary';
@@ -3870,6 +3928,7 @@ function updateManagementLevelSummary() {
 }
 
 function updateCompanySummary() {
+  if (!companySummary) return;
   if (selectedCompany.includes('all') || selectedCompany.length === filterOptions.company.length) {
     companySummary.textContent = 'All';
     companySummary.className = 'selected-summary';
@@ -3891,6 +3950,7 @@ function updateCompanySummary() {
 }
 
 function updateCountrySummary() {
+  if (!countrySummary) return;
   if (selectedCountry.includes('all') || selectedCountry.length === filterOptions.country.length) {
     countrySummary.textContent = 'All';
     countrySummary.className = 'selected-summary';
@@ -3912,6 +3972,7 @@ function updateCountrySummary() {
 }
 
 function updateSupervisoryOrgSummary() {
+  if (!supervisoryOrgSummary) return;
   if (selectedSupervisoryOrg.includes('all') || selectedSupervisoryOrg.length === filterOptions.supervisoryOrg.length) {
     supervisoryOrgSummary.textContent = 'All';
     supervisoryOrgSummary.className = 'selected-summary';
@@ -3933,6 +3994,7 @@ function updateSupervisoryOrgSummary() {
 }
 
 function updateRegionSummary() {
+  if (!regionSummary) return;
   if (selectedRegion.includes('all') || selectedRegion.length === filterOptions.region.length) {
     regionSummary.textContent = 'All';
     regionSummary.className = 'selected-summary';
@@ -3952,22 +4014,22 @@ function updateRegionSummary() {
     });
   }
 }
-updateWorkerGroupSummary();
-updateClusterSummary();
-updateBusinessUnitSummary();
-updateDivisionsSummary();
-updateDepartmentsSummary();
-updateTeamsSummary();
-updateJobFamilySummary();
-updateWorkersManagerSummary();
-updateGenderSummary();
-updateRaceSummary();
-updateAgeBandSummary();
-updateManagementLevelSummary();
-updateCompanySummary();
-updateCountrySummary();
-updateSupervisoryOrgSummary();
-updateRegionSummary();
+if (workerGroupSummary) updateWorkerGroupSummary();
+if (clusterSummary) updateClusterSummary();
+if (businessUnitSummary) updateBusinessUnitSummary();
+if (divisionsSummary) updateDivisionsSummary();
+if (departmentsSummary) updateDepartmentsSummary();
+if (teamsSummary) updateTeamsSummary();
+if (jobFamilySummary) updateJobFamilySummary();
+if (workersManagerSummary) updateWorkersManagerSummary();
+if (genderSummary) updateGenderSummary();
+if (raceSummary) updateRaceSummary();
+if (ageBandSummary) updateAgeBandSummary();
+if (managementLevelSummary) updateManagementLevelSummary();
+if (companySummary) updateCompanySummary();
+if (countrySummary) updateCountrySummary();
+if (supervisoryOrgSummary) updateSupervisoryOrgSummary();
+if (regionSummary) updateRegionSummary();
 
 // Dimension-specific sentiment data
 const dimensionSentimentData = {
@@ -4328,28 +4390,3 @@ document.addEventListener('DOMContentLoaded', function() {
     setupQuickDemo();
     setupDimensionTabs();
 }); 
-
-function updateBusinessUnitSummary() {
-  if (selectedBusinessUnit.includes('all') || selectedBusinessUnit.length === filterOptions.businessUnit.length) {
-    businessUnitSummary.textContent = 'All';
-    businessUnitSummary.className = 'selected-summary';
-  } else if (selectedBusinessUnit.length === 0) {
-    businessUnitSummary.textContent = 'None';
-    businessUnitSummary.className = 'selected-summary';
-  } else {
-    businessUnitSummary.innerHTML = '';
-    businessUnitSummary.className = 'selected-summary multiple';
-    const selectedOptions = filterOptions.businessUnit
-      .filter(opt => selectedBusinessUnit.includes(opt.value) && opt.value !== 'all');
-    selectedOptions.forEach(opt => {
-      const tag = document.createElement('span');
-      tag.className = 'summary-tag';
-      tag.textContent = opt.label;
-      businessUnitSummary.appendChild(tag);
-    });
-  }
-}
-
-function updateDivisionsSummary() {
-// ... existing code ...
-}
